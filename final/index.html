@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Footer template</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="navbar-logo">
+                <img src="your-logo.png" alt="Logo">
+            </div>
+            <div class="navbar-search">
+                <input type="text" class="search-bar" placeholder="Search">
+                <button class="account-button">Account</button>
+            </div>
+        </div>
+
+        <div class="navbar-links">
+            <a href="#">Link 1</a>
+            <a href="#">Link 2</a>
+            <a href="#">Link 3</a>
+            <a href="#">Link 4</a>
+        </div>
+    </nav>
+
+    <footer class="custom-footer">
+        <div class="custom-container">
+            <div class="custom-row">
+                <div class="about-column">
+                    <h6>Site credits</h6>
+                    <p class="credits">Movie site was created for Robert Gordans University, Dynamic Web Development
+                        CM2104 by Michael Piercey and Jonathan Boyd to allow users to share their passion for
+                        movies.</p>
+                </div>
+
+                <div class="categories-column">
+                    <h6>form?</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">sign up to newsletter</a></li>
+                    </ul>
+                </div>
+
+                <div class="quick-links-column">
+                    <h6>Links</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Sign up</a></li>
+                        <li><a href="#">Movie lists</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="custom-container">
+            <div class="custom-row">
+                <div class="col-md-8 col-sm-6 col-xs-12">
+                    <p class="copyright-text">Copyright &copy; 2023 Michael</p>
+                    <label class="switch">
+                        <input type="checkbox" id="darkMode">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>  
+    
+
+
+            $(document).ready(function () {
+                // Function to toggle styles based on mode
+                function toggleStyles(isDarkMode) {
+                    // gets the root tag from css, then depending is the dark mode is checked will change colours, first collum is dark and second is light
+                    $(':root').get(0).style.setProperty('--main-color', isDarkMode ? '#000' : '#f1efe6');
+                    $(':root').get(0).style.setProperty('--second-colour', isDarkMode ? '#111' : '#f8f7f3');
+                    $(':root').get(0).style.setProperty('--third-colour', isDarkMode ? '#222' : '#cec6a8');
+                    $(':root').get(0).style.setProperty('--bg-color', isDarkMode ? '#333' : '#e3decd');
+                    $(':root').get(0).style.setProperty('--text-color', isDarkMode ? '#fff' : '#c7bd9b');
+                }
+            
+                // Event listener for checkbox change
+                $('#darkMode').change(function () {
+                    toggleStyles($(this).prop('checked'));
+                });
+
+                // Initialize in light mode
+                toggleStyles(false);
+            });
+    </script>
+</body>
+
+</html>
