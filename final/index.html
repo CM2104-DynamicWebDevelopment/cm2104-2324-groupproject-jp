@@ -70,29 +70,28 @@
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>  
-    
+    <script>
+        $(document).ready(function () {
+            // Function to toggle styles based on mode
+            function toggleStyles(isDarkMode) {
+                // gets the root tag from css, then depending is the dark mode is checked will change colours, first collum is dark and second is light
+                $(':root').get(0).style.setProperty('--main-colour', isDarkMode ? '#000' : '#df5441');
+                $(':root').get(0).style.setProperty('--text-colour1', isDarkMode ? '#111' : '#e8e8e8');
+                $(':root').get(0).style.setProperty('--text-colour2', isDarkMode ? '#222' : '#787878');
+                $(':root').get(0).style.setProperty('--text-colour3', isDarkMode ? '#333' : '#363636');
+                $(':root').get(0).style.setProperty('--background-colour1', isDarkMode ? '#fff' : '#e87f54');
+                $(':root').get(0).style.setProperty('--background-colour3', isDarkMode ? '#fff' : '#f0a967');
+                $(':root').get(0).style.setProperty('--background-colour2', isDarkMode ? '#fff' : '#ecc9a8');
+            }
 
-
-            $(document).ready(function () {
-                // Function to toggle styles based on mode
-                function toggleStyles(isDarkMode) {
-                    // gets the root tag from css, then depending is the dark mode is checked will change colours, first collum is dark and second is light
-                    $(':root').get(0).style.setProperty('--main-color', isDarkMode ? '#000' : '#f1efe6');
-                    $(':root').get(0).style.setProperty('--second-colour', isDarkMode ? '#111' : '#f8f7f3');
-                    $(':root').get(0).style.setProperty('--third-colour', isDarkMode ? '#222' : '#cec6a8');
-                    $(':root').get(0).style.setProperty('--bg-color', isDarkMode ? '#333' : '#e3decd');
-                    $(':root').get(0).style.setProperty('--text-color', isDarkMode ? '#fff' : '#c7bd9b');
-                }
-            
-                // Event listener for checkbox change
-                $('#darkMode').change(function () {
-                    toggleStyles($(this).prop('checked'));
-                });
-
-                // Initialize in light mode
-                toggleStyles(false);
+            // Event listener for checkbox change
+            $('#darkMode').change(function () {
+                toggleStyles($(this).prop('checked'));
             });
+
+            // Initialize in light mode
+            toggleStyles(false);
+        });
     </script>
 </body>
 
