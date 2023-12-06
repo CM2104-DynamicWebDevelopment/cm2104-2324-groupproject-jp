@@ -172,3 +172,16 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.carousel-item{
+  height: 700px;
+}
+
+.movieTitle{
+  font-size: 40px;
+  color: rgb(0, 225, 255);
+}
+.movieDescription{
+  font-size: 20px;
+  color: rgb(0, 225, 255)
+}
