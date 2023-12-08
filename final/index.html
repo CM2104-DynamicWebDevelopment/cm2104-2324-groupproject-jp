@@ -22,10 +22,10 @@
         </div>
 
         <div class="navbar-links">
-            <a href="#">Link 1</a>
-            <a href="#">Link 2</a>
-            <a href="#">Link 3</a>
-            <a href="#">Link 4</a>
+            <a href="#">Home</a>
+            <a href="#">Sign Up</a>
+            <a href="#">Groups</a>
+            <a href="#">Movies</a>
         </div>
     </nav>
 
@@ -48,6 +48,43 @@
             </button>
         </div>
     </div>
+    <div class="forms">
+        <div class="signup">
+            <h1>Create Account</h1>
+            <form action="" method="post">
+                <label for="full_name">Full Name:</label>
+                <input type="text" id="full_name" name="full_name" required>
+    
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+    
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+    
+                <input type="submit" value="Sign Up">
+    
+                <button id="toggleLogin" class="toggle-btn" onclick="toggleToLogin()">Already have an account? Sign In</button>
+
+            </form>
+        </div>
+        <div class="login">
+            <h2>Login</h2>
+    
+            <form action="" method="post">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+    
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+    
+                <input type="submit" value="Login">
+    
+                <button id="toggleSignup" class="toggle-btn" onclick="toggleToSignup()">Don't have an account? Sign Up</button>
+
+            </form>
+        </div>
+    </div>
+    
     <h1>Top 28 trending movies atm...</h1>
     <div class="movie_card_container">
         <div class="movie_cards">
@@ -211,7 +248,21 @@ function displayAndCreateMovies(movies) {
 });
 
 
+function toggleToLogin() {
+    var signupForm = document.querySelector('.signup');
+    var loginForm = document.querySelector('.login');
 
+    signupForm.style.display = 'none';
+    loginForm.style.display = 'block';
+}
+
+function toggleToSignup() {
+    var signupForm = document.querySelector('.signup');
+    var loginForm = document.querySelector('.login');
+
+    signupForm.style.display = 'block';
+    loginForm.style.display = 'none';
+}
 
     </script>
 </body>

@@ -295,6 +295,7 @@ input:checked + .slider:before {
   border-color: #007095;
   color: white;
   transition: background-color 200ms ease-out;
+  border-radius: 5px;
 }
 .review_btn:hover {
   color: white;
@@ -308,3 +309,30 @@ input:checked + .slider:before {
 .review_btn:active {
   background: #0079a1;
 }
+
+
+
+
+
+.forms {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login,
+.signup {
+  margin-left: 25%;
+}
+
+.login {
+  /* Initially hide the login form */
+  display: none;
+}
+
+.signup {
+  /* Display the signup form by default */
+  display: block;
+}
+
