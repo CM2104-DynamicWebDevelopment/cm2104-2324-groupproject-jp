@@ -90,8 +90,12 @@
         <div class="movie_cards">
             
             </div>
-        </div>
+
     </div>
+    
+
+
+      
 
     <footer class="custom-footer">
         <div class="custom-container">
@@ -136,134 +140,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="script.js"></script>
     <script>
-        $(document).ready(function () {
-            // Function to toggle styles based on mode
-            function toggleStyles(isDarkMode) {
-                // gets the root tag from css, then depending is the dark mode is checked will change colours, first column is dark and second is light
-                $(':root').get(0).style.setProperty('--main-colour', isDarkMode ? '#000' : '#df5441');
-                $(':root').get(0).style.setProperty('--text-colour1', isDarkMode ? '#111' : '#e8e8e8');
-                $(':root').get(0).style.setProperty('--text-colour2', isDarkMode ? '#222' : '#787878');
-                $(':root').get(0).style.setProperty('--text-colour3', isDarkMode ? '#333' : '#363636');
-                $(':root').get(0).style.setProperty('--background-colour1', isDarkMode ? '#fff' : '#e87f54');
-                $(':root').get(0).style.setProperty('--background-colour3', isDarkMode ? '#fff' : '#f0a967');
-                $(':root').get(0).style.setProperty('--background-colour2', isDarkMode ? '#fff' : '#ecc9a8');
-            }
-
-            // Event listener for checkbox change
-            $('#darkMode').change(function () {
-                toggleStyles($(this).prop('checked'));
-            });
-
-            // Initialize in light mode
-            toggleStyles(false);
-        });
-
-        $(document).ready(function () {
-    // Your code here
-    function getResultsFromTMDB() {
-        var apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
-        var url = "https://api.themoviedb.org/3/trending/movie/week?api_key=" + apiKey;
-
-        $.getJSON(url, function (jsondata) {
-            getTrendingMovieDisplay(jsondata);
-            displayAndCreateMovies(jsondata.results);
-        });
-    }
-
-    function getTrendingMovieDisplay(jsondata) {
-        var htmlstring = "";
-        for (var i = 0; i < 3; i++) {
-            var title = jsondata.results[i].title;
-            var movieBackdrop = jsondata.results[i].backdrop_path;
-            var movieDescription = jsondata.results[i].overview;
-
-            console.log("Title: " + title);
-            console.log("Backdrop Path: " + movieBackdrop);
-            console.log("Overview: " + movieDescription);
-
-            htmlstring += "<div class='carousel-item" + (i === 0 ? " active" : "") + "'>" +
-                "<img src='https://image.tmdb.org/t/p/original/" + movieBackdrop + "' class='d-block w-100' alt='" + title + "'>" +
-                "<div class='carousel-caption d-none d-md-block'>" +
-                "<h5 class='movieTitle'>" + title + "</h5>" +
-                "<p class='movieDescription'>" + movieDescription + "</p>" +
-                "</div></div>";
-        }
-
-        // Insert the HTML string into the carousel inner
-        $('.carousel-inner').html(htmlstring);
-    }
-
-    function refreshStylesheet() {
-    // Get the link element for the stylesheet
-    var styleSheet = document.querySelector('link[href="main.css"]');
-
-    // Append a random query parameter to the stylesheet URL
-    if (styleSheet) {
-        styleSheet.href = "main.css?" + new Date().getTime();
-    }
-}
-
-function displayAndCreateMovies(movies) {
-        var htmlString = "";
-        for (var i = 0; i < 28 && i < movies.length; i++) {
-            var title = movies[i].title;
-            var moviePoster = movies[i].poster_path;
-            var movieDescription = movies[i].overview;
-            var maxDescriptionLength = 250;
-            if (movieDescription.length > maxDescriptionLength) {
-                // If it is, truncate the description and add "..." to the end
-                console.log("over...")
-                movieDescription = movieDescription.slice(0,250);
-                movieDescription = movieDescription + "...";
-            }
-            var releaseDate = movies[i].release_date.split('-')[0]; // Extract the year from release date
-
-            console.log("Title: " + title);
-            console.log("Poster Path: " + moviePoster);
-            console.log("Overview: " + movieDescription);
-            
-            console.log("Release Date: " + releaseDate);
-
-            htmlString += "<div class='movie_card'>" +
-                "<div class='movie_card-content'>" +
-                "<div class='movie_card-header'><img class='movie_card-header__image' src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='" + title + "'/></div>" +
-                "<div class='movie_card-body'>" +
-                "<h4 class='movie_card-body__header'>" + title + "</h4>" +
-                "<p class='movie_card-body__desc'>" + movieDescription + "</p>" +
-                "</div>" +
-                "<div class='movie_card-footer'>" +
-                "<div class='movie_card-footer__date'>Year of release: " + releaseDate + "</div>" +
-                "<a class='review_btn' href=''>Review</a>" +
-                "</div>" +
-                "</div>" +
-                "</div>";
-        }
-
-        // Insert the HTML string into the movie_cards container
-        $('.movie_cards').html(htmlString);
-    }
-
-    // Call the function to fetch and display movie data
-    getResultsFromTMDB();
-});
-
-
-function toggleToLogin() {
-    var signupForm = document.querySelector('.signup');
-    var loginForm = document.querySelector('.login');
-
-    signupForm.style.display = 'none';
-    loginForm.style.display = 'block';
-}
-
-function toggleToSignup() {
-    var signupForm = document.querySelector('.signup');
-    var loginForm = document.querySelector('.login');
-
-    signupForm.style.display = 'block';
-    loginForm.style.display = 'none';
-}
-
     </script>
 </body>
 
