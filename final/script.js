@@ -28,7 +28,6 @@ $(document).ready(function () {
         $.getJSON(url, function (jsondata) {
             getTrendingMovieDisplay(jsondata);
             displayAndCreateMovies(jsondata.results);
-            displayMovieReviewDetails(jsondata.results);
         });
         }
         
@@ -55,12 +54,13 @@ $(document).ready(function () {
         $('.carousel-inner').html(htmlstring);
         }
         
-        function displayAndCreateMovies(movies) {
+function displayAndCreateMovies(movies) {
         var htmlString = "";
         for (var i = 0; i < 28 && i < movies.length; i++) {
             var title = movies[i].title;
             var moviePoster = movies[i].poster_path;
             var movieDescription = movies[i].overview;
+            var id = movies[i].id;
             var maxDescriptionLength = 250;
             if (movieDescription.length > maxDescriptionLength) {
                 // If it is, truncate the description and add "..." to the end
@@ -85,7 +85,7 @@ $(document).ready(function () {
                 "</div>" +
                 "<div class='movie_card-footer'>" +
                 "<div class='movie_card-footer__date'>Year of release: " + releaseDate + "</div>" +
-                "<a class='review_btn' onclick='toggleReviewCard(" + i + ")'>Review</a>" +
+                "<a class='review_btn' onclick='toggleReviewCard(" + i + ","+id+")'>Review</a>" +
                 "</div>" +
                 "</div>" +
                 "</div>" +
@@ -118,6 +118,7 @@ var loginForm = document.querySelector('.login');
 signupForm.style.display = 'block';
 loginForm.style.display = 'none';
 }
+
 
 function displayMovieReviewDetails(moviesinfo, Rlocation) {
     var htmlString = "";
@@ -183,18 +184,65 @@ function displayMovieReviewDetails(moviesinfo, Rlocation) {
 
 
 
+    function toggleReviewCard(location) {
+        console.log(location);
+        var apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
+        var url = "https://api.themoviedb.org/3/trending/movie/week?api_key=" + apiKey;
+        // Hide all review cards and clear their content
+        $('.movie-card').hide().html('');
+        $.getJSON(url, function (jsondata) {
+            displayMovieReviewDetails(jsondata.results, location);
+        });
+    
+        // Update the class name to match the correct review card element
+        var reviewCard = document.querySelector('.movie-card-' + location);
+        reviewCard.style.display = 'flex';
+    }
 
-function toggleReviewCard(location) {
-    console.log(location);
+
+function getSearchFromTMDB(movieTitle) {
+    console.log(movieTitle);
     var apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
-    var url = "https://api.themoviedb.org/3/trending/movie/week?api_key=" + apiKey;
-    // Hide all review cards and clear their content
-    $('.movie-card').hide().html('');
-    $.getJSON(url, function (jsondata) {
-        displayMovieReviewDetails(jsondata.results, location);
-    });
+    var url = "https://api.themoviedb.org/3/search/movie?query=" + movieTitle + "&api_key=" + apiKey;
 
-    // Update the class name to match the correct review card element
-    var reviewCard = document.querySelector('.movie-card-' + location);
-    reviewCard.style.display = 'flex';
+    $.getJSON(url, function (jsondata) {
+        console.log(jsondata);
+        displayResultsSearch(jsondata.results);
+    });
+}
+
+
+function displayResultsSearch(movies) {
+    console.log("movies called");
+    var htmlString = "";
+    for (var i = 0; i < 5 && i < movies.length; i++) {
+        // Run something when i is 5
+        console.log("review has been called");
+        var title = movies[i].title;
+        var moviePoster = movies[i].poster_path;
+        var movieDescription = movies[i].overview;
+        var movieBackdrop = movies[i].backdrop_path;
+        var movieRating = movies[i].vote_average;
+        var releaseDate = movies[i].release_date; // Extract the year from release date
+
+        console.log("THISSSS IS SSS REVIEWWW Title: " + title);
+        console.log("Poster Path: " + moviePoster);
+        console.log("Overview: " + movieDescription);
+        console.log("Release Date: " + releaseDate);
+
+        htmlString +=
+            "<div class='results-movie-card'>" +
+            "<div class='results-movie-details'>" +
+            "<h2>" + title + "</h2>" +
+            "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='" + title + " Poster'>" +
+            "<p>" + releaseDate + "</p>" +
+            "<p>" + movieRating + "</p>" +
+            "</div>" +
+            "<div class='results-extra' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "');\">" +
+            "<h3>About " + title + "</h3>" +
+            "<p>" + movieDescription + "</p>" +
+            "</div>" +
+            "</div>";
+    }
+    $('.results-movie-card-container').html(htmlString);
 }
