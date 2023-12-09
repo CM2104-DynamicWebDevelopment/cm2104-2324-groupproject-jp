@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Movie site</title>
+        <link rel="stylesheet" type="text/css" href="tStyles.css">
+
+        <script>
+            // reveals the form for creating new groups upon being clicked
+            function revealForm(){
+                var z = document.getElementById("formForGroups");
+                if (z.style.display === "block") {
+                    z.style.display = "none";
+                } else {
+                    z.style.display = "block";
+                }
+            }
+            //same as above but for the channels
+            function revealForm2(){
+                var form2 = document.getElementById("formForGroups2");
+                if (form2.style.display === "block") {
+                    form2.style.display = "none";
+                } else {
+                    form2.style.display = "block";
+                }
+            }
+            
+        //adds the code under the already present example groups - doesnt add the group name (display_message)
+        function addCode() {
+            document.getElementById("add_after_me")
+                .insertAdjacentHTML("afterend","<div class='group1'><button onclick='myFunction()'>+</button> <p style='display:inline'> txt<span id = 'display_message'></span> </p> </div>");
+            }
+            //same as above but for the channels - work in progress as currently doesnt work
+            function addCode2() {
+            document.getElementById("add_after_me2")
+                .insertAdjacentHTML("afterend","<div class='group1'><button onclick='myFunction()'>+</button> <p style='display:inline'> txt<span id = 'display_message3'></span> </p> </div>");
+            }
+
+            //functions to show the group name, group description, channel name, channel description call these to see the form results
+        function showMessage(){
+            var message = document.getElementById("gName").value;
+            display_message.innerHTML= message;
+        }
+        function showMessage2(){
+            var message2 = document.getElementById("desc").value;
+            display_message2.innerHTML= message2;
+        }
+        function showMessage3(){
+            var message3 = document.getElementById("cName").value;
+            display_message3.innerHTML= message3;
+        }
+        function showMessage4(){
+            var message4 = document.getElementById("cDesc").value;
+            display_message4.innerHTML= message4;
+        }
+        
+        //upon clicking the watchlist button it will hide the bottom 2 boxes and reveal the watchlist
+        function activateWatchList(){
+            var normal = document.getElementById("watchlistFunction");
+            var buttonClick = document.getElementById("merged");
+            if (normal.style.display === "none"){
+                normal.style.display = "block";
+                buttonClick.style.display = "none";
+            } else {
+                normal.style.display = "none";
+                buttonClick.style.display = "block";
+            }
+        }
+        //shows the chat box from being called by the chat button - doesn't show anything in the box, currently under investigation
+        function activateChat(){
+            var normalChat = document.getElementById("watchlistFunction");
+            var buttonClickChat = document.getElementById("mergedChat");
+            if (normalChat.style.display === "none"){
+                normalChat.style.display = "block";
+                buttonClickChat.style.display = "none";
+            } else {
+                normalChat.style.display = "none";
+                buttonClickChat.style.display = "block";
+            }
+        }
+          </script>
+
+          
+    </head>
+
+    <body>
+
+        <!-- the group tags that appear on the far left of the page-->
+        <div class="gcGroups">
+            <h2>Groups</h2>
+            <div class="addGroup">
+                <img src="plusImage2.png" alt="plus to add group" class="plus">
+                <button onclick="revealForm()" style="display: inline;">Add Groups</button>
+            </div>
+            <!--originally had buttons to change the chat box, chat was reworked so the buttons do nothing-->
+            <div class="group1">
+                <button class="buttonG">friends</button>
+            </div>
+            <div class="group1">
+                <button class="buttonG">Group 1</button>
+            </div>
+            <div class="group1">
+                <button class="buttonG">Group 2</button>
+            </div>
+            <div class="group1">
+                <button class="buttonG">Group 3</button>
+            </div>
+            <!-- where the new groups will appear-->
+            <div id="add_to_me">
+                <p id="add_after_me">
+            </div>
+
+        </div>
+
+        <!-- exact same formula as above but for channels-->
+        <div class="channel">
+            <h2>Channels</h2>
+            <div class="addChannel">
+                <img src="plusImage2.png" alt="plus to add group" class="plus"> 
+                <button onclick="revealForm2()" style="display: inline;">Add channel</button>
+            </div>
+            <div class="channel1">
+                <button class="buttonG">Main</button>
+            </div>
+            <div class="channel1">
+                <button class="buttonG">Star Wars</button>
+            </div>
+            <div class="channel1">
+                <button class="buttonG">Back to The Future</button>
+            </div>
+            <div class="channel1">
+                <button class="buttonG">Lord of The Rings</button>
+            </div>
+        </div>
+        <!-- where new channels should appear-->
+        <div id="add_to_me2">
+            <p id="add_after_me2">
+        </div>
+
+        <div class="gcDms">
+
+            <!--form to get the new group information, upon submition will spawn the new box by calling the addCode() function-->
+            <div class ="formForGroups" id="formForGroups" hidden>
+            <form method="get" id="form1" >
+                <label for="gName">Group name:</label><br>
+                <input type="text" id="gName" name="gName"><br>
+                <label for="desc">group description:</label><br>
+                <input type="text" id="desc" name="desc">
+                <input type="button" onclick="showMessage(), showMessage2(), addCode()" value="submit" />
+              </form>
+              <!-- just for showing the form actually does something presently-->
+              <p> The Group name is: <span id = "display_message"></span> </p>
+              <p> The group description is: <span id = "display_message2"></span> </p>
+            </div>
+
+            <!--same as above but for channels-->
+            <div class ="formForGroups2" id="formForGroups2" hidden>
+                <form method="get" id="form2" >
+                    <label for="cName">Channel name:</label><br>
+                    <input type="text" id="cName" name="cName"><br>
+                    <label for="cDesc">Channel description:</label><br>
+                    <input type="text" id="cDesc" name="cDesc">
+                    <input type="button" onclick="showMessage3(), showMessage4(), addCode2()" value="submit" />
+                  </form>
+                  
+                  <p> The chanel name is: <span id = "display_messag3"></span> </p>
+                  <p> The channel description is: <span id = "display_message4"></span> </p>
+                </div>
+
+                <!-- the main group interaction on the right side of page-->
+            <div class="mainSection" id="mainSection">
+                <div class="part1">
+                    <h3>Group review</h3>
+                    <p>
+                        The group has left their ratings in here<br>
+                        Tony: 82%      Jimmy: 74%      Walter: 84%      Saul: 77%
+                    </p>
+
+                </div>
+
+                <!-- brings up box where the watchlist will be as well as the chat-->
+                <div class="part2">
+                    <h3>Buttons</h3>
+                    <button onclick="activateWatchList()">Watchlist</button>
+                    <button onclick="activateChat()">chat</button>
+                </div>
+
+                <div id="watchlistFunction">
+                <div class="part3">
+                    <h3>create a watch list</h3>
+                    <p>
+                        <button>create watchlist</button>
+                    </p>
+                </div>
+
+                <div class="part4" >
+                    <h3>group watchlist</h3>
+                    <p>
+                        The groups watchlist!
+                    </p>
+                </div>
+
+
+
+            </div>
+
+                            <!--The 2 boxes are hidden and will be revealed upon the watchlist and chat buttons-->
+                            <div class="merged" id="merged" hidden>
+                                <h3> WatchList enabled</h3>
+                                <p>
+                                    upon being created back end interface will pop up here
+                                </p>
+                            </div>
+
+                <div class="chat" id="mergedChat" hidden>
+                    <div class="default">
+                        <h3>Message to @......</h3>
+                    </div>
+                </div>
+
+            </div>
+                
+
+        </div>
+
+        </body>
+        </html>
