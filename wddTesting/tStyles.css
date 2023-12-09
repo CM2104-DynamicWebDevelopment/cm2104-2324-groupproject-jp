@@ -1,0 +1,158 @@
+body {
+
+  background-color:lightgrey;
+    display: flex;
+  }
+  
+  /*content for the groupChat page*/
+  .gcGroups {
+  padding-left: 10px;
+  float:left;
+  width: 15%;
+  background-color: aqua;
+  display: block;
+  }
+  .addGroup{
+    height: 10%;
+    width: 90%;
+    padding-left: 5px;
+    line-height: 50px;
+    background-color: white;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+
+  .group1{
+    height: 10%;
+    width: 90%;
+    padding-left: 5px;
+    line-height: 50px;
+    background-color: grey;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-color: lightgrey;
+    border-style: solid;
+    border-width: 1px;
+  }
+  /* for individual buttons styles just Cp above and change the number at the end*/
+
+/* for the channels same as above really*/
+  .channel{
+    padding-left: 10px;
+    float:left;
+    width: 15%;
+    height: 550px;
+    background-color: lightblue;
+  }
+  .addChannel{
+    height: 10%;
+    width: 90%;
+    padding-left: 5px;
+    line-height: 50px;
+    background-color: white;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+  .channel1{
+    height: 10%;
+    width: 90%;
+    padding-left: 5px;
+    line-height: 50px;
+    background-color: grey;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-color: lightgrey;
+    border-style: solid;
+    border-width: 1px;
+  }
+  
+  /* for the right side the group interactions part*/
+  .gcDms {
+    padding-left: 10px;
+    float:right;
+    width: 70%;
+    height: 550px;
+    background-color: darkslategrey;
+    display: flex;
+  }
+
+/* for the chat bar (dont know if will be in final version)*/
+  .default{
+    height: 40px;
+    width: 300px;
+    background-color: lightgray;
+    padding-left: 50px;
+    line-height: 5px;
+    margin-top: 50%;
+  }
+
+  /*The little pus image in the add groups/channels*/
+  .plus{
+    padding-top: 3px;
+    height: 30px;
+    width: 30px;
+    display:inline;
+  }
+
+  /* button stuff*/
+  .buttonG{
+    background-color: grey;
+    border: none;
+  }
+  button{
+
+  border: none;
+  }
+
+  /* form stuff*/
+  .formForGroups{
+    padding: 10px;
+    height: 150px;
+    width:300px;
+  }
+  .formForGroups2{
+    padding: 10px;
+    height: 150px;
+    width:300px;
+  }
+
+  /*The colours are for testing purposes, seeing what divs are doing, they should be toned down up final version*/
+  .mainSection{
+    background-color: darkslategrey;
+
+    width:900px;
+  }
+
+  .part1{
+    background-color: brown;
+    height: 100px;
+    
+  }
+  .part2{
+    background-color: purple;
+    height: 100px;
+    
+  }
+  .part3{
+    background-color: yellow;
+    height: 100px;
+    
+  }
+  .part4{
+    background-color: green;
+    height: 100px;
+    
+  }
+
+  .merged{
+    background-color: yellow;
+    height: 200px;
+    
+  }
+
+  .chat{
+    background-color: white;
+    height: 200px;
+    width: 900px;
+    padding-top: 50px;
+  }
