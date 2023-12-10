@@ -9,7 +9,7 @@ body {
   padding-left: 10px;
   float:left;
   width: 15%;
-  background-color: aqua;
+  background-color: #D1E8E2;
   display: block;
   }
   .addGroup{
@@ -34,7 +34,21 @@ body {
     border-style: solid;
     border-width: 1px;
   }
-  /* for individual buttons styles just Cp above and change the number at the end*/
+
+  /*for the new groups the user can create*/
+  .group1a{
+    height: 10%;
+    width: 90%;
+    padding-left: 5px;
+    line-height: 50px;
+    background-color: grey;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-color: lightgrey;
+    border-style: solid;
+    border-width: 1px;
+    display: none;
+  }
 
 /* for the channels same as above really*/
   .channel{
@@ -42,7 +56,7 @@ body {
     float:left;
     width: 15%;
     height: 550px;
-    background-color: lightblue;
+    background-color: #A9D6E5;
   }
   .addChannel{
     height: 10%;
@@ -72,18 +86,8 @@ body {
     float:right;
     width: 70%;
     height: 550px;
-    background-color: darkslategrey;
+    background-color: #19747E;
     display: flex;
-  }
-
-/* for the chat bar (dont know if will be in final version)*/
-  .default{
-    height: 40px;
-    width: 300px;
-    background-color: lightgray;
-    padding-left: 50px;
-    line-height: 5px;
-    margin-top: 50%;
   }
 
   /*The little pus image in the add groups/channels*/
@@ -94,7 +98,7 @@ body {
     display:inline;
   }
 
-  /* button stuff*/
+  /* button styles*/
   .buttonG{
     background-color: grey;
     border: none;
@@ -104,7 +108,7 @@ body {
   border: none;
   }
 
-  /* form stuff*/
+  /* form styes*/
   .formForGroups{
     padding: 10px;
     height: 150px;
@@ -116,43 +120,55 @@ body {
     width:300px;
   }
 
-  /*The colours are for testing purposes, seeing what divs are doing, they should be toned down up final version*/
+/*The main section on the right hand side of the page's styles*/
   .mainSection{
-    background-color: darkslategrey;
+    background-color: #19747E;
 
     width:900px;
   }
 
   .part1{
-    background-color: brown;
+    background-color: #E2E2E2;
+    padding-left: 5px;
     height: 100px;
-    
+    width: 700px;
+    border-radius: 15px;
   }
   .part2{
-    background-color: purple;
+    background-color: #E2E2E2;
     height: 100px;
-    
-  }
-  .part3{
-    background-color: yellow;
-    height: 100px;
-    
-  }
-  .part4{
-    background-color: green;
-    height: 100px;
-    
+    padding-left: 5px;
+    width: 700px;
+    border-radius: 15px;
   }
 
   .merged{
-    background-color: yellow;
     height: 200px;
-    
+    width: 700px;
+    float:left;
+  }
+
+  .personalWatchlist{
+    background-color: #E2E2E2;
+    height: 100px;
+    padding-left: 5px;
+    width: 700px;
+    border-radius: 15px;
+  }
+  .groupWatchlist{
+    background-color: #E2E2E2;
+    height: 100px;
+    padding-left: 5px;
+    width: 700px;
+    border-radius: 15px;
   }
 
   .chat{
-    background-color: white;
+    margin-top: 18px;
+    background-color: #E2E2E2;
     height: 200px;
-    width: 900px;
-    padding-top: 50px;
+    width: 700px;
+    padding-left: 5px;
+    padding-top: 2px;
+    border-radius: 15px;
   }
