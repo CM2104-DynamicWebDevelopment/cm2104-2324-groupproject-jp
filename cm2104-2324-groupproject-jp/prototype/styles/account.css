@@ -45,31 +45,6 @@ body, html {
   background-color: #2980b9; 
 }
 
-.channel-side-nav {
-  flex: 0 0 200px; /* Fixed width for side-nav */
-  background-color: rgb(217, 208, 233);
-  color: white;
-  padding: 15px;
-  box-sizing: border-box;
-}
-
-.channel-side-nav a {
-  text-decoration: none;
-  height: 7vh; 
-  width: 90%;
-  padding-left: 15px; 
-  line-height: 70px;
-  background-color: #1c2e3a; 
-  color: #fff; 
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  display: block;
-}
-
-.channel-side-nav a:hover {
-  background-color: #2980b9; 
-}
-
 .your-account-container, .account-activites, .preferences-container {
   width: 100%;
   box-sizing: border-box;

@@ -1,0 +1,177 @@
+<!--
+    Created by Michael Piercey 2206222 -- finalised 11/12/23
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinemind | Groups</title>
+    <!-- links to css -->
+    <link rel="stylesheet" type="text/css" href="styles/newgroups.css">
+    <link rel="stylesheet" type="text/css" href="styles/nav.css">
+
+</head>
+<body>
+  <nav>
+    <div class="navbar">
+        <div class="navbar-logo">
+            <img src="img/cinemind_logo.png" alt="Logo">
+        </div>
+        <div class="navbar-search">
+          <!-- will add serach bar for movies and freinds but need sessions to do so -->
+            <button class="account-button">Account</button>
+        </div>
+    </div>
+
+    <div class="navbar-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#signup">Sign Up</a>
+        <a href="groups.html">Groups</a>
+        <a href="index.html#movies">Movies</a>
+    </div>
+</nav>
+  <div id="main-container" class="wrapper">
+    <div class="side-nav">
+      <!-- side nav show the container -->
+      <h2>Groups</h2>
+        <a href="#" onclick="showAccountContent('New-Group')">New group</a>
+        <a href="#" onclick="showAccountContent('My-Group')">group1</a>
+        <a href="#" onclick="showAccountContent('My-Group')">group2</a>
+        <a href="#" onclick="showAccountContent('My-Group')">group3</a>
+        <a href="#" onclick="showAccountContent('My-Group')">group4</a>
+    </div>
+
+    <div class="channel-side-nav">
+      <!-- side nav show the container -->
+      <h2>Channels</h2>
+        <a href="#" onclick="showAccountContent('New-Channel')">New Channel</a>
+        <a href="#" onclick="showAccountContent('My-Group')">Channel1</a>
+        <a href="#" onclick="showAccountContent('My-Group')">Channel2</a>
+        <a href="#" onclick="showAccountContent('My-Group')">Channel3</a>
+        <a href="#" onclick="showAccountContent('My-Group')">Channel4</a>
+    </div>
+
+    <div id="container-My-Group" class="account-container">
+            <div class="your-account-container">
+                <h1 class="welcome-title">Welcome to Your Account page</h1>
+                <h3 class="welcome-text">View and make changes to your account bro</h3>
+            </div>
+
+            <div class="your-account-container">
+              <h1 class="welcome-title">Welcome to Your Account page</h1>
+              <h3 class="welcome-text">View and make changes to your account bro</h3>
+          </div>
+
+          <div class="your-account-container">
+            <h1 class="welcome-title">Welcome to Your Account page</h1>
+            <h3 class="welcome-text">View and make changes to your account bro</h3>
+        </div>
+      
+        </div>
+        
+
+  <div id="container-New-Group" class="account-container">
+      <h1>Create a new group</h1>
+
+      <div class="account-activites-container">
+        <div class="activities-container" style="margin-left: 0;">
+            <h3>Create a new group name</h3>
+            <input type="text" class="account-textbox" placeholder="Enter your new name">
+            <button class="account-change-button">Submit</button><br>
+
+            <h3>Create your group</h3>
+            <input type="text" class="account-textbox" placeholder="Enter your new email">
+            <button class="account-change-button">Submit</button><br>
+        </div>
+        <div class="activities-container" style="padding: 5px;">
+            <h3>Delete a channel</h3>
+            <select name="cars" id="cars">
+              <option value="#">group1</option>
+              <option value="#">group2</option>
+              <option value="#">group3</option>
+              <option value="#">group4</option>
+            </select>
+            <button class="account-change-button">Delete</button>
+
+        </div>
+    </div>
+
+
+  </div>
+
+  <div id="container-New-Channel" class="account-container">
+      <h1>Create a new channel</h1>
+
+      <div class="account-activites-container">
+        <div class="activities-container" style="margin-left: 0;">
+            <h3>Create a new channel name</h3>
+            <input type="text" class="account-textbox" placeholder="Enter your new name">
+            <button class="account-change-button">Submit</button><br>
+
+            <h3>Create your channel:</h3>
+            <input type="text" class="account-textbox" placeholder="Enter your new email">
+            <button class="account-change-button">Submit</button><br>
+        </div>
+        <div class="activities-container" style="padding: 5px;">
+            <h3>Delete a channel</h3>
+            <select name="cars" id="cars">
+              <option value="#">Channel1</option>
+              <option value="#">Channel2</option>
+              <option value="#">Channel3</option>
+              <option value="#">Channel4</option>
+            </select>
+            <button class="account-change-button">Delete</button>
+
+        </div>
+    </div>
+
+  </div>
+
+    </div>
+
+    <footer class="custom-footer">
+      <div class="custom-container">
+          <div class="custom-row">
+              <div class="about-column">
+                  <h6>Site credits</h6>
+                  <p class="credits">Movie site was created for Robert Gordans University, Dynamic Web Development CM2104 by Michael Piercey and Jonathan Boyd to allow users to share their passion for movies.</p>
+              </div>
+
+              <div class="categories-column">
+                  <h6>Form</h6>
+                  <ul class="footer-links">
+                      <li><a href="#signup">Sign up for an account</a></li>
+                  </ul>
+              </div>
+
+              <div class="quick-links-column">
+                  <h6>Links</h6>
+                  <ul class="footer-links">
+                      <li><a href="#">About Us</a></li>
+                      <li><a href="#">Contact Us</a></li>
+                      <li><a href="index.html#signup">Sign up</a></li>
+                      <li><a href="index.html#movies">Movie lists</a></li>
+                  </ul>
+              </div>
+          </div>
+          <hr>
+      </div>
+      <div class="custom-container">
+          <div class="custom-row">
+              <div class="col-md-8 col-sm-6 col-xs-12">
+                  <p class="copyright-text">Copyright &copy; 2023 Michael</p>
+                  <label class="switch">
+                      <input type="checkbox" id="darkMode">
+                      <span class="slider round"></span>
+                  </label>
+              </div>
+          </div>
+      </div>
+  </footer>
+</body>
+
+<script src="scripts/newgroups.js"></script>
+
+</html>
