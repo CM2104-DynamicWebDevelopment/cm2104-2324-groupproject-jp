@@ -173,7 +173,7 @@ $(document).ready(function () {
         "<h2>" + title + "</h2>" +
         "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='" + title + "'/>" +
         "<p>" + movieDescription + "</p>" +
-        "<p>Year: 1985</p>" +
+        "<p>Year: "+ releaseDate +"</p>" +
         "</div>" +
         "<div class='reviews'>" +
         "<button class='button-watchlist'>Add to Watchlist</button>" +
@@ -200,7 +200,6 @@ $(document).ready(function () {
         "<div class='similar-movies'>" +
         "<h3>Similar Movies</h3>" +
         "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='Similar " + title + " Poster'/>" +
-        "<!-- Add smaller posters and titles for similar movies -->" +
         "</div>" +
         "</div>" +
         "</div>";
