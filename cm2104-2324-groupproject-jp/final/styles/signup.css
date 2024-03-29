@@ -3,7 +3,18 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-color: aliceblue;
   }
+
+  
+  .login__container {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: aliceblue;
+  }
+  
   
   .signup__form {
     padding: 40px; /* Increase padding for a larger background */
@@ -60,10 +71,12 @@
     text-decoration: underline;
   }
 
-  .login__container {
-    display: none;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
+  #toggleLogin {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    }
