@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spectre Signup</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+  font-family: "Open Sans", "Roboto", Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+.signup__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signup__form {
+  padding: 40px; /* Increase padding for a larger background */
+  padding-right: 60px;
+  background: #fafafa;
+  text-align: center;
+  width: 400px; /* Adjust width as needed */
+}
+
+.form-heading {
+  margin-top: 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.btn--form {
+  padding: 10px 20px;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn--form:hover {
+  background: #555;
+}
+
+.login-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.login-link a {
+  color: #333;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+  </style>
+</head>
+<body>
+
+<div class="signup__container">
+  <div class="signup__form">
+    <h2 class="form-heading">Register</h2><br>
+    <form action="#">
+      <div class="form-group">
+        <label for="username">Username</label><br>
+        <input class="form-control" type="text" name="username" id="username" placeholder="michael.piercey" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label><br>
+        <input class="form-control" type="text" name="email" id="email" placeholder="micahel@rgu.ac.uk" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label><br>
+        <input class="form-control" type="password" name="password" id="password" placeholder="********" required>
+      </div>
+      <div class="form-group">
+        <button class="btn btn--form" type="submit">Register</button>
+      </div>
+    </form>
+    <p class="login-link">Already a member? <a href="#">Login here!</a></p>
+  </div>
+</div>
+
+</body>
+</html>

@@ -160,43 +160,6 @@ body {
 }
 
 
-
-
-
-.forms {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.login,
-.signup {
-  margin-left: 25%;
-}
-
-.login {
-  /* Initially hide the login form */
-  display: none;
-}
-
-.signup {
-  /* Display the signup form by default */
-  display: block;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 .movie-card {
   display: none;
   width: 40%;

@@ -131,22 +131,22 @@ $(document).ready(function () {
     // toggle to show login instead of signup
     function toggleToLogin() {
         // get the signup and login div
-        var signupForm = document.querySelector('.signup');
-        var loginForm = document.querySelector('.login');
+        var signupForm = document.querySelector('.signup__container');
+        var loginForm = document.querySelector('.login__container');
 
         // change the signup div to none so it doesnt show and change login to block so it does
         signupForm.style.display = 'none';
-        loginForm.style.display = 'block';
+        login__container.style.display = 'flex';
     }
 
     // toggle to show signup instead of login
     function toggleToSignup() {
         // gets the signup and login div
-        var signupForm = document.querySelector('.signup');
-        var loginForm = document.querySelector('.login');
+        var signupForm = document.querySelector('.signup__container');
+        var loginForm = document.querySelector('.login__container');
 
         // sets the sign up div to block so it appears and set the login div to none so it doesnt appear
-        signupForm.style.display = 'block';
+        signupForm.style.display = 'flex';
         loginForm.style.display = 'none';
     }
 
