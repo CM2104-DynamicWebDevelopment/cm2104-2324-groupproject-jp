@@ -54,23 +54,168 @@
     </div>
 
     <div id="container-My-Group" class="account-container">
-            <div class="your-account-container">
-                <h1 class="welcome-title">Welcome to Your Account page</h1>
-                <h3 class="welcome-text">View and make changes to your account bro</h3>
-            </div>
-
-            <div class="your-account-container">
-              <h1 class="welcome-title">Welcome to Your Account page</h1>
-              <h3 class="welcome-text">View and make changes to your account bro</h3>
+        
+        
+        <div class="group-review-container">
+          <h1 class="welcome-title">Group review</h1>
+          <h3 class="welcome-text">list of movies group has rated</h3>
+          <div class="watchlist-movie-card">
+          <div class="watchlist-movie-details" id="watchlist-movie-details">
+            <h2>Movie Title</h2>
+            <img src="https://image.tmdb.org/t/p/original/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg" alt="Movie Poster">
+            <p>Year: 1985</p>
           </div>
+        
+          <div class="watchlist-extra" id="watchlist-extra-0" style="background-image: url('https://image.tmdb.org/t/p/original/3lbTiIN8cVonMUQwaeh5nvn61lr.jpg'); display: flex;">
+            <h3>List of ratings</h3>
+           <h6>jon 5.5</h6>
+           <h6>jon 5.5</h6>
+           <h6>jon 5.5</h6>
+           <h6>jon 5.5</h6>
+           <h6>jon 5.5</h6>
+           <h6>jon 5.5</h6>
+           <h6>jon 5.5</h6>
 
-          <div class="your-account-container">
-            <h1 class="welcome-title">Welcome to Your Account page</h1>
-            <h3 class="welcome-text">View and make changes to your account bro</h3>
+            <!-- goes to where to watch using js, will add where to watch api next semester -->          
+    
+          </div>
+        
+        </div>
+
+        <div class="watchlist-movie-card">
+        <div class="watchlist-movie-details" id="watchlist-movie-details">
+          <h2>Movie Title</h2>
+          <img src="https://image.tmdb.org/t/p/original/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg" alt="Movie Poster">
+          <p>Year: 1985</p>
         </div>
       
+        <div class="watchlist-extra" id="watchlist-extra-0" style="background-image: url('https://image.tmdb.org/t/p/original/3lbTiIN8cVonMUQwaeh5nvn61lr.jpg'); display: flex;">
+          <h3>List of ratings</h3>
+         <h6>jon 5.5</h6>
+         <h6>jon 5.5</h6>
+         <h6>jon 5.5</h6>
+         <h6>jon 5.5</h6>
+         
+         <h6>jon 5.5</h6>
+         <h6>jon 5.5</h6>
+         <h6>jon 5.5</h6>
+
+          <!-- goes to where to watch using js, will add where to watch api next semester -->          
+  
         </div>
+      
+      </div>
+      <div class="watchlist-movie-card">
+      <div class="watchlist-movie-details" id="watchlist-movie-details">
+        <h2>Movie Title</h2>
+        <img src="https://image.tmdb.org/t/p/original/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg" alt="Movie Poster">
+        <p>Year: 1985</p>
+      </div>
+    
+      <div class="watchlist-extra" id="watchlist-extra-0" style="background-image: url('https://image.tmdb.org/t/p/original/3lbTiIN8cVonMUQwaeh5nvn61lr.jpg'); display: flex;">
+        <h3>List of ratings</h3>
+       <h6>jon 5.5</h6>
+       <h6>jon 5.5</h6>
+       <h6>jon 5.5</h6>
+       <h6>jon 5.5</h6>
+       <h6>jon 5.5</h6>
+       <h6>jon 5.5</h6>
+       <h6>jon 5.5</h6>
+
+        <!-- goes to where to watch using js, will add where to watch api next semester -->          
+
+      </div>
+    
+    </div>
+        </div>
+
+
         
+      
+        <div class="group-selector-container-chat" style="display: block;">
+            <h1 class="welcome-title">Change to chat</h1>
+            <button class="change-btn" onclick="showGroupContent('chat')">Change to Chat</button>
+        </div>
+
+        <div class="group-selector-container-watchlist" style="display: none;">
+            <h1 class="welcome-title">Change to watchlists</h1>
+            <button class="change-btn" onclick="showGroupContent('watchlists')">Change to watchlists</button>
+        </div>
+          
+      
+        <div class="watchlist-container" style="display: block;">
+            <h1 class="welcome-title">Create a watchlist</h1>
+            <h3 class="welcome-text">Create a watchlist for the group</h3>
+            
+            <form class="watchlist-form">
+              <label for="filmTitle">Film Title:</label>
+              <input type="text" id="filmTitle" name="filmTitle" placeholder="Enter film title" required>
+          
+              <label for="watchDate">Date:</label>
+              <input type="date" id="watchDate" name="watchDate" required>
+          
+              <label for="watchTime">Time:</label>
+              <input type="time" id="watchTime" name="watchTime" required>
+          
+              <button type="submit">Create Watchlist</button>
+            </form>
+          </div>
+      
+        <div class="watchlist-container" style="display: block;">
+          <h1 class="welcome-title">Group watchlist zone</h1>
+          <h3 class="welcome-text">This is where a list of group watchlists</h3>
+          <div class="watchlist-movie-card">
+          <div class="watchlist-movie-details" id="watchlist-movie-details">
+            <h2>Movie Title</h2>
+            <img src="https://image.tmdb.org/t/p/original/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg" alt="Movie Poster">
+            <p>Year: 1985</p>
+          </div>
+        
+          <div class="watchlist-extra" id="watchlist-extra-0" style="background-image: url('https://image.tmdb.org/t/p/original/3lbTiIN8cVonMUQwaeh5nvn61lr.jpg'); display: flex;">
+            <h3>Watchlist scheduled</h3>
+            <h6>tuesday: 21:00</h6>
+
+
+            <!-- goes to where to watch using js, will add where to watch api next semester -->          
+    
+          </div>
+        
+        </div>
+        </div>
+
+            <!-- Chat section -->
+            <div class="chat-container" style="display: none;">
+                <h1>Chat with the group</h1>
+                <!-- Previous chats -->
+                <div class="previous-chats">
+                    <div class="container darker">
+                        <div class="user-info">
+                            <img src="img/user1.jpg" alt="userpfp" class="right">
+                            <p class="username">Emmet</p> 
+                        </div>
+                        <p>Hello everyone!</p>
+                        <span class="time-right">11:00</span>
+                    </div>
+                    <div class="container">
+                        <div class="user-info">
+                            <img src="img/user2.jpg" alt="userpfp">
+                            <p class="username">Marty</p> 
+                        </div>
+                        <p>Hi Doc!</p>
+                        <span class="time-left">11:01</span>
+                    </div>
+                    <!-- Add more previous chats here -->
+                </div>
+                <!-- Text input bar -->
+                <div class="text-input">
+                    <input type="text" placeholder="Type your message...">
+                    <button>Send</button>
+        </div>
+        </div>
+
+
+</div>
+      
 
   <div id="container-New-Group" class="account-container">
       <h1>Create a new group</h1>
@@ -96,7 +241,14 @@
             <button class="account-change-button">Delete</button>
 
         </div>
-    </div>
+        <div class="join-group-container">
+            <h3>Join group with code</h3>
+            <input type="text" class="account-textbox" placeholder="Enter a group code">
+            <button class="account-change-button">Join!</button><br>
+
+        </div>
+
+      </div>
 
 
   </div>
@@ -169,6 +321,7 @@
               </div>
           </div>
       </div>
+    
   </footer>
 </body>
 
