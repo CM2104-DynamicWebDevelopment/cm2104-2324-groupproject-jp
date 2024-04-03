@@ -285,3 +285,19 @@ $(document).ready(function () {
         // insert html into search resutls container
         $('.results-movie-card-container').html(htmlString);
     }
+
+
+function popup1() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
+
+function popup2() {
+    var popup = document.getElementById("myPopup2");
+    popup.classList.toggle("show");
+  }
+
+  function popup3() {
+    var popup = document.getElementById("myPopup3");
+    popup.classList.toggle("show");
+  }
