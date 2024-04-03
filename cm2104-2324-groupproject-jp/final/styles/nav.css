@@ -125,6 +125,10 @@
     height: 34px;
   }
   
+  input[type="checkbox"] {
+    display: none;
+  }
+
   .slider {
     position: absolute;
     cursor: pointer;
@@ -209,21 +213,7 @@
   left: 50%;
 }
 
- .popuptext2 {
-  visibility: hidden;
-  width: 500px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 8px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 250%;
-  right: 70%;
-}
-
-.popuptext3 {
+.popuptext2, .popuptext3 {
   visibility: hidden;
   width: 500px;
   background-color: #555;
