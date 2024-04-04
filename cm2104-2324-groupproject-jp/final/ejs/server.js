@@ -26,6 +26,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Route to render the index.ejs page
 app.get('/', (req, res) => {
