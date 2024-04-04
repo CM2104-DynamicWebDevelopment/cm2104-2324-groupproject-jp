@@ -22,9 +22,6 @@ app.use(session({ secret: 'example' }));
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
 
-// Set the path to serve static files (like CSS, images)
-app.use(express.static(path.join(__dirname, 'public')));
-
 // Routes
 app.use(express.static(path.join(__dirname, 'public')));
 
