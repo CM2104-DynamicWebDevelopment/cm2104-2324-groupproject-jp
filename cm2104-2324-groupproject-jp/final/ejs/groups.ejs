@@ -4,36 +4,16 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cinemind | Groups</title>
-    <!-- links to css -->
-    <link rel="stylesheet" type="text/css" href="styles/newgroups.css">
-    <link rel="stylesheet" type="text/css" href="styles/nav.css">
-    
-    <link rel="icon" type="image/png" href="img/cinemind_small_logo.png">
+<!-- Include the head -->
+<%- include('head.ejs', { title: 'Cinemind | Groups', cssFiles: ['../styles/newgroups.css', '../styles/nav.css']}) %>
 
-</head>
+
 <body>
-  <nav>
-    <div class="navbar">
-        <div class="navbar-logo">
-            <img src="img/cinemind_logo.png" alt="Logo">
-        </div>
-        <div class="navbar-search">
-          <!-- will add serach bar for movies and freinds but need sessions to do so -->
-            <button class="account-button">Account</button>
-        </div>
-    </div>
 
-    <div class="navbar-links">
-        <a href="index.html">Home</a>
-        <a href="index.html#signup">Sign Up</a>
-        <a href="groups.html">Groups</a>
-        <a href="index.html#movies">Movies</a>
-    </div>
-</nav>
+<!-- Include the navbar -->
+<%- include('navbar.ejs') %>
+
+
   <div id="main-container" class="wrapper">
     <div class="side-nav">
       <!-- side nav show the container -->
@@ -246,48 +226,10 @@
 
     </div>
 
-    <footer class="custom-footer">
-      <div class="custom-container">
-          <div class="custom-row">
-              <div class="about-column">
-                  <h6>Site credits</h6>
-                  <p class="credits">Movie site was created for Robert Gordans University, Dynamic Web Development CM2104 by Michael Piercey and Jonathan Boyd to allow users to share their passion for movies.</p>
-              </div>
+    <%- include('footer.ejs')%>
 
-              <div class="categories-column">
-                  <h6>Form</h6>
-                  <ul class="footer-links">
-                      <li><a href="#signup">Sign up for an account</a></li>
-                  </ul>
-              </div>
-
-              <div class="quick-links-column">
-                  <h6>Links</h6>
-                  <ul class="footer-links">
-                      <li><a href="#">About Us</a></li>
-                      <li><a href="#">Contact Us</a></li>
-                      <li><a href="index.html#signup">Sign up</a></li>
-                      <li><a href="index.html#movies">Movie lists</a></li>
-                  </ul>
-              </div>
-          </div>
-          <hr>
-      </div>
-      <div class="custom-container">
-          <div class="custom-row">
-              <div class="col-md-8 col-sm-6 col-xs-12">
-                  <p class="copyright-text">Copyright &copy; 2023 Michael</p>
-                  <label class="switch">
-                      <input type="checkbox" id="darkMode">
-                      <span class="slider round"></span>
-                  </label>
-              </div>
-          </div>
-      </div>
-    
-  </footer>
 </body>
 
-<script src="scripts/newgroups.js"></script>
+<script src="../scripts/newgroups.js"></script>
 
 </html>
