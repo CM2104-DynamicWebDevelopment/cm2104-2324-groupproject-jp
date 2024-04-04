@@ -4,9 +4,9 @@
             <img src="/img/cinemind_logo.png" alt="Logo">
         </div>
         <div class="navbar-search">
-            <input type="text"  id="movie-search-bar" class="search-bar" placeholder="Search">
             <!-- Search bar called the get search function from js and gets the balue from text box -->
             <% if (currentPage === 'index') { %>
+                <input type="text"  id="movie-search-bar" class="search-bar" placeholder="Search">
                 <button id="movie-search-btn" class="search-button" onclick="getSearchFromTMDB($('#movie-search-bar').val())">search</button>
             <% } %>
             <% if (user === 'loggedin') { %>
@@ -19,9 +19,9 @@
     </div>
 
     <div class="navbar-links">
-        <a href="/index.ejs">Home</a>
-        <a href="/index.ejs#signup__container">Sign Up</a>
-        <a href="/groups.ejs">Groups</a>
-        <a href="/index.ejs#movies">Movies</a>
+        <a href="/index">Home</a>
+        <a href="/index#signup__container">Sign Up</a>
+        <a href="/groups">Groups</a>
+        <a href="/index#movies">Movies</a>
     </div>
 </nav>
