@@ -6,13 +6,13 @@
 <html lang="en">
 
 <!-- Include the head -->
-<%- include('head.ejs', { title: 'Cinemind | Account', cssFiles: ['styles/nav.css', 'styles/myaccount.css']}) %>
+<%- include('partials/head.ejs', { title: 'Cinemind | Account', cssFiles: ['styles/nav.css', 'styles/myaccount.css']}) %>
 
 
 <body>
 
 <!-- Include the navbar -->
-<%- include('navbar.ejs') %>
+<%- include('partials/navbar.ejs') %>
 
 
   <div id="main-container" class="wrapper">
@@ -319,7 +319,7 @@
     </div>
 
 
-    <%- include('footer.ejs')%>
+    <%- include('partials/footer.ejs')%>
 
 </body>
 
