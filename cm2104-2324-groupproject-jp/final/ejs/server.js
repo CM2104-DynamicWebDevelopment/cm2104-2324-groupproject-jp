@@ -19,7 +19,7 @@ app.use(session({
 app.set('view engine', 'ejs');
 
 // Set the path to serve static files (like CSS, images, or your EJS views)
-app.use(express.static(path.join(__dirname, 'final/ejs/views')));
+app.use(express.static(path.join(__dirname, 'cm2104-2324-groupproject-jp/final/ejs/views')));
 
 // Routes
 app.get('/', (req, res) => {
