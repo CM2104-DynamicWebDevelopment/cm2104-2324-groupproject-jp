@@ -199,9 +199,9 @@
 }
 
 /* The actual popup (appears on top) */
-.popup .popuptext {
+.popuptext2, .popuptext3 {
   visibility: hidden;
-  width: 600px;
+  width: 500px;
   background-color: #555;
   color: #fff;
   text-align: center;
@@ -209,9 +209,10 @@
   padding: 8px 0;
   position: absolute;
   z-index: 1;
-  bottom: 125%;
-  left: 50%;
+  bottom: 350%;
+  right: 70%;
 }
+
 
 .popuptext2, .popuptext3 {
   visibility: hidden;
