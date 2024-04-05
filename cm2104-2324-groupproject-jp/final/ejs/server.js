@@ -107,31 +107,26 @@ app.post('/delete', (req, res) => {
 
 // Route to handle GET and POST requests for logout
 app.all('/logout', function (req, res) {
-  if (req.method === 'GET') {
-      // Render the logout page (optional)
-      res.render('logout');
-  } else if (req.method === 'POST') {
-      // Destroy the session
-      req.session.destroy(function(err) {
-          if(err) {
-              console.log(err);
-              res.sendStatus(500); // Internal server error
-          } else {
-              // Redirect the user to the login page
-              res.redirect('/');
-          }
-      });
-  }
+    if (req.method === 'GET') {
+        // Render the logout page (optional)
+        res.render('logout');
+    } else if (req.method === 'POST') {
+        // Destroy the session
+        req.session.destroy(function(err) {
+            if(err) {
+                console.log(err);
+                res.sendStatus(500); // Internal server error
+            } else {
+                // Redirect the user to the login page
+                res.redirect('/');
+            }
+        });
+    }
 });
 
 
 // Route to handle adding a new user
 app.post('/adduser', (req, res) => {
-    if (!req.session.loggedin) {
-        res.redirect('/');
-        return;
-    }
-
     const datatostore = {
         "name": {
             "first": req.body.first
@@ -146,6 +141,6 @@ app.post('/adduser', (req, res) => {
     db.collection('people').save(datatostore, (err, result) => {
         if (err) throw err;
         console.log('saved to database');
-        res.redirect('/');
+        console.log(req.body.password);
     });
 });
