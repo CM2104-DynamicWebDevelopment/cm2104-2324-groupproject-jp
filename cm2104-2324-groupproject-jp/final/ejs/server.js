@@ -152,17 +152,22 @@ app.post('/addwatchlist', (req, res) => {
 // Assuming you have middleware set up to handle sessions
 app.get('/watchlist', function(req, res) {
   const userId = req.session.userId;
-  
-  // Assuming you have a function to fetch the user's watchlist from your database
-  // This function might look different depending on your database setup
-  // Here, `getWatchlistByUserId` is just a placeholder for your actual function
-  getWatchlistByUserId(userId, function(err, watchlist) {
+
+  // Assuming your user's watchlist is stored in the user document in the database
+  // Fetch the user document based on the userId
+  db.collection('people').findOne({ _id: userId }, (err, user) => {
       if (err) {
-          // Handle error
-          console.error(err);
-          return res.status(500).send('Error retrieving watchlist');
+          console.error('Error fetching user data:', err);
+          return res.status(500).send('Error fetching user data');
       }
-      
+
+      if (!user) {
+          return res.status(404).send('User not found');
+      }
+
+      // Assuming user.watchlist is an array of movie IDs
+      const watchlist = user.watchlist || []; // Initialize watchlist as an empty array if it doesn't exist
+
       // Pass the watchlist data to the EJS template
       res.render('watchlist', { watchlist: watchlist });
   });
