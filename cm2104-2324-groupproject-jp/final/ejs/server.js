@@ -30,17 +30,17 @@ app.use(favicon(path.join(__dirname, 'public', 'img', 'cinemind_small_logo.png')
 
 // Route to render the index.ejs page
 app.get('/', (req, res) => {
-  res.render('/pages/index', { user: req.session.user });
+  res.render('/index', { user: req.session.user });
 });
 
 // Route to render the myaccount.ejs page
 app.get('/myaccount', (req, res) => {
-  res.render('/pages/myaccount', { user: req.session.user });
+  res.render('/myaccount', { user: req.session.user });
 });
 
 // Route to render the group.ejs page
 app.get('/groups', (req, res) => {
-  res.render('/pages/groups', { user: req.session.user });
+  res.render('/groups', { user: req.session.user });
 });
 
 // Start the server
