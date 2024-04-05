@@ -49,23 +49,13 @@ app.get('/', (req, res) => {
 
 // Route to render the myaccount.ejs page
 app.get('/myaccount', (req, res) => {
-  // Redirect to login if not logged in
-  if (!req.session.loggedin) {
-      res.redirect('/');
-      return;
-  }
-  // Retrieve all users' watchlist data from the database
-  db.collection('people').find({}).toArray((err, users) => {
-      if (err) {
-          console.error('Error retrieving users data:', err);
-          res.status(500).send('Error retrieving users data');
-          return;
-      }
-      // Render the myaccount page and pass the users data to the template
-      res.render('pages/myaccount', { users: users });
-  });
+    // Redirect to login if not logged in
+    if (!req.session.loggedin) {
+        res.redirect('/');
+        return;
+    }
+    res.render('pages/myaccount', { user: req.session.user });
 });
-
 
 // Route to render the group.ejs page
 app.get('/groups', (req, res) => {
@@ -161,14 +151,28 @@ app.post('/addwatchlist', (req, res) => {
 
 // Route to render a page where you want to display watchlist IDs
 app.get('/watchlist', (req, res) => {
-  // Retrieve all users' watchlist data from the database
-  db.collection('people').find({}, { watchlist: 1 }).toArray((err, users) => {
-      if (err) {
-          console.error('Error retrieving watchlist data:', err);
-          res.status(500).send('Error retrieving watchlist data');
-          return;
-      }
-      // Render the watchlist page and pass the watchlist data to the template
-      res.render('pages/watchlist', { users: users });
+  const userId = req.session.userId; // Retrieve userId from session
+
+  // Check if userId is present in session
+  if (!userId) {
+    res.status(400).send('User ID missing in session');
+    return;
+  }
+
+  // Retrieve user's watchlist data from the database
+  db.collection('people').findOne({ _id: userId }, { watchlist: 1 }, (err, user) => {
+    if (err) {
+      console.error('Error retrieving watchlist data:', err);
+      res.status(500).send('Error retrieving watchlist data');
+      return;
+    }
+
+    if (!user) {
+      res.status(404).send('User not found');
+      return;
+    }
+
+    // Render the watchlist page and pass the user's watchlist data to the template
+    res.render('pages/watchlist', { watchlist: user.watchlist });
   });
 });
