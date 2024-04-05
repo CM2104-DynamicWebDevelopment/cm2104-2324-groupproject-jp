@@ -105,11 +105,23 @@ app.post('/delete', (req, res) => {
     });
 });
 
-//it sets our session.loggedin to false and then redirects the user to the login
-app.get('/logout', function (req, res) {
-  req.session.loggedin = false;
-  req.session.destroy();
-  res.redirect('/');
+// Route to handle GET and POST requests for logout
+app.all('/logout', function (req, res) {
+  if (req.method === 'GET') {
+      // Render the logout page (optional)
+      res.render('logout');
+  } else if (req.method === 'POST') {
+      // Destroy the session
+      req.session.destroy(function(err) {
+          if(err) {
+              console.log(err);
+              res.sendStatus(500); // Internal server error
+          } else {
+              // Redirect the user to the login page
+              res.redirect('/');
+          }
+      });
+  }
 });
 
 
