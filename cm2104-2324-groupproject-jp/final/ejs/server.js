@@ -1,3 +1,10 @@
+/**
+ * @Author: John Isaacs <john>
+ * @Date:   01-Mar-19
+ * @Filename: server.js
+ * @Last modified by:   john
+ * @Last modified time: 03-Mar-2024
+ */
 
 //code to link to mongo module
 const MongoClient = require('mongodb-legacy').MongoClient; //npm install mongodb-legacy
@@ -5,31 +12,18 @@ const url = 'mongodb://127.0.0.1:27017'; // the url of our database
 const client = new MongoClient(url); // create the mongo client
 const dbname = 'profiles'; // the data base we want to access
 
-const express = require('express'); // npm install express
-const session = require('express-session'); // npm install express-session
-const bodyParser = require('body-parser'); // npm install body-parser
-const path = require('path');
-const favicon = require('serve-favicon');
-
+const express = require('express'); //npm install express
+const session = require('express-session'); //npm install express-session
+const bodyParser = require('body-parser'); //npm install body-parser
 
 const app = express();
-const PORT = 8080; // Change port to the desired port number
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 //this tells express we are using sesssions. These are variables that only belong to one user of the site at a time.
 app.use(session({ secret: 'example' }));
 
-// Set the view engine to EJS
-app.set('view engine', 'ejs');
-
-// Routes
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, 'public', 'img', 'cinemind_small_logo.png')));
-
-
+//code to define the public "static" folder
+app.use(express.static('public'))
 
 //code to tell express we want to read POSTED forms
 app.use(bodyParser.urlencoded({
@@ -56,24 +50,40 @@ async function connectDB() {
 }
 
 
+//********** GET ROUTES - Deal with displaying pages ***************************
+
+//this is our root route
+app.get('/', function (req, res) {
+  //if the user is not logged in redirect them to the login page
+  if (!req.session.loggedin) {
+    res.redirect('/');
+    return;
+  }
+
+
+  var currentuser = req.session.currentuser;
+
+
+  //otherwise perfrom a search to return all the documents in the people collection
+  db.collection('people').find().toArray(function (err, result) {
+    if (err) throw err;
+    //the result of the query is sent to the users page as the "users" array
+    db.collection('people').findOne({"login.username": currentuser}, function (err, userresult) {
+      if (err) throw err;
+
+      res.render('pages/users', {
+        users: result,
+        user: userresult
+      })
+    });
+  });
+
+});
 
 //this is our login route, all it does is render the login.ejs page.
-// Route to render the index.ejs page
-app.get('/', (req, res) => {
-  res.render('index', { user: req.session.user });
+app.get('/', function (req, res) {
+  res.render('pages/index');
 });
-
-// Route to render the myaccount.ejs page
-app.get('/myaccount', (req, res) => {
-  res.render('myaccount', { user: req.session.user });
-});
-
-// Route to render the group.ejs page
-app.get('/groups', (req, res) => {
-  res.render('groups', { user: req.session.user });
-});
-
-
 
 
 app.get('/myaccount', function (req, res) {
@@ -93,13 +103,45 @@ app.get('/myaccount', function (req, res) {
 
 
 
-    res.render('pages/myaccount', {
+    res.render('/myaccount', {
       user: result
     })
   });
 
 });
 
+//adduser route simply draws our adduser page
+app.get('/adduser', function (req, res) {
+  if (!req.session.loggedin) {
+    res.redirect('/login');
+    return;
+  }
+  res.render('pages/adduser')
+});
+//remuser route simply draws our remuser page
+app.get('/remuser', function (req, res) {
+  if (!req.session.loggedin) {
+    res.redirect('/login');
+    return;
+  }
+  res.render('pages/remuser')
+});
+//logour route cause the page to Logout.
+//it sets our session.loggedin to false and then redirects the user to the login
+app.get('/logout', function (req, res) {
+  req.session.loggedin = false;
+  req.session.destroy();
+  res.redirect('/');
+});
+
+
+
+
+//********** POST ROUTES - Deal with processing data from forms ***************************
+
+
+//the dologin route detasl with the data from the login screen.
+//the post variables, username and password ceom from the form on the login page.
 app.post('/dologin', function (req, res) {
   console.log(JSON.stringify(req.body))
   var uname = req.body.username;
@@ -114,7 +156,7 @@ app.post('/dologin', function (req, res) {
 
 
     if (!result) {
-      res.redirect('/');
+      res.redirect('/login');
       return
     }
 
@@ -124,14 +166,46 @@ app.post('/dologin', function (req, res) {
 
       req.session.loggedin = true;
       req.session.currentuser = uname;
-      res.redirect('/myaccount')
-    } else {
       res.redirect('/')
+    } else {
+      res.redirect('/login')
     }
   });
 });
 
+//the delete route deals with user deletion based on entering a username
+app.post('/delete', function (req, res) {
+  //check we are logged in.
+  if (!req.session.loggedin) {
+    res.redirect('/login');
+    return;
+  }
+  //if so get the username variable
+  var uname = req.body.username;
 
+  //check for the username added in the form, if one exists then you can delete that doccument
+  db.collection('people').deleteOne({
+    "login.username": uname
+  }, function (err, result) {
+    if (err) throw err;
+    //when complete redirect to the index
+    res.redirect('/');
+  });
+});
+
+
+//the adduser route deals with adding a new user
+//dataformat for storing new users.
+
+//{"_id":18,
+//"gender":"female",
+//"name":{"title":"miss","first":"allie","last":"austin"},
+//"location":{"street":"9348 high street","city":"canterbury","state":"leicestershire","postcode":"N7N 1WE"},
+//"email":"allie.austin@example.com",
+//"login":{"username":"smalldog110","password":"lickit"},
+//"dob":"1970-07-06 16:32:37","registered":"2011-02-08 07:10:24",
+//"picture":{"large":"https://randomuser.me/api/portraits/women/42.jpg","medium":"https://randomuser.me/api/portraits/med/women/42.jpg","thumbnail":"https://randomuser.me/api/portraits/thumb/women/42.jpg"},
+//"nat":"GB"}
 
 app.post('/adduser', function (req, res) {
   //check we are logged in
@@ -178,10 +252,4 @@ app.post('/adduser', function (req, res) {
     //when complete redirect to the index
     res.redirect('/')
   })
-});
-
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
 });
