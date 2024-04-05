@@ -127,20 +127,25 @@ app.all('/logout', function (req, res) {
 
 // Route to handle adding a new user
 app.post('/adduser', (req, res) => {
-    const datatostore = {
-        "name": {
-            "first": req.body.first
-        },
-        "email": req.body.email,
-        "login": {
-            "username": req.body.username,
-            "password": req.body.password
-        }
-    };
+  const datatostore = {
+      "name": {
+          "first": req.body.first
+      },
+      "email": req.body.email,
+      "login": {
+          "username": req.body.username,
+          "password": req.body.password
+      }
+  };
 
-    db.collection('people').save(datatostore, (err, result) => {
-        if (err) throw err;
-        console.log('saved to database');
-        console.log(req.body.password);
-    });
+  db.collection('people').insertOne(datatostore, (err, result) => {
+      if (err) {
+          console.error('Error saving to database:', err);
+          res.status(500).send('Error saving to database');
+          return;
+      }
+      console.log('saved to database');
+      console.log(req.body.password); // Logging the password is fine for debugging, but avoid logging sensitive information in production.
+      res.send('User added successfully');
+  });
 });
