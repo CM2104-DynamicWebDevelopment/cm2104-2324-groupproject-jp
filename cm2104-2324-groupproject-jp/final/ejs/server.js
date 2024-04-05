@@ -49,30 +49,13 @@ app.get('/', (req, res) => {
 
 // Route to render the myaccount.ejs page
 app.get('/myaccount', (req, res) => {
-  // Redirect to login if not logged in
-  if (!req.session.loggedin) {
-      res.redirect('/');
-      return;
-  }
-
-  const userId = req.session.userId;
-
-  // Fetch the user's watchlist from the database
-  db.collection('people').findOne({ _id: userId }, (err, user) => {
-      if (err) {
-          console.error('Error fetching user data:', err);
-          return res.status(500).send('Error fetching user data');
-      }
-
-      if (!user) {
-          return res.status(404).send('User not found');
-      }
-
-      // Pass the user data and watchlist to the EJS template
-      res.render('pages/myaccount', { user: req.session.user, watchlist: user.watchlist });
-  });
+    // Redirect to login if not logged in
+    if (!req.session.loggedin) {
+        res.redirect('/');
+        return;
+    }
+    res.render('pages/myaccount', { user: req.session.user });
 });
-
 
 // Route to render the group.ejs page
 app.get('/groups', (req, res) => {
@@ -166,26 +149,3 @@ app.post('/addwatchlist', (req, res) => {
     );
 });
 
-// Assuming you have middleware set up to handle sessions
-app.get('/watchlist', function(req, res) {
-  const userId = req.session.userId;
-
-  // Assuming your user's watchlist is stored in the user document in the database
-  // Fetch the user document based on the userId
-  db.collection('people').findOne({ _id: userId }, (err, user) => {
-      if (err) {
-          console.error('Error fetching user data:', err);
-          return res.status(500).send('Error fetching user data');
-      }
-
-      if (!user) {
-          return res.status(404).send('User not found');
-      }
-
-      // Assuming user.watchlist is an array of movie IDs
-      const watchlist = user.watchlist || []; // Initialize watchlist as an empty array if it doesn't exist
-
-      // Pass the watchlist data to the EJS template
-      res.render('watchlist', { watchlist: watchlist });
-  });
-});
