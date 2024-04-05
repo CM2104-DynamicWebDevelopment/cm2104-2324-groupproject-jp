@@ -134,16 +134,12 @@ app.post('/adduser', (req, res) => {
 
     const datatostore = {
         "name": {
-            "first": req.body.first,
-            "last": req.body.last
+            "first": req.body.first
         },
         "email": req.body.email,
         "login": {
             "username": req.body.username,
             "password": req.body.password
-        },
-        "picture": {
-            "thumbnail": req.body.thumbnail
         }
     };
 

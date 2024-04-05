@@ -45,27 +45,32 @@
 
 
     <div class="signup__container" id="signup__container">
-        <div class="signup__form">
-          <h2 class="form-heading">Register</h2><br>
-          <form action="#">
+      <div class="signup__form">
+        <h2 class="form-heading">Register</h2><br>
+        <form action="/adduser" method="POST"> <!-- Added method="POST" -->
             <div class="form-group">
-              <label for="username">Username</label><br>
-              <input class="form-control" type="text" name="username" id="username" placeholder="michael.piercey" required>
+                <label for="first">First Name</label><br> <!-- Changed label text and id -->
+                <input class="form-control" type="text" name="first" id="first" placeholder="Michael" required> <!-- Updated name attribute -->
             </div>
             <div class="form-group">
-              <label for="email">Email</label><br>
-              <input class="form-control" type="text" name="email" id="email" placeholder="micahel@rgu.ac.uk" required>
+                <label for="username">Username</label><br>
+                <input class="form-control" type="text" name="username" id="username" placeholder="michael.piercey" required>
             </div>
             <div class="form-group">
-              <label for="password">Password</label><br>
-              <input class="form-control" type="password" name="password" id="password" placeholder="********" required>
+                <label for="email">Email</label><br>
+                <input class="form-control" type="email" name="email" id="email" placeholder="michael@rgu.ac.uk" required> <!-- Changed type to email -->
             </div>
             <div class="form-group">
-              <button class="btn btn--form" type="submit">Register</button>
+                <label for="password">Password</label><br>
+                <input class="form-control" type="password" name="password" id="password" placeholder="********" required>
             </div>
-          </form>
-          <p class="login-link">Already a member? <button id="toggleLogin" class="toggle-btn" onclick="toggleToLogin()">Login here!</button></p>
-        </div>
+            <div class="form-group">
+                <button class="btn btn--form" type="submit">Register</button>
+            </div>
+        </form>
+        <p class="login-link">Already a member? <button id="toggleLogin" class="toggle-btn" onclick="toggleToLogin()">Login here!</button></p>
+    </div>
+    
       </div>
       <div class="login__container" id="login__container">
         <div class="signup__form">
