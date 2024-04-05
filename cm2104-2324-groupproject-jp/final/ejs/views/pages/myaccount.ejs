@@ -79,7 +79,7 @@
             <div class="preferences-container">
               <div class="preference" style="margin-left: 0;">
                   <h3>Profile Picture</h3>
-                  <img id="profile-pic-preview" src="<%= user.picture.thumbnail %>" alt="Preview Image" style="max-width: 50px; max-height: 50; margin-top: 10px;">
+                  <img id="profile-pic-preview" src="<%= user.picture.thumbnail %>" alt="Preview Image">
                   <input type="file" accept="image/*" id="profile-pic-upload" onchange="previewImage(event)">
                   <button type="button" onclick="confirmProfilePic()">Confirm</button>
                   <script>
