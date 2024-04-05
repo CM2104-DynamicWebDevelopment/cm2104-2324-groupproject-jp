@@ -42,9 +42,9 @@ app.use(favicon(path.join(__dirname, 'public', 'img', 'cinemind_small_logo.png')
 
 // Route to render the index.ejs page
 app.get('/', (req, res) => {
-    // If user is logged in, render index page
+    // If user is logged in, redirect to myaccount page
     if (req.session.loggedin) {
-        res.render('pages/index', { user: req.session.user });
+        res.redirect('/myaccount');
     } else {
         // If not logged in, render index page with login form
         res.render('pages/index', { user: null });
@@ -88,7 +88,7 @@ app.post('/dologin', (req, res) => {
             req.session.loggedin = true;
             req.session.currentuser = uname;
             req.session.user = result; // Store user data in session
-            res.redirect('/');
+            res.redirect('/myaccount'); // Redirect to myaccount if login successful
         } else {
             res.redirect('/');
         }
