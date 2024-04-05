@@ -65,7 +65,7 @@ app.get('/myaccount', (req, res) => {
     db.collection('people').findOne({"login.username": currentuser}, function (err, userresult) {
       if (err) throw err;
 
-      res.render('pages/users', {
+      res.render('pages/myaccount', {
         users: result,
         user: userresult
       })
