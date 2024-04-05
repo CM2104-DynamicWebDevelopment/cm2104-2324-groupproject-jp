@@ -51,27 +51,37 @@ app.get('/', (req, res) => {
 app.get('/myaccount', (req, res) => {
   // Redirect to login if not logged in
   if (!req.session.loggedin) {
-      res.redirect('/');
-      return;
+    res.redirect('/');
+    return;
   }
   
-  var currentuser = req.session.currentuser;
+  const currentuser = req.session.currentuser;
 
-
-  //otherwise perfrom a search to return all the documents in the people collection
+  // Fetch all users from the database
   db.collection('people').find().toArray(function (err, result) {
-    if (err) throw err;
-    //the result of the query is sent to the users page as the "users" array
-    db.collection('people').findOne({"login.username": currentuser}, function (err, userresult) {
-      if (err) throw err;
+    if (err) {
+      console.error('Error fetching users:', err);
+      res.status(500).send('Error fetching users');
+      return;
+    }
 
+    // Find the current user's data
+    db.collection('people').findOne({"login.username": currentuser}, function (err, userresult) {
+      if (err) {
+        console.error('Error fetching current user:', err);
+        res.status(500).send('Error fetching current user');
+        return;
+      }
+
+      // Render myaccount page with all users and current user's data
       res.render('pages/myaccount', {
         users: result,
         user: userresult
-      })
+      });
     });
   });
 });
+
 
 
 // Route to render the group.ejs page

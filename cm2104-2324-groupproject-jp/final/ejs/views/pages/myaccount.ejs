@@ -217,10 +217,15 @@
     <p>List of all the movies you want to watch</p>
     <% users.forEach(function(user) { %>
       <li>
-        <!-- create a link which directs to our /profile route and provides the username for tha user-->
-        <!-- display the users title, first and last name as the link text -->
-        <img src="" />
-         <p> <%= user.name.first %> </p>
+        <!-- Display the user's username -->
+        <p>Username: <%= user.login.username %></p>
+        <!-- List the movies in the user's watchlist -->
+        <ul>
+          <% user.watchlist.forEach(function(movieId) { %>
+            <!-- You can customize the display of each movie here -->
+            <li><%= movieId %></li>
+          <% }); %>
+        </ul>
       </li>
     <% }); %>
     
