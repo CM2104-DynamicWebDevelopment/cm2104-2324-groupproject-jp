@@ -52,126 +52,70 @@ async function connectDB() {
 
 //********** GET ROUTES - Deal with displaying pages ***************************
 
-//this is our root route
+// Root route - handle login and rendering of index page
 app.get('/', function (req, res) {
-  //if the user is not logged in redirect them to the login page
-  if (!req.session.loggedin) {
-    res.redirect('/');
+  // If user is already logged in, redirect to the main page
+  if (req.session.loggedin) {
+    res.redirect('/myaccount');
     return;
   }
-
-
-  var currentuser = req.session.currentuser;
-
-
-  //otherwise perfrom a search to return all the documents in the people collection
-  db.collection('people').find().toArray(function (err, result) {
-    if (err) throw err;
-    //the result of the query is sent to the users page as the "users" array
-    db.collection('people').findOne({"login.username": currentuser}, function (err, userresult) {
-      if (err) throw err;
-
-      res.render('pages/users', {
-        users: result,
-        user: userresult
-      })
-    });
-  });
-
-});
-
-//this is our login route, all it does is render the login.ejs page.
-app.get('/', function (req, res) {
+  
+  // Render the index page (which includes the login form)
   res.render('pages/index');
 });
 
-
+// Render the myaccount page
 app.get('/myaccount', function (req, res) {
   if (!req.session.loggedin) {
     res.redirect('/');
     return;
   }
 
-
   var uname = req.query.username;
-
 
   db.collection('people').findOne({
     "login.username": uname
   }, function (err, result) {
     if (err) throw err;
 
-
-
-    res.render('/myaccount', {
+    res.render('pages/myaccount', {
       user: result
-    })
+    });
   });
-
 });
 
-//adduser route simply draws our adduser page
+// Adduser route
 app.get('/adduser', function (req, res) {
   if (!req.session.loggedin) {
     res.redirect('/login');
     return;
   }
-  res.render('pages/adduser')
-});
-//remuser route simply draws our remuser page
-app.get('/remuser', function (req, res) {
-  if (!req.session.loggedin) {
-    res.redirect('/login');
-    return;
-  }
-  res.render('pages/remuser')
-});
-//logour route cause the page to Logout.
-//it sets our session.loggedin to false and then redirects the user to the login
-app.get('/logout', function (req, res) {
-  req.session.loggedin = false;
-  req.session.destroy();
-  res.redirect('/');
+  res.render('pages/adduser');
 });
 
-
-
-
-//********** POST ROUTES - Deal with processing data from forms ***************************
-
-
-//the dologin route detasl with the data from the login screen.
-//the post variables, username and password ceom from the form on the login page.
-app.post('/dologin', function (req, res) {
-  console.log(JSON.stringify(req.body))
+// Login route
+app.post('/login', function (req, res) {
   var uname = req.body.username;
   var pword = req.body.password;
-
-
 
   db.collection('people').findOne({
     "login.username": uname
   }, function (err, result) {
     if (err) throw err;
 
-
-    if (!result) {
-      res.redirect('/login');
-      return
+    if (!result || result.login.password != pword) {
+      res.redirect('/');
+      return;
     }
 
-
-
-    if (result.login.password == pword) {
-
-      req.session.loggedin = true;
-      req.session.currentuser = uname;
-      res.redirect('/')
-    } else {
-      res.redirect('/login')
-    }
+    req.session.loggedin = true;
+    req.session.currentuser = uname;
+    res.redirect('/myaccount');
   });
 });
+
+//********** POST ROUTES - Deal with processing data from forms ***************************
+
 
 //the delete route deals with user deletion based on entering a username
 app.post('/delete', function (req, res) {
@@ -235,7 +179,7 @@ app.post('/adduser', function (req, res) {
       "password": req.body.password
     },
     "dob": req.body.dob,
-    "registered": Date(),
+    "registered": new Date(), // using new Date() to get current date object
     "picture": {
       "large": req.body.large,
       "medium": req.body.medium,
