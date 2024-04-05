@@ -215,14 +215,11 @@
   <div id="container-Watchlist" class="account-container">
     <h1>Your Watchlist</h1>
     <p>List of all the movies you want to watch</p>
-    <% users.forEach(function(user) { %>
-      <h2>User: <%= user._id %></h2>
-      <ul>
-          <% user.watchlist.forEach(function(movieId) { %>
-              <li><%= movieId %></li>
-          <% }); %>
-      </ul>
-  <% }); %>
+    <ul>
+      <% watchlist.forEach(function(movieId) { %>
+          <li><%= movieId %></li>
+      <% }) %>
+  </ul>
     <div class="watchlist-movie-card">
         <div class="watchlist-movie-details" id="watchlist-movie-details">
           <h2>Movie Title</h2>
