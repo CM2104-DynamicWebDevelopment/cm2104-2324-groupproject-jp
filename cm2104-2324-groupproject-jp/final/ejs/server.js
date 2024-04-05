@@ -43,12 +43,52 @@ app.use(favicon(path.join(__dirname, 'public', 'img', 'cinemind_small_logo.png')
 // Route to render the index.ejs page
 app.get('/', (req, res) => {
     if (req.session.loggedin) {
-        // If user is logged in, redirect to myaccount
-        res.redirect('/myaccount');
+        if (req.session.firstLogin) {
+            // If it's the user's first login, redirect to myaccount
+            res.redirect('/myaccount');
+        } else {
+            // If not the first login, render the index page
+            res.render('pages/index', { user: req.session.user });
+        }
     } else {
         // If not logged in, render index page with login form
         res.render('pages/index', { user: null });
     }
+});
+
+// Route to handle login form submission
+app.post('/dologin', (req, res) => {
+    const uname = req.body.username;
+    const pword = req.body.password;
+
+    db.collection('people').findOne({ "login.username": uname }, (err, result) => {
+        if (err) throw err;
+
+        if (!result) {
+            res.redirect('/');
+            return;
+        }
+
+        if (result.login.password == pword) {
+            req.session.loggedin = true;
+            req.session.currentuser = uname;
+            req.session.user = result; // Store user data in session
+            req.session.firstLogin = !result.lastLogin; // Check if it's the first login
+            result.lastLogin = new Date(); // Update last login time
+            // Save the updated user data back to the database
+            db.collection('people').save(result, (err, _) => {
+                if (err) throw err;
+                console.log('User data updated with last login time');
+            });
+            if (req.session.firstLogin) {
+                res.redirect('/myaccount'); // Redirect to myaccount if first login
+            } else {
+                res.redirect('/'); // Redirect to homepage if not first login
+            }
+        } else {
+            res.redirect('/');
+        }
+    });
 });
 
 // Route to render the myaccount.ejs page
@@ -69,30 +109,6 @@ app.get('/groups', (req, res) => {
         return;
     }
     res.render('pages/groups', { user: req.session.user });
-});
-
-// Route to handle login form submission
-app.post('/dologin', (req, res) => {
-    const uname = req.body.username;
-    const pword = req.body.password;
-
-    db.collection('people').findOne({ "login.username": uname }, (err, result) => {
-        if (err) throw err;
-
-        if (!result) {
-            res.redirect('/');
-            return;
-        }
-
-        if (result.login.password == pword) {
-            req.session.loggedin = true;
-            req.session.currentuser = uname;
-            req.session.user = result; // Store user data in session
-            res.redirect('/myaccount'); // Redirect to myaccount if login successful
-        } else {
-            res.redirect('/');
-        }
-    });
 });
 
 // Route to handle user deletion
