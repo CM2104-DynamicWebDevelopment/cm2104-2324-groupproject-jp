@@ -33,15 +33,15 @@
             <div class="account-details-container">
                 <div class="account-detail" style="margin-left: 0;">
                     <h3>Current Email</h3>
-                    <p>user@example.com</p>
+                    <p><%= user.email %></p>
                 </div>
                 <div class="account-detail">
                     <h3>Current Name</h3>
-                    <p>Michael</p>
+                    <p><%= user.name.first %></p>
                 </div>
                 <div class="account-detail">
                     <h3>Current Username</h3>
-                    <p>michael123</p>
+                    <p><%= user.login.username %></p>
                 </div>
             </div>
         
