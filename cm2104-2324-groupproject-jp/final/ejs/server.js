@@ -156,6 +156,7 @@ app.post('/adduser', (req, res) => {
 
 // Route to handle adding a movie to the user's watchlist
 app.post('/addwatchlist', (req, res) => {
+  console.log("add to wathclist called")
   const userId = req.session.userId; // Assuming you have user ID stored in session
   const movieId = req.body.movieId;
 
