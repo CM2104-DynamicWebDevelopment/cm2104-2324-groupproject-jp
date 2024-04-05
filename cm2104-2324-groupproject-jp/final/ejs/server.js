@@ -163,3 +163,23 @@ app.post('/addwatchlist', (req, res) => {
     );
 });
 
+
+
+
+function getWatchlist(userId) {
+  return new Promise((resolve, reject) => {
+      // Find the user document in the database
+      db.collection('people').findOne({ _id: userId }, (err, user) => {
+          if (err) {
+              reject(err); // Reject promise if there's an error
+              return;
+          }
+          if (!user) {
+              reject(new Error('User not found')); // Reject promise if user not found
+              return;
+          }
+          // Resolve promise with user's watchlist
+          resolve(user.watchlist);
+      });
+  });
+}
