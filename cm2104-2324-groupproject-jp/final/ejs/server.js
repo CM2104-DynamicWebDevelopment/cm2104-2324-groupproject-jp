@@ -10,6 +10,8 @@ const express = require('express'); // npm install express
 const session = require('express-session'); // npm install express-session
 const bodyParser = require('body-parser'); // npm install body-parser
 const path = require('path');
+const favicon = require('serve-favicon');
+
 
 const app = express();
 const PORT = 8080; // Change port to the desired port number
@@ -24,6 +26,7 @@ app.set('view engine', 'ejs');
 
 // Routes
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(__dirname + 'public'));
 
 // Route to render the index.ejs page
 app.get('/', (req, res) => {
