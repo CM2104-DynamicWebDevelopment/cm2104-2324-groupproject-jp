@@ -217,8 +217,14 @@
     <p>List of all the movies you want to watch</p>
     <ul>
       <% watchlist.forEach(function(movieId) { %>
-          <li><%= movieId %></li>
-      <% }) %>
+          <!-- Assuming you have an array of movies with unique IDs -->
+          <% var movie = findMovieById(movieId); // Function to find movie by ID %>
+          <% if (movie) { %>
+              <li><%= movie.title %></li>
+          <% } else { %>
+              <li>Movie not found</li>
+          <% } %>
+      <% }); %>
   </ul>
     <div class="watchlist-movie-card">
         <div class="watchlist-movie-details" id="watchlist-movie-details">

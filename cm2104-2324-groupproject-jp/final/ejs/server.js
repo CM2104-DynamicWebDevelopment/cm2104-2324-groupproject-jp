@@ -49,25 +49,13 @@ app.get('/', (req, res) => {
 
 // Route to render the myaccount.ejs page
 app.get('/myaccount', (req, res) => {
-  // Redirect to login if not logged in
-  if (!req.session.loggedin) {
-      res.redirect('/');
-      return;
-  }
-
-  // Retrieve the user's watchlist from the database
-  db.collection('people').findOne({ _id: req.session.userId }, { watchlist: 1 }, (err, result) => {
-      if (err) {
-          console.error('Error retrieving user watchlist:', err);
-          res.status(500).send('Error retrieving user watchlist');
-          return;
-      }
-
-      // Render the myaccount page and pass the user's watchlist data to the template
-      res.render('pages/myaccount', { user: req.session.user, watchlist: result.watchlist });
-  });
+    // Redirect to login if not logged in
+    if (!req.session.loggedin) {
+        res.redirect('/');
+        return;
+    }
+    res.render('pages/myaccount', { user: req.session.user });
 });
-
 
 // Route to render the group.ejs page
 app.get('/groups', (req, res) => {
@@ -161,30 +149,21 @@ app.post('/addwatchlist', (req, res) => {
     );
 });
 
-// Route to render a page where you want to display watchlist IDs
-app.get('/watchlist', (req, res) => {
-  const userId = req.session.userId; // Retrieve userId from session
-
-  // Check if userId is present in session
-  if (!userId) {
-    res.status(400).send('User ID missing in session');
-    return;
-  }
-
-  // Retrieve user's watchlist data from the database
-  db.collection('people').findOne({ _id: userId }, { watchlist: 1 }, (err, user) => {
-    if (err) {
-      console.error('Error retrieving watchlist data:', err);
-      res.status(500).send('Error retrieving watchlist data');
-      return;
-    }
-
-    if (!user) {
-      res.status(404).send('User not found');
-      return;
-    }
-
-    // Render the watchlist page and pass the user's watchlist data to the template
-    res.render('pages/watchlist', { watchlist: user.watchlist });
+// Assuming you have middleware set up to handle sessions
+app.get('/watchlist', function(req, res) {
+  const userId = req.session.userId;
+  
+  // Assuming you have a function to fetch the user's watchlist from your database
+  // This function might look different depending on your database setup
+  // Here, `getWatchlistByUserId` is just a placeholder for your actual function
+  getWatchlistByUserId(userId, function(err, watchlist) {
+      if (err) {
+          // Handle error
+          console.error(err);
+          return res.status(500).send('Error retrieving watchlist');
+      }
+      
+      // Pass the watchlist data to the EJS template
+      res.render('watchlist', { watchlist: watchlist });
   });
 });
