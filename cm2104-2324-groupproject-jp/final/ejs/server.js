@@ -1,23 +1,29 @@
+
+
+/**
+ * @Author: John Isaacs <john>
+ * @Date:   01-Mar-19
+ * @Filename: server.js
+ * @Last modified by:   john
+ * @Last modified time: 03-Mar-2024
+ */
+
 // Import necessary modules
-const express = require('express');
-const session = require('express-session');
-const bodyParser = require('body-parser');
-const { MongoClient } = require('mongodb-legacy');
+const express = require('express'); // npm install express
+const session = require('express-session'); // npm install express-session
+const bodyParser = require('body-parser'); // npm install body-parser
+const { MongoClient } = require('mongodb-legacy'); // npm install mongodb-legacy
 
 // Define MongoDB connection details
-const url = 'mongodb://127.0.0.1:27017';
-const dbname = 'profiles';
-const client = new MongoClient(url);
+const url = 'mongodb://127.0.0.1:27017'; // URL of the MongoDB database
+const dbname = 'profiles'; // Database name
+const client = new MongoClient(url); // Create the MongoDB client
 
 // Create Express app
 const app = express();
 
 // Set up session middleware
-app.use(session({
-    secret: 'example',
-    resave: false,
-    saveUninitialized: false
-}));
+app.use(session({ secret: 'example' }));
 
 // Set up body-parser middleware to handle POST requests
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -32,10 +38,11 @@ let db;
 connectDB();
 async function connectDB() {
     try {
+        // Use connect method to connect to the server
         await client.connect();
         console.log('Connected successfully to MongoDB server');
-        db = client.db(dbname);
-        app.listen(8080);
+        db = client.db(dbname); // Set the 'db' variable as the MongoDB database
+        app.listen(8080); // Start the Express server
         console.log('Listening for connections on port 8080');
     } catch (error) {
         console.error('Error connecting to MongoDB:', error);
