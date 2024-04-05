@@ -105,6 +105,14 @@ app.post('/delete', (req, res) => {
     });
 });
 
+//it sets our session.loggedin to false and then redirects the user to the login
+app.get('/logout', function (req, res) {
+  req.session.loggedin = false;
+  req.session.destroy();
+  res.redirect('/');
+});
+
+
 // Route to handle adding a new user
 app.post('/adduser', (req, res) => {
     if (!req.session.loggedin) {
