@@ -49,13 +49,23 @@ app.get('/', (req, res) => {
 
 // Route to render the myaccount.ejs page
 app.get('/myaccount', (req, res) => {
-    // Redirect to login if not logged in
-    if (!req.session.loggedin) {
-        res.redirect('/');
-        return;
-    }
-    res.render('pages/myaccount', { user: req.session.user });
+  // Redirect to login if not logged in
+  if (!req.session.loggedin) {
+      res.redirect('/');
+      return;
+  }
+  // Retrieve all users' watchlist data from the database
+  db.collection('people').find({}).toArray((err, users) => {
+      if (err) {
+          console.error('Error retrieving users data:', err);
+          res.status(500).send('Error retrieving users data');
+          return;
+      }
+      // Render the myaccount page and pass the users data to the template
+      res.render('pages/myaccount', { users: users });
+  });
 });
+
 
 // Route to render the group.ejs page
 app.get('/groups', (req, res) => {
