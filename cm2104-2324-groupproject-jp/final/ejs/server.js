@@ -55,14 +55,21 @@ app.get('/myaccount', (req, res) => {
       return;
   }
   
-  const currentuser = req.session.currentuser; // Define currentuser here
+  var currentuser = req.session.currentuser;
 
-  // Find the user based on current user's username
-  db.collection('people').findOne({"login.username": currentuser}, function (err, userresult) {
+
+  //otherwise perfrom a search to return all the documents in the people collection
+  db.collection('people').find().toArray(function (err, result) {
     if (err) throw err;
+    //the result of the query is sent to the users page as the "users" array
+    db.collection('people').findOne({"login.username": currentuser}, function (err, userresult) {
+      if (err) throw err;
 
-      // Render myaccount page with user data and watchlist
-      res.render('pages/myaccount', { user });
+      res.render('pages/users', {
+        users: result,
+        user: userresult
+      })
+    });
   });
 });
 
