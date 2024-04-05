@@ -9,7 +9,7 @@
                 <input type="text"  id="movie-search-bar" class="search-bar" placeholder="Search">
                 <button id="movie-search-btn" class="search-button" onclick="getSearchFromTMDB($('#movie-search-bar').val())">search</button>
             <% } %>
-            <% if (user === 'loggedin') { %>
+            <% if (user && user.loggedin) { %>
                 <button onclick="window.location.href='/myaccount';" class="account-button">Account</button>
             <% } else { %>
                 <button onclick="window.location.href='/#signup__container';" class="account-button">Login</button>
