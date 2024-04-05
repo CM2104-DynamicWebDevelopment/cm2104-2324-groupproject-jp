@@ -123,6 +123,15 @@ app.post('/adduser', (req, res) => {
     });
 });
 
+//logour route cause the page to Logout.
+//it sets our session.loggedin to false and then redirects the user to the login
+app.get('/logout', function (req, res) {
+  req.session.loggedin = false;
+  req.session.destroy();
+  res.redirect('/');
+});
+
+
 // Route to handle adding a movie to the user's watchlist
 app.post('/addwatchlist', (req, res) => {
     const userId = req.session.userId; // Retrieve userId from session
