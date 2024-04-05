@@ -41,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'img', 'cinemind_small_logo.png')));
 
 // Route to render the index.ejs page
-app.get('/', (res) => {
+app.get('/', (req, res) => {
       // If user is logged in, redirect to myaccount
       res.redirect('pages/index');
    
