@@ -1,111 +1,106 @@
-<!--
-    Created by Michael Piercey 2206222 -- finalised 11/12/23
--->
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
-<!-- Include the head -->
-<%- include('partials/head.ejs') %>
+<header>
+  <%- include('../partials/head')%>
+</header>
 
 
-<body>
+<body class="container">
+    <header>
+      <%- include('../partials/header')%>
+    </header>
 
-<!-- Include the navbar -->
-<%- include('partials/nav.ejs') %>
-
+  <main>
    <!-- Search results are inserted here -->
-    <div class="results-movie-card-container">
-        </div>
-    <!-- bootstap carousel -->
-    <div class="welcome">
-        <div id="carouselExampleCaptions" class="carousel slide">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-            <!-- where html is inserted -->
-            <div class="carousel-inner">
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-    </div>
-
- 
-
-    </div>
-
-
-    <div class="signup__container" id="signup__container">
-        <div class="signup__form">
-          <h2 class="form-heading">Register</h2><br>
-          <form action="#">
-            <div class="form-group">
-              <label for="username">Username</label><br>
-              <input class="form-control" type="text" name="username" id="username" placeholder="michael.piercey" required>
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label><br>
-              <input class="form-control" type="text" name="email" id="email" placeholder="micahel@rgu.ac.uk" required>
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label><br>
-              <input class="form-control" type="password" name="password" id="password" placeholder="********" required>
-            </div>
-            <div class="form-group">
-              <button class="btn btn--form" type="submit">Register</button>
-            </div>
-          </form>
-          <p class="login-link">Already a member? <button id="toggleLogin" class="toggle-btn" onclick="toggleToLogin()">Login here!</button></p>
-        </div>
+   <div class="results-movie-card-container">
+  </div>
+<!-- bootstap carousel -->
+<div class="welcome">
+  <div id="carouselExampleCaptions" class="carousel slide">
+      <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
       </div>
-      <div class="login__container" id="login__container">
-        <div class="signup__form">
-          <h2 class="form-heading">Login</h2><br>
-          <form action="/dologin" method="POST">
-            <div class="form-group">
-              <label for="username">Username</label><br>
-              <input class="form-control" type="text" name="username" id="username" placeholder="michael.piercey" required>
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label><br>
-              <input class="form-control" type="password" name="password" id="password" placeholder="********" required>
-            </div>
-            <div class="form-group">
-              <button class="btn btn--form" type="submit">Login</button>
-            </div>
-          </form>
-          <p class="login-link">Dont have an account?    <button id="toggleLogin" class="toggle-btn" onclick="toggleToSignup()">Sing up now!</button></p>
-        </div>
+      <!-- where html is inserted -->
+      <div class="carousel-inner">
       </div>
-    
-    <h1 id="movies">Top 20 trending movies atm...</h1>
-    <div class="movie_card_container">
-        <!-- top trending movies are inputed here from js -->
-        <!-- movie review cards are also placed here just inside the card above -->
-        <div class="movie_cards">
-            
-            </div>
-
-    </div>
-    
-    <%- include('partials/footer.ejs')%>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+      </button>
+  </div>
+</div>
 
 
-    
-    <!-- links to bootstrap js and jquery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <!-- scripts for this page eg get serach and movie cards -->
-    <script src="scripts/home.js"></script>
+
+</div>
+
+
+<div class="signup__container" id="signup__container">
+  <div class="signup__form">
+    <h2 class="form-heading">Register</h2><br>
+    <form action="#">
+      <div class="form-group">
+        <label for="username">Username</label><br>
+        <input class="form-control" type="text" name="username" id="username" placeholder="michael.piercey" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label><br>
+        <input class="form-control" type="text" name="email" id="email" placeholder="micahel@rgu.ac.uk" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label><br>
+        <input class="form-control" type="password" name="password" id="password" placeholder="********" required>
+      </div>
+      <div class="form-group">
+        <button class="btn btn--form" type="submit">Register</button>
+      </div>
+    </form>
+    <p class="login-link">Already a member? <button id="toggleLogin" class="toggle-btn" onclick="toggleToLogin()">Login here!</button></p>
+  </div>
+</div>
+<div class="login__container" id="login__container">
+  <div class="signup__form">
+    <h2 class="form-heading">Login</h2><br>
+    <form action="/dologin" method="POST">
+      <div class="form-group">
+        <label for="username">Username</label><br>
+        <input class="form-control" type="text" name="username" id="username" placeholder="michael.piercey" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label><br>
+        <input class="form-control" type="password" name="password" id="password" placeholder="********" required>
+      </div>
+      <div class="form-group">
+        <button class="btn btn--form" type="submit">Login</button>
+      </div>
+    </form>
+    <p class="login-link">Dont have an account?    <button id="toggleLogin" class="toggle-btn" onclick="toggleToSignup()">Sing up now!</button></p>
+  </div>
+</div>
+
+<h1 id="movies">Top 20 trending movies atm...</h1>
+<div class="movie_card_container">
+  <!-- top trending movies are inputed here from js -->
+  <!-- movie review cards are also placed here just inside the card above -->
+  <div class="movie_cards">
+      
+      </div>
+
+</div>
+  </main>
+
+
+  <footer>
+    <%- include('../partials/footer')%>
+  </footer>
+
 </body>
 
 </html>
