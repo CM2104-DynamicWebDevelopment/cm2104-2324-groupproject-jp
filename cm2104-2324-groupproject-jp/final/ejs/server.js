@@ -43,7 +43,7 @@ app.use(favicon(path.join(__dirname, 'public', 'img', 'cinemind_small_logo.png')
 // Route to render the index.ejs page
 app.get('/', (req, res) => {
   // Render index page with user data if logged in, otherwise render with null user
-  res.render('pages/index');
+  res.render('pages/index', { user: req.session.loggedin ? req.session.user : null });
 });
 
 // Route to render the myaccount.ejs page
