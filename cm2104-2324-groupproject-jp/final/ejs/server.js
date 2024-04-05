@@ -51,36 +51,31 @@ app.get('/', (req, res) => {
 app.get('/myaccount', (req, res) => {
   // Redirect to login if not logged in
   if (!req.session.loggedin) {
-    res.redirect('/');
-    return;
+      res.redirect('/');
+      return;
   }
   
-  const currentuser = req.session.currentuser;
+  const currentUserId = req.session.userId;
 
-  // Fetch all users from the database
-  db.collection('people').find().toArray(function (err, result) {
-    if (err) {
-      console.error('Error fetching users:', err);
-      res.status(500).send('Error fetching users');
-      return;
-    }
-
-    // Find the current user's data
-    db.collection('people').findOne({"login.username": currentuser}, function (err, userresult) {
+  // Find the logged-in user document in the database
+  db.collection('people').findOne({ _id: currentUserId }, (err, user) => {
       if (err) {
-        console.error('Error fetching current user:', err);
-        res.status(500).send('Error fetching current user');
-        return;
+          console.error('Error fetching user data:', err);
+          res.status(500).send('Error fetching user data');
+          return;
+      }
+      
+      if (!user) {
+          console.error('User not found');
+          res.status(404).send('User not found');
+          return;
       }
 
-      // Render myaccount page with all users and current user's data
-      res.render('pages/myaccount', {
-        users: result,
-        user: userresult
-      });
-    });
+      // Render myaccount page with the logged-in user's watchlist
+      res.render('pages/myaccount', { user });
   });
 });
+
 
 
 
