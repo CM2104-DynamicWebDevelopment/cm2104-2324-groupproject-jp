@@ -215,7 +215,14 @@
   <div id="container-Watchlist" class="account-container">
     <h1>Your Watchlist</h1>
     <p>List of all the movies you want to watch</p>
-
+    <% users.forEach(function(user) { %>
+      <li>
+        <!-- create a link which directs to our /profile route and provides the username for tha user-->
+        <!-- display the users title, first and last name as the link text -->
+        <img src="" />
+        <a href="/profile?username=<%= user.login.username %>"> <img src="<%=user.picture.thumbnail %> " /> <%= user.name.first %> </a>
+      </li>
+    <% }); %>
     
     <div class="watchlist-movie-card">
         <div class="watchlist-movie-details" id="watchlist-movie-details">
