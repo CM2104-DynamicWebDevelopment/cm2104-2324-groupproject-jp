@@ -49,13 +49,25 @@ app.get('/', (req, res) => {
 
 // Route to render the myaccount.ejs page
 app.get('/myaccount', (req, res) => {
-    // Redirect to login if not logged in
-    if (!req.session.loggedin) {
-        res.redirect('/');
-        return;
-    }
-    res.render('pages/myaccount', { user: req.session.user });
+  // Redirect to login if not logged in
+  if (!req.session.loggedin) {
+      res.redirect('/');
+      return;
+  }
+
+  // Retrieve the user's watchlist from the database
+  db.collection('people').findOne({ _id: req.session.userId }, { watchlist: 1 }, (err, result) => {
+      if (err) {
+          console.error('Error retrieving user watchlist:', err);
+          res.status(500).send('Error retrieving user watchlist');
+          return;
+      }
+
+      // Render the myaccount page and pass the user's watchlist data to the template
+      res.render('pages/myaccount', { user: req.session.user, watchlist: result.watchlist });
+  });
 });
+
 
 // Route to render the group.ejs page
 app.get('/groups', (req, res) => {
