@@ -57,25 +57,17 @@ app.get('/myaccount', (req, res) => {
   
   const currentUserId = req.session.userId;
 
-  // Find the logged-in user document in the database
-  db.collection('people').findOne({ _id: currentUserId }, (err, user) => {
-      if (err) {
-          console.error('Error fetching user data:', err);
-          res.status(500).send('Error fetching user data');
-          return;
-      }
-      
-      if (!user) {
-          console.error('User not found');
-          res.status(404).send('User not found');
-          return;
-      }
-
-      // Render myaccount page with the logged-in user's watchlist
-      res.render('pages/myaccount', { user });
-  });
+  // Retrieve the watchlist of the currently logged-in user
+  getWatchlist(currentUserId)
+      .then(watchlist => {
+          // Render myaccount page with the watchlist
+          res.render('pages/myaccount', { watchlist });
+      })
+      .catch(err => {
+          console.error('Error fetching watchlist:', err);
+          res.status(500).send('Error fetching watchlist');
+      });
 });
-
 
 
 
