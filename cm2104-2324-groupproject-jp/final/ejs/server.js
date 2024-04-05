@@ -26,7 +26,7 @@ app.set('view engine', 'ejs');
 
 // Routes
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(__dirname + 'public'));
+app.use(favicon(__dirname + '/public'));
 
 // Route to render the index.ejs page
 app.get('/', (req, res) => {
