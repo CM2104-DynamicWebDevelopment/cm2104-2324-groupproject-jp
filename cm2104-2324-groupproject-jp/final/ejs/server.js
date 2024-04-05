@@ -148,3 +148,17 @@ app.post('/addwatchlist', (req, res) => {
         }
     );
 });
+
+// Route to render a page where you want to display watchlist IDs
+app.get('/watchlist', (req, res) => {
+  // Retrieve all users' watchlist data from the database
+  db.collection('people').find({}, { watchlist: 1 }).toArray((err, users) => {
+      if (err) {
+          console.error('Error retrieving watchlist data:', err);
+          res.status(500).send('Error retrieving watchlist data');
+          return;
+      }
+      // Render the watchlist page and pass the watchlist data to the template
+      res.render('pages/watchlist', { users: users });
+  });
+});
