@@ -83,6 +83,7 @@ app.post('/dologin', (req, res) => {
         if (result.login.password == pword) {
             req.session.loggedin = true;
             req.session.currentuser = uname;
+            req.session.userId = result._id; // Set userId in session
             req.session.user = result; // Store user data in session
             res.redirect('/myaccount'); // Redirect to myaccount if login successful
         } else {
@@ -90,42 +91,6 @@ app.post('/dologin', (req, res) => {
         }
     });
 });
-
-// Route to handle user deletion
-app.post('/delete', (req, res) => {
-    if (!req.session.loggedin) {
-        res.redirect('/');
-        return;
-    }
-    const uname = req.body.username;
-
-    db.collection('people').deleteOne({ "login.username": uname }, (err, result) => {
-        if (err) throw err;
-        res.redirect('/');
-    });
-});
-
-// Route to handle GET and POST requests for logout
-app.all('/logout', function (req, res) {
-    if (req.method === 'GET') {
-        // Render the logout page (optional)
-        res.render('logout');
-    } else if (req.method === 'POST') {
-        // Destroy the session
-        req.session.destroy(function(err) {
-            if(err) {
-                console.log(err);
-                res.sendStatus(500); // Internal server error
-            } else {
-                // Redirect the user to the login page
-                res.redirect('/');
-            }
-        });
-    }
-});
-
-
-const defaultProfilePic = 'img/user1.jpg'; // Default profile picture URL
 
 // Route to handle adding a new user
 app.post('/adduser', (req, res) => {
@@ -150,35 +115,36 @@ app.post('/adduser', (req, res) => {
             return;
         }
         console.log('User saved to database');
+        // Set userId in session after user creation
+        req.session.userId = result.insertedId;
         res.send('User added successfully');
     });
 });
 
 // Route to handle adding a movie to the user's watchlist
 app.post('/addwatchlist', (req, res) => {
-  console.log("add to wathclist called")
-  const userId = req.session.userId; // Assuming you have user ID stored in session
-  const movieId = req.body.movieId;
+    const userId = req.session.userId; // Retrieve userId from session
+    const movieId = req.body.movieId;
 
-  // Check if userId and movieId are present
-  if (!userId || !movieId) {
-      res.status(400).send('User ID and/or movie ID missing');
-      return;
-  }
+    // Check if userId and movieId are present
+    if (!userId || !movieId) {
+        res.status(400).send('User ID and/or movie ID missing');
+        return;
+    }
 
-  // Find the user document in the database and update the watchlist
-  db.collection('people').updateOne(
-      { _id: userId }, // Assuming _id is the user's ID in your database
-      { $addToSet: { watchlist: movieId } }, // Add movieId to the user's watchlist
-      (err, result) => {
-          if (err) {
-              console.error('Error adding movie to watchlist:', err);
-              res.status(500).send('Error adding movie to watchlist');
-              return;
-          }
-          console.log('Movie added to watchlist successfully');
-          console.log('Movie was ' + movieId)
-          res.sendStatus(200); // Sending back success status
-      }
-  );
+    // Find the user document in the database and update the watchlist
+    db.collection('people').updateOne(
+        { _id: userId },
+        { $addToSet: { watchlist: movieId } },
+        (err, result) => {
+            if (err) {
+                console.error('Error adding movie to watchlist:', err);
+                res.status(500).send('Error adding movie to watchlist');
+                return;
+            }
+            console.log('Movie added to watchlist successfully');
+            console.log('Movie ID: ' + movieId);
+            res.sendStatus(200);
+        }
+    );
 });
