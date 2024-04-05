@@ -153,3 +153,31 @@ app.post('/adduser', (req, res) => {
         res.send('User added successfully');
     });
 });
+
+// Route to handle adding a movie to the user's watchlist
+app.post('/addwatchlist', (req, res) => {
+  const userId = req.session.userId; // Assuming you have user ID stored in session
+  const movieId = req.body.movieId;
+
+  // Check if userId and movieId are present
+  if (!userId || !movieId) {
+      res.status(400).send('User ID and/or movie ID missing');
+      return;
+  }
+
+  // Find the user document in the database and update the watchlist
+  db.collection('people').updateOne(
+      { _id: userId }, // Assuming _id is the user's ID in your database
+      { $addToSet: { watchlist: movieId } }, // Add movieId to the user's watchlist
+      (err, result) => {
+          if (err) {
+              console.error('Error adding movie to watchlist:', err);
+              res.status(500).send('Error adding movie to watchlist');
+              return;
+          }
+          console.log('Movie added to watchlist successfully');
+          console.log('Movie was ' + movieId)
+          res.sendStatus(200); // Sending back success status
+      }
+  );
+});
