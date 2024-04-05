@@ -26,7 +26,7 @@ app.set('view engine', 'ejs');
 
 // Routes
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(__dirname + '/public'));
+app.use(favicon(path.join(__dirname, 'public', 'img', 'cinemind_small_logo.png')));
 
 // Route to render the index.ejs page
 app.get('/', (req, res) => {
