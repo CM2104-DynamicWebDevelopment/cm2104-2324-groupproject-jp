@@ -5,13 +5,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <!-- Include the head -->
-<%- include('partials/head.ejs', { title: 'Cinemind | groups', cssFiles: ['styles/nav.css', 'styles/newgroups.css'], bootstrap: true }) %>
+<%- include('../partials/head.ejs', { title: 'Cinemind | groups', cssFiles: ['styles/nav.css', 'styles/newgroups.css'], bootstrap: true }) %>
 
 
 <body>
 
 <!-- Include the navbar -->
-<%- include('partials/nav.ejs', { currentPage: 'groups'}) %>
+<%- include('../partials/nav.ejs', { currentPage: 'groups'}) %>
 
 
   <div id="main-container" class="wrapper">
@@ -226,7 +226,7 @@
 
     </div>
 
-    <%- include('partials/footer.ejs')%>
+    <%- include('../partials/footer.ejs')%>
 
 </body>
 

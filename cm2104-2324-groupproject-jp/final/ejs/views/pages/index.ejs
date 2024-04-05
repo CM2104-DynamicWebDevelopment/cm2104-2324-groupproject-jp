@@ -6,13 +6,13 @@
 <html lang="en">
 
 <!-- Include the head -->
-<%- include('partials/head.ejs', { title: 'Cinemind | Home', cssFiles: ['/styles/home.css', '/styles/nav.css', '/styles/signup.css'], bootstrap: true }) %>
+<%- include('../partials/head.ejs', { title: 'Cinemind | Home', cssFiles: ['/styles/home.css', '/styles/nav.css', '/styles/signup.css'], bootstrap: true }) %>
 
 
 <body>
 
 <!-- Include the navbar -->
-<%- include('partials/nav.ejs', { currentPage: 'index'}) %>
+<%- include('../partials/nav.ejs', { currentPage: 'index'}) %>
 
    <!-- Search results are inserted here -->
     <div class="results-movie-card-container">
@@ -97,7 +97,7 @@
 
     </div>
     
-    <%- include('partials/footer.ejs')%>
+    <%- include('../partials/footer.ejs')%>
 
 
     
