@@ -30,7 +30,7 @@ app.use(favicon(path.join(__dirname, 'public', 'img', 'cinemind_small_logo.png')
 
 // Route to render the index.ejs page
 app.get('/', (req, res) => {
-  res.render('index', { user: req.session.user });
+  res.render('pages/index', { user: req.session.user });
 });
 
 // Route to render the myaccount.ejs page
