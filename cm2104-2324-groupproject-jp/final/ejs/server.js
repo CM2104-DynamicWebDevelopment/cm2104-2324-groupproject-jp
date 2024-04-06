@@ -194,7 +194,7 @@ app.post('/addwatchlist', (req, res) => {
                 return;
             }
             console.log('Watchlist updated successfully');
-            res.status(200).send('Movie added to watchlist successfully ' + movieid);
+            res.status(200).send('Movie added to watchlist successfully ');
         }
     );
 });
