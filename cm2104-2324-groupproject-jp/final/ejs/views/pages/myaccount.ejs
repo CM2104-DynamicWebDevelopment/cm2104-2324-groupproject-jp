@@ -221,7 +221,8 @@
         <ul>
             <% user.watchlist.movieIds.forEach(function(movieId) { %>
                 <li><%= movieId %></li>
-                <% getSearchFromTMDB(movieId); %>
+                <button onclick="loadWatchlist(<%= movieId %>)">Load Watchlist</button>
+
             <% }); %>
         </ul>
     <% } else { %>
