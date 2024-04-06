@@ -215,112 +215,20 @@
   <div id="container-Watchlist" class="account-container">
     <h1>Your Watchlist</h1>
     <p>List of all the movies you want to watch</p>
-<!-- myaccount.ejs or groups.ejs -->
-<h2>User Watchlist</h2>
-<%= user.watchlist.movieIds %>
-    <div class="watchlist-movie-card">
-        <div class="watchlist-movie-details" id="watchlist-movie-details">
-          <h2>Movie Title</h2>
-          <img src="https://image.tmdb.org/t/p/original/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg" alt="Movie Poster">
-          <p>Year: 1985</p>
-        </div>
-      
-        <div class="watchlist-extra" id="watchlist-extra-0" style="background-image: url('https://image.tmdb.org/t/p/original/3lbTiIN8cVonMUQwaeh5nvn61lr.jpg'); display: flex;">
-          <h3>description</h3>
-          <p>Eighties teenager Marty McFly is accidentally sent back in time to 1955, inadvertently disrupting his parents' first meeting and attracting his mother's romantic interest. Marty must repair the damage to history by rekindling his parents' romance and - with the help of his eccentric inventor friend Doc Brown - return to 1985.</p>
-          <!-- goes to where to watch using js, will add where to watch api next semester -->          
-          <button  class="watchlist-change-button" onclick="viewWatchlistOptions(0)">Where to watch</button>
-        </div>
-      
-        <div class="watchlist-view" id="watchlist-view-0" style="background-image: url('https://image.tmdb.org/t/p/original/3lbTiIN8cVonMUQwaeh5nvn61lr.jpg'); display: none;">
-          <h3>Where to watch</h3>
-          <h4>Disney +</h4>
-          <button class="watchlist-back" onclick="watchlistBack(0)">Back</button>
-        </div>
-      </div>
-      <div class="watchlist-movie-card">
-        <div class="watchlist-movie-details" id="watchlist-movie-details">
-          <h2>Killers of the flower Moon</h2>
-          <img src="https://image.tmdb.org/t/p/original/dB6Krk806zeqd0YNp2ngQ9zXteH.jpg" alt="Movie Poster">
-          <p>Year: 2023</p>
-        </div>
-      
-        <div class="watchlist-extra" id="watchlist-extra-1" style="background-image: url('https://image.tmdb.org/t/p/original/1X7vow16X7CnCoexXh4H4F2yDJv.jpg'); display: flex;">
-          <h3>description</h3>
-          <p>When oil is discovered in 1920s Oklahoma under Osage Nation land, the Osage people are murdered one by one—until the FBI steps in to unravel the mystery.</p>
-          <!-- goes to where to watch using js, will add where to watch api next semester -->               
-          <button  class="watchlist-change-button" onclick="viewWatchlistOptions(1)">Where to watch</button>
-        </div>
-      
-        <div class="watchlist-view" id="watchlist-view-1" style="background-image: url('https://image.tmdb.org/t/p/original/1X7vow16X7CnCoexXh4H4F2yDJv.jpg'); display: none;">
-          <h3>Where to watch</h3>
-          <h4>Netfix</h4>
-          <button class="watchlist-back" onclick="watchlistBack(1)">Back</button>
-        </div>
-      </div>
+    <h2>User Watchlist</h2>
+    <% user.watchlist.movieIds.forEach(function(movieId) { %>
+        <% getSearchFromTMDB(movieId); %>
+    <% }); %>
+    <div class="watchlist-movie-card-container">
+        <!-- Movies will be displayed here -->
+        <% function displayWatchlist(movie) { %>
+            <!-- Your displayWatchlist function content goes here -->
+        <% } %>
+    </div>
+</div>
 
-      <div class="watchlist-movie-card">
-        <div class="watchlist-movie-details" id="watchlist-movie-details">
-          <h2>Killers of the flower Moon</h2>
-          <img src="https://image.tmdb.org/t/p/original/dB6Krk806zeqd0YNp2ngQ9zXteH.jpg" alt="Movie Poster">
-          <p>Year: 2023</p>
-        </div>
-      
-        <div class="watchlist-extra" id="watchlist-extra-1" style="background-image: url('https://image.tmdb.org/t/p/original/1X7vow16X7CnCoexXh4H4F2yDJv.jpg'); display: flex;">
-          <h3>description</h3>
-          <p>When oil is discovered in 1920s Oklahoma under Osage Nation land, the Osage people are murdered one by one—until the FBI steps in to unravel the mystery.</p>
-          <!-- goes to where to watch using js, will add where to watch api next semester -->               
-          <button  class="watchlist-change-button" onclick="viewWatchlistOptions(1)">Edit</button>
-        </div>
-      
-        <div class="watchlist-view" id="watchlist-view-1" style="background-image: url('https://image.tmdb.org/t/p/original/1X7vow16X7CnCoexXh4H4F2yDJv.jpg'); display: none;">
-          <h3>Where to watch</h3>
-          <h4>Netfix</h4>
-          <button class="watchlist-back" onclick="watchlistBack(1)">Back</button>
-        </div>
-      </div>
 
-      <div class="watchlist-movie-card">
-        <div class="watchlist-movie-details" id="watchlist-movie-details">
-          <h2>Killers of the flower Moon</h2>
-          <img src="https://image.tmdb.org/t/p/original/dB6Krk806zeqd0YNp2ngQ9zXteH.jpg" alt="Movie Poster">
-          <p>Year: 2023</p>
-        </div>
-      
-        <div class="watchlist-extra" id="watchlist-extra-1" style="background-image: url('https://image.tmdb.org/t/p/original/1X7vow16X7CnCoexXh4H4F2yDJv.jpg'); display: flex;">
-          <h3>description</h3>
-          <p>When oil is discovered in 1920s Oklahoma under Osage Nation land, the Osage people are murdered one by one—until the FBI steps in to unravel the mystery.</p>
-          <!-- goes to where to watch using js, will add where to watch api next semester -->               
-          <button  class="watchlist-change-button" onclick="viewWatchlistOptions(1)">Edit</button>
-        </div>
-      
-        <div class="watchlist-view" id="watchlist-view-1" style="background-image: url('https://image.tmdb.org/t/p/original/1X7vow16X7CnCoexXh4H4F2yDJv.jpg'); display: none;">
-          <h3>Where to watch</h3>
-          <h4>Netfix</h4>
-          <button class="watchlist-back" onclick="watchlistBack(1)">Back</button>
-        </div>
-      </div>
 
-      <div class="watchlist-movie-card">
-        <div class="watchlist-movie-details" id="watchlist-movie-details">
-          <h2>Killers of the flower Moon</h2>
-          <img src="https://image.tmdb.org/t/p/original/dB6Krk806zeqd0YNp2ngQ9zXteH.jpg" alt="Movie Poster">
-          <p>Year: 2023</p>
-        </div>
-      
-        <div class="watchlist-extra" id="watchlist-extra-1" style="background-image: url('https://image.tmdb.org/t/p/original/1X7vow16X7CnCoexXh4H4F2yDJv.jpg'); display: flex;">
-          <h3>description</h3>
-          <p>When oil is discovered in 1920s Oklahoma under Osage Nation land, the Osage people are murdered one by one—until the FBI steps in to unravel the mystery.</p>
-          <!-- goes to where to watch using js, will add where to watch api next semester -->               
-          <button  class="watchlist-change-button" onclick="viewWatchlistOptions(1)">Edit</button>
-        </div>
-      
-        <div class="watchlist-view" id="watchlist-view-1" style="background-image: url('https://image.tmdb.org/t/p/original/1X7vow16X7CnCoexXh4H4F2yDJv.jpg'); display: none;">
-          <h3>Where to watch</h3>
-          <h4>Netfix</h4>
-          <button class="watchlist-back" onclick="watchlistBack(1)">Back</button>
-        </div>
-      </div>
       </div>
     </div>
 
