@@ -198,7 +198,3 @@ app.post('/addwatchlist', (req, res) => {
         }
     );
 });
-
-$(document).ready(function() {
-    getWatchlistFromTMDB(<%= JSON.stringify(user.watchlist.movieIds) %>);
-  });
