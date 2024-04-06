@@ -220,19 +220,24 @@
     <div class="watchlist-movie-card-container">
         <!-- Movie cards will be dynamically added here -->
     </div>
-
-    <script>
-        // Define a function to handle the iteration and calling getSearchFromTMDB
-        function fetchMoviesFromWatchlist() {
-            <% moviewatchlistid.forEach(function(movieId) { %>
-                getSearchFromTMDB(parseInt("<%= movieId %>"));
-            <% }); %>
-        }
-
-        // Call the function after the DOM has loaded
-        document.addEventListener("DOMContentLoaded", fetchMoviesFromWatchlist);
-    </script>
 </div>
+
+<script>
+    // Define the moviewatchlistid array with movie IDs from user's watchlist
+    var moviewatchlistid = [<%- user.watchlist.movieIds.map(movieId => `"${movieId}"`).join(", ") %>];
+
+    // Define a function to handle the iteration and calling getSearchFromTMDB
+    function fetchMoviesFromWatchlist() {
+        moviewatchlistid.forEach(function(movieId) {
+            getSearchFromTMDB(parseInt(movieId));
+        });
+    }
+
+    // Call the function after the DOM has loaded
+    document.addEventListener("DOMContentLoaded", fetchMoviesFromWatchlist);
+</script>
+
+
 
 
 
