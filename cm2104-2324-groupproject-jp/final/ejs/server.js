@@ -102,6 +102,7 @@ app.post('/dologin', (req, res) => {
 
 // Route to handle adding a new user
 app.post('/adduser', (req, res) => {
+    const defaultProfilePic = 'img/user1.png';
     const datatostore = {
         "name": {
             "first": req.body.first
@@ -112,7 +113,7 @@ app.post('/adduser', (req, res) => {
             "password": req.body.password
         },
         "picture": { // Nested structure for profile picture
-            "thumbnail": req.body.thumbnail || defaultProfilePic // Using default picture if no thumbnail provided
+            "thumbnail": defaultProfilePic // Using default picture if no thumbnail provided
         },
         "watchlist": { // Adding watchlist field
             "movieIds": ["1234", "1223"] // Initial movie IDs to add upon signup
