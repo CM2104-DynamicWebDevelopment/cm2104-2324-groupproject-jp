@@ -156,21 +156,33 @@ app.post('/addwatchlist', (req, res) => {
         return;
     }
 
-    // Find the user document in the database and update the watchlist
-    db.collection('people').updateOne(
-        { _id: userId },
-        { $addToSet: { watchlist: movieId } },
-        (err, result) => {
+   // Find the user document in the database and update the watchlist
+   db.collection('people').updateOne(
+    { _id: userId },
+    { $addToSet: { watchlist: movieId } },
+    (err, result) => {
+        if (err) {
+            console.error('Error adding movie to watchlist:', err);
+            res.status(500).send('Error adding movie to watchlist');
+            return;
+        }
+        console.log('Movie added to watchlist successfully');
+        console.log('Movie ID: ' + movieId);
+        
+        // Fetch the updated user document from the database
+        db.collection('people').findOne({ _id: userId }, (err, user) => {
             if (err) {
-                console.error('Error adding movie to watchlist:', err);
-                res.status(500).send('Error adding movie to watchlist');
+                console.error('Error fetching user data:', err);
+                res.status(500).send('Error fetching user data');
                 return;
             }
-            console.log('Movie added to watchlist successfully');
-            console.log('Movie ID: ' + movieId);
-            res.sendStatus(200);
-        }
-    );
+            // Log all movie IDs in the user's watchlist
+            console.log('User Watchlist:', user.watchlist);
+        });
+
+        res.sendStatus(200);
+    }
+);
 });
 
 
