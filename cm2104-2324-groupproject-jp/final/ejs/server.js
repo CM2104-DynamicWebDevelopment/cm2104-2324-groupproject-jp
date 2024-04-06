@@ -201,49 +201,20 @@ app.post('/addwatchlist', (req, res) => {
 });
 
 
-// Function to fetch movie data for watchlist movies
 function getWatchlistMovies(movieIds) {
     const apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
-
-    // Array to store movie data
-    const movieData = [];
-
-    // Function to handle each movie ID
-    const fetchMovieData = movieId => {
-        return new Promise((resolve, reject) => {
-            const url = `http://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`;
-
-            // Send HTTP request
-            const req = http.get(url, res => {
-                let data = '';
-
-                // Concatenate received data
-                res.on('data', chunk => {
-                    data += chunk;
-                });
-
-                // Resolve promise with movie data when response ends
-                res.on('end', () => {
-                    const movie = JSON.parse(data);
-                    movieData.push(movie);
-                    resolve();
-                });
-            });
-
-            // Handle errors
-            req.on('error', error => {
-                // Reject promise if there's an error
-                reject(error);
-            });
+    const moviePromises = movieIds.map(movieId => {
+        const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`;
+        return fetch(url).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
         });
-    };
+    });
 
-    // Array to store promises for each HTTP request
-    const promises = movieIds.map(movieId => fetchMovieData(movieId));
-
-    // Wait for all promises to resolve
-    Promise.all(promises)
-        .then(() => {
+    Promise.all(moviePromises)
+        .then(movieData => {
             // Pass movie data to the client-side function
             displayWatchlist(movieData);
         })
