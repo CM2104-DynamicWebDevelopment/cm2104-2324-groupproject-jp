@@ -26,7 +26,7 @@
 
     <div id="container-My-Account" class="account-container">
             <div class="your-account-container">
-              <h1 class="welcome-title">Welcome to Your Account page <%= user.name.first %> <%= user._id %></h1>
+                <h1 class="welcome-title">Welcome to Your Account page <%= user.name.first %></h1>
                 <h3 class="welcome-text">View and make changes to your account bro</h3>
             </div>
         
@@ -215,28 +215,9 @@
   <div id="container-Watchlist" class="account-container">
     <h1>Your Watchlist</h1>
     <p>List of all the movies you want to watch</p>
-    <h2>User Watchlist</h2>
-    <p><%= user.watchlist.movieIds %></p>
-
-    <% user.watchlist.movieIds.forEach(function(movieId, index) { %>
-      <div class="watchlist-movie-card" id="watchlist-movie-card-<%= index %>">
-          <!-- Watchlist movie card content goes here -->
-          <div class="watchlist-movie-details" id="watchlist-movie-details-<%= index %>">
-              <h2><%= movieId.title %></h2>
-              <img src="https://image.tmdb.org/t/p/original/<%= movieId.poster_path %>" alt="Movie Poster">
-              <p>Year: <%= movieId.release_date %></p>
-          </div>
-          <!-- Add other details as needed -->
-      </div>
-    <% }); %>
-
-</div>
-
-
-
-
-
-
+    <p><%= user.watchlist.movideIds %></p>
+ 
+    
       </div>
     </div>
 
@@ -246,87 +227,5 @@
 </body>
 
 <script src="/scripts/account.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-// nav bar for showing account, review, watchlist and friends, accepts the page user wants to view
-function showAccountContent(page) {
-    // This hides all containers
-    document.querySelectorAll('.account-container').forEach(element => {
-        // By setting display to none, the container does not appear
-        element.style.display = 'none';
-    });
-
-    // This then uses input to show the selected container
-    var selectedContainer = document.getElementById(`container-${page}`);
-    if (selectedContainer) {
-        // Sets display to block instead of none
-        selectedContainer.style.display = 'block';
-        // If the selected page is "Watchlist", call the function to fetch watchlist data
-        if (page === 'Watchlist') {
-            getWatchlistFromTMDB();
-        }
-    }
-}
-
-// Function to fetch watchlist data from TMDB and display watchlist cards
-function getWatchlistFromTMDB() {
-    // Simulate watchlist data (replace with actual data retrieval)
-    var movieIds = [12345, 67890]; // Example movie IDs
-
-    movieIds.forEach(function(movieId, index) {
-        // Build URL to fetch movie details
-        var apiKey = "YOUR_API_KEY";
-        var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
-
-        // Fetch JSON data from TMDB
-        fetch(url)
-            .then(response => response.json())
-            .then(movie => {
-                // Send data to the displayWatchlist function
-                displayWatchlist(movie, index);
-            })
-            .catch(error => {
-                console.error('Error fetching movie data:', error);
-            });
-    });
-}
-
-// Function to display watchlist movie card
-function displayWatchlist(movie, index) {
-    // Extract movie details
-    var title = movie.title;
-    var moviePoster = movie.poster_path;
-    var movieDescription = movie.overview;
-    var movieBackdrop = movie.backdrop_path;
-    var releaseDate = movie.release_date;
-
-    // Build HTML string for the watchlist movie card
-    var htmlString = `
-    <div class="watchlist-movie-card">
-        <div class="watchlist-movie-details" id="watchlist-movie-details-${index}">
-            <h2>${title}</h2>
-            <img src="https://image.tmdb.org/t/p/original/${moviePoster}" alt="Movie Poster">
-            <p>Year: ${releaseDate}</p>
-        </div>
-
-        <div class="watchlist-extra" id="watchlist-extra-${index}" style="background-image: url('https://image.tmdb.org/t/p/original/${movieBackdrop}'); display: flex;">
-            <h3>Description</h3>
-            <p>${movieDescription}</p>
-            <!-- Goes to where to watch using JS, will add where to watch API next semester -->          
-            <button class="watchlist-change-button" onclick="viewWatchlistOptions(${index})">Where to watch</button>
-        </div>
-
-        <div class="watchlist-view" id="watchlist-view-${index}" style="background-image: url('https://image.tmdb.org/t/p/original/${movieBackdrop}'); display: none;">
-            <h3>Where to watch</h3>
-            <h4>Disney +</h4>
-            <button class="watchlist-back" onclick="watchlistBack(${index})">Back</button>
-        </div>
-    </div>`;
-
-    // Insert HTML into watchlist container
-    document.getElementById('container-Watchlist').innerHTML += htmlString;
-}
-
-</script>
 
 </html>
