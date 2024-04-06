@@ -216,7 +216,7 @@
     <h1>Your Watchlist</h1>
     <p>List of all the movies you want to watch</p>
     <h2>User Watchlist</h2>
-    <button id="movie-watchlist-btn" class="watchlist-button" onclick="getWatchlistFromTMDB(<% user.watchlist.movieIds %>)">load</button>
+    <button id="movie-watchlist-btn" class="watchlist-button" onclick="getWatchlistFromTMDB(<%= JSON.stringify(user.watchlist.movieIds) %>)">Load</button>
     <% if (user && user.watchlist && user.watchlist.movieIds && user.watchlist.movieIds.length > 0) { %>
         <!-- Display movie IDs -->
         <ul>
