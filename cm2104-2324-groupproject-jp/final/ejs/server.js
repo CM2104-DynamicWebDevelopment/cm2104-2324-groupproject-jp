@@ -56,6 +56,7 @@ app.get('/myaccount', (req, res) => {
     }
     // Render myaccount page with user data and watchlist
     res.render('pages/myaccount', { user: req.session.user});
+    fetchUserDataAndDisplayWatchlist();
 });
 
 // Route to render the group.ejs page
@@ -198,3 +199,21 @@ app.post('/addwatchlist', (req, res) => {
         }
     );
 });
+
+
+function getWatchlistMovies(movieIds) {
+    const apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
+    const moviePromises = movieIds.map(movieId => {
+        const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`;
+        return $.getJSON(url);
+    });
+
+    Promise.all(moviePromises)
+        .then(movieData => {
+            // Pass movie data to the client-side function
+            displayWatchlist(movieData);
+        })
+        .catch(error => {
+            console.error('Error fetching watchlist movies:', error);
+        });
+}
