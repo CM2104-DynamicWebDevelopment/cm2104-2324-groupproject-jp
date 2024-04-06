@@ -162,6 +162,7 @@ $(document).ready(function () {
         var moviePoster = moviesinfo.poster_path;
         var movieDescription = moviesinfo.overview;
         var releaseDate = moviesinfo.release_date.split('-')[0]; 
+        var id = moviesinfo.id;
     
         console.log("THISSSS IS SSS REVIEWWW Title: " + title);
         console.log("Poster Path: " + moviePoster);
@@ -176,7 +177,7 @@ $(document).ready(function () {
         "<p>Year: "+ releaseDate +"</p>" +
         "</div>" +
         "<div class='reviews'>" +
-        "<button class='button-watchlist'>Add to Watchlist</button>" +
+        "<button class='button-watchlist' action='/addwatchlist' method='POST' onclick='addtowatchlist("+id+")'>Add to Watchlist</button>" +
         "<div class='rating-buttons'>" +
         "<button class='rating' value='1'>1</button>" +
         "<button class='rating' value='2'>2</button>" +

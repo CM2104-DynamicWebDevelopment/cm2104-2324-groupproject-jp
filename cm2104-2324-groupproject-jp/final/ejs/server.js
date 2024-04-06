@@ -113,6 +113,9 @@ app.post('/adduser', (req, res) => {
         },
         "picture": { // Nested structure for profile picture
             "thumbnail": req.body.thumbnail || defaultProfilePic // Using default picture if no thumbnail provided
+        },
+        "watchlist": { // Adding watchlist field
+            "movieIds": ["1234", "1223"] // Initial movie IDs to add upon signup
         }
     };
 
@@ -128,6 +131,7 @@ app.post('/adduser', (req, res) => {
         res.send('User added successfully');
     });
 });
+
 
 //logour route cause the page to Logout.
 //it sets our session.loggedin to false and then redirects the user to the login
@@ -145,46 +149,29 @@ app.post('/logout', function (req, res) {
   });
 });
 
-// Route to handle adding a movie to the user's watchlist
-app.post('/addwatchlist', (req, res) => {
-    const userId = req.session.userId; // Retrieve userId from session
-    const movieId = req.body.movieId;
 
-    // Check if userId and movieId are present
+// Route to handle adding a movie ID to the watchlist
+app.post('/addwatchlist', (req, res) => {
+    const userId = req.session.userId; // Assuming userId is stored in session
+    const movieId = req.body.movieId; // Assuming movieId is sent in the request body
+
     if (!userId || !movieId) {
-        res.status(400).send('User ID and/or movie ID missing');
+        res.status(400).send('Missing userId or movieId');
         return;
     }
 
-   // Find the user document in the database and update the watchlist
-   db.collection('people').updateOne(
-    { _id: userId },
-    { $addToSet: { watchlist: movieId } },
-    (err, result) => {
-        if (err) {
-            console.error('Error adding movie to watchlist:', err);
-            res.status(500).send('Error adding movie to watchlist');
-            return;
-        }
-        console.log('Movie added to watchlist successfully');
-        console.log('Movie ID: ' + movieId);
-        
-        // Fetch the updated user document from the database
-        db.collection('people').findOne({ _id: userId }, (err, user) => {
+    // Assuming you have a database where user data is stored with a 'watchlist' field
+    db.collection('people').updateOne(
+        { "_id": userId },
+        { $addToSet: { "watchlist.movieIds": movieId } }, // Adding movieId to the watchlist
+        (err, result) => {
             if (err) {
-                console.error('Error fetching user data:', err);
-                res.status(500).send('Error fetching user data');
+                console.error('Error adding movie to watchlist:', err);
+                res.status(500).send('Error adding movie to watchlist');
                 return;
             }
-            // Log all movie IDs in the user's watchlist
-            console.log('User Watchlist:', user.watchlist);
-        });
-
-        res.sendStatus(200);
-    }
-);
+            console.log('Movie added to watchlist');
+            res.send('Movie added to watchlist successfully');
+        }
+    );
 });
-
-
-
-
