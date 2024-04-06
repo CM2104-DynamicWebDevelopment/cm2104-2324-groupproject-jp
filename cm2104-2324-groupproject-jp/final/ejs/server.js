@@ -87,7 +87,6 @@ app.post('/dologin', (req, res) => {
             req.session.currentuser = uname;
             req.session.userId = result._id; // Set userId in session
             req.session.user = result; // Store user data in session
-            req.body.movieId = movieId
             
             // Retrieve watchlist data for the user and store it in the session
             db.collection('people').findOne({ _id: result._id }, { watchlist: 1 }, (err, watchlistResult) => {
