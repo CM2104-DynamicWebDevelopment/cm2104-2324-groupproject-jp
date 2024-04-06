@@ -129,8 +129,7 @@ app.post('/adduser', (req, res) => {
         console.log('User saved to database');
         // Set userId in session after user creation
         req.session.userId = result.insertedId;
-        res.send('User added successfully');
-        res.redirect('/myaccount'); // Redirect to myaccount if signup successful
+        res.redirect('/'); // Redirect if signup successful
     });
 });
 
