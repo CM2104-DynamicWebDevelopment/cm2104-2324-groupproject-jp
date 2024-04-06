@@ -242,10 +242,26 @@
 <script src="/scripts/account.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-$(document).ready(function() {
-  console.log("i was callllllllllllllllllllllllllllleeeeeeeeeeeeeeedddddddddddddddd")
-    getWatchlistFromTMDB(<%= JSON.stringify(user.watchlist.movieIds) %>);
-  });
+// nav bar for showing account, review, watchlist and friends, accepts the page user wants to view
+function showAccountContent(page) {
+    // This hides all containers
+    document.querySelectorAll('.account-container').forEach(element => {
+        // By setting display to none, the container does not appear
+        element.style.display = 'none';
+    });
+
+    // This then uses input to show the selected container
+    var selectedContainer = document.getElementById(`container-${page}`);
+    if (selectedContainer) {
+        // Sets display to block instead of none
+        selectedContainer.style.display = 'block';
+        // If the selected page is "Watchlist", call the function to fetch watchlist data
+        if (page === 'Watchlist') {
+            getWatchlistFromTMDB(<%= JSON.stringify(user.watchlist.movieIds) %>);
+        }
+    }
+}
+
 
 // Function to fetch watchlist data from TMDB and display watchlist cards
 function getWatchlistFromTMDB(movieIds) {
