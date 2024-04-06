@@ -55,7 +55,7 @@ app.get('/myaccount', (req, res) => {
         return;
     }
     // Render myaccount page with user data and watchlist
-    res.render('pages/myaccount', { user: req.session.user, watchlist: req.session.user.watchlist });
+    res.render('pages/myaccount', { user: req.session.user});
 });
 
 // Route to render the group.ejs page
@@ -151,3 +151,50 @@ app.post('/logout', function (req, res) {
 });
 
 
+// Route to handle adding a movie to the user's watchlist
+app.post('/addwatchlist', (req, res) => {
+    // Check if the user is logged in
+    if (!req.session.loggedin) {
+        res.redirect('/'); // Redirect to login if not logged in
+        return;
+    }
+
+    // Get the movie ID from the request body
+    const movieId = req.body.movieId;
+
+    // Check if the movieId is provided
+    if (!movieId) {
+        res.status(400).send('Movie ID is required.');
+        return;
+    }
+
+    // Get the user's watchlist from the session
+    const watchlist = req.session.user.watchlist;
+
+    // Check if the movie is already in the watchlist
+    if (watchlist.movieIds.includes(movieId)) {
+        res.status(400).send('Movie is already in the watchlist.');
+        return;
+    }
+
+    // Add the movieId to the user's watchlist
+    watchlist.movieIds.push(movieId);
+
+    // Update the user's watchlist in the session
+    req.session.user.watchlist = watchlist;
+
+    // Update the watchlist in the database
+    db.collection('people').updateOne(
+        { _id: req.session.userId },
+        { $set: { watchlist: watchlist } },
+        (err, result) => {
+            if (err) {
+                console.error('Error updating watchlist:', err);
+                res.status(500).send('Error updating watchlist');
+                return;
+            }
+            console.log('Watchlist updated successfully');
+            res.status(200).send('Movie added to watchlist successfully ' + movieid);
+        }
+    );
+});

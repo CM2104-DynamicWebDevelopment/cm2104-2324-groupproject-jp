@@ -168,6 +168,7 @@ $(document).ready(function () {
         console.log("Poster Path: " + moviePoster);
         console.log("Overview: " + movieDescription);
         console.log("Release Date: " + releaseDate);
+        console.log("movie id" + id);
     
         // build html
         htmlString += "<div class='movie-details'>" +
