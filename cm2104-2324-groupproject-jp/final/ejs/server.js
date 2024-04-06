@@ -201,15 +201,21 @@ app.post('/addwatchlist', (req, res) => {
 });
 
 
+// Import axios library
+const axios = require('axios');
+
+// Function to fetch movie data for watchlist movies
 function getWatchlistMovies(movieIds) {
     const apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
     const moviePromises = movieIds.map(movieId => {
         const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`;
-        return $.getJSON(url);
+        return axios.get(url); // Use axios.get() instead of $.getJSON()
     });
 
     Promise.all(moviePromises)
-        .then(movieData => {
+        .then(movieResponses => {
+            // Extract movie data from responses
+            const movieData = movieResponses.map(response => response.data);
             // Pass movie data to the client-side function
             displayWatchlist(movieData);
         })
