@@ -221,6 +221,7 @@
         <ul>
             <% user.watchlist.movieIds.forEach(function(movieId) { %>
                 <li><%= movieId %></li>
+                <% getSearchFromTMDB(movieId); %>
             <% }); %>
         </ul>
     <% } else { %>
