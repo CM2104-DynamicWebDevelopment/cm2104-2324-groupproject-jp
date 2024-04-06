@@ -72,7 +72,6 @@ function getSearchFromTMDB(movieId) {
   });
 }
 
-
 // Display the watchlist
 function displayWatchlist(movie) {
   console.log("Watchlist called");
@@ -115,6 +114,5 @@ function displayWatchlist(movie) {
       </div>`;
 
   // Insert HTML into watchlist container
-  $('.watchlist-movie-card-container').html(htmlString);
+  $('.watchlist-movie-card-container').append(htmlString);
 }
-
