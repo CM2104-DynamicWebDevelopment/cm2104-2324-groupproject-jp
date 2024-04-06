@@ -133,35 +133,6 @@ app.post('/adduser', (req, res) => {
     });
 });
 
-// Route to handle adding a movie to user's watchlist
-app.post('/addtowatchlist', (req, res) => {
-    // Assuming you're passing movieId as a parameter in the request body
-    const movieId = req.body.movieId;
-    const userId = req.session.userId;
-
-    // Function to add movie ID to user's watchlist
-    function addToWatchlist(userId, movieId) {
-        // Find the user document by userId and update the watchlist field
-        db.collection('people').findOneAndUpdate(
-            { _id: userId },
-            { $push: { "watchlist.movieIds": movieId } },
-            { returnOriginal: false }, // To return the updated document
-            (err, result) => {
-                if (err) {
-                    console.error('Error adding movie to watchlist:', err);
-                    return;
-                }
-                // Update session user data with the updated watchlist
-                req.session.user = result.value;
-                console.log('Movie added to watchlist:', movieId);
-                res.redirect('/myaccount'); // Redirect to myaccount after adding to watchlist
-            }
-        );
-    }
-
-    // Call the function to add movie to watchlist
-    addToWatchlist(userId, movieId);
-});
 
 //logour route cause the page to Logout.
 //it sets our session.loggedin to false and then redirects the user to the login
