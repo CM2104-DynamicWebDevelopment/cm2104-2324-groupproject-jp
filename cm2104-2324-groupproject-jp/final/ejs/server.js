@@ -130,6 +130,7 @@ app.post('/adduser', (req, res) => {
         // Set userId in session after user creation
         req.session.userId = result.insertedId;
         res.send('User added successfully');
+        res.redirect('/myaccount'); // Redirect to myaccount if signup successful
     });
 });
 
