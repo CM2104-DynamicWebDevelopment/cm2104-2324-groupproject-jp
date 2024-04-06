@@ -56,28 +56,22 @@ function viewWatchlistOptions(num) {
   }
 
 // Function to get search results from TMDB using movie ID
-function getSearchFromTMDB(movieId) {
-  console.log(movieId);
+function getSearchFromTMDB(movieIds) {
+  movieIds.forEach(function(movieId) {
+    // Build URL to fetch movie details
+    var apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
+    var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
 
-  // Build URL to fetch movie details
-  var apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
-  var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
-
-  // Fetch JSON data from TMDB
-  $.getJSON(url, function (jsondata) {
-      console.log(jsondata);
-      
-      // Send data to the displayWatchlist function
-      displayWatchlist(jsondata);
+    // Fetch JSON data from TMDB
+    $.getJSON(url, function (jsondata) {
+        // Send data to the displayWatchlist function
+        displayWatchlist(jsondata);
+    });
   });
 }
 
 // Display the watchlist
 function displayWatchlist(movie) {
-  console.log("Watchlist called");
-  // Set up the HTML string to be used later
-  var htmlString = "";
-
   // Extract movie details
   var title = movie.title;
   var moviePoster = movie.poster_path;
@@ -85,13 +79,8 @@ function displayWatchlist(movie) {
   var movieBackdrop = movie.backdrop_path;
   var releaseDate = movie.release_date;
 
-  console.log("Title: " + title);
-  console.log("Poster Path: " + moviePoster);
-  console.log("Overview: " + movieDescription);
-  console.log("Release Date: " + releaseDate);
-
   // Build HTML string for the watchlist movie card
-  htmlString = `
+  var htmlString = `
       <div class="watchlist-movie-card">
           <div class="watchlist-movie-details" id="watchlist-movie-details">
               <h2>${title}</h2>
@@ -112,7 +101,7 @@ function displayWatchlist(movie) {
               <button class="watchlist-back" onclick="watchlistBack(0)">Back</button>
           </div>
       </div>`;
-
+  
   // Insert HTML into watchlist container
   $('.watchlist-movie-card-container').append(htmlString);
 }
