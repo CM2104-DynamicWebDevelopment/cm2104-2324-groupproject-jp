@@ -216,7 +216,8 @@
     <h1>Your Watchlist</h1>
     <p>List of all the movies you want to watch</p>
     <h2>User Watchlist</h2>
-    <p>><%= user.watchlist.movieIds) %></p>
+    <p><%= user.watchlist.movieIds %></p>
+
     <% user.watchlist.movieIds.forEach(function(movieId, index) { %>
       <div class="watchlist-movie-card" id="watchlist-movie-card-<%= index %>">
           <!-- Watchlist movie card content goes here -->
