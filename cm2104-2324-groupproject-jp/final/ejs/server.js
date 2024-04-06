@@ -201,24 +201,3 @@ app.post('/addwatchlist', (req, res) => {
 });
 
 
-function getWatchlistMovies(movieIds) {
-    const apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
-    const moviePromises = movieIds.map(movieId => {
-        const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`;
-        return fetch(url).then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        });
-    });
-
-    Promise.all(moviePromises)
-        .then(movieData => {
-            // Pass movie data to the client-side function
-            displayWatchlist(movieData);
-        })
-        .catch(error => {
-            console.error('Error fetching watchlist movies:', error);
-        });
-}

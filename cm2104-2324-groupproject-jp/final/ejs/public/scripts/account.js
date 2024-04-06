@@ -55,22 +55,3 @@ function viewWatchlistOptions(num) {
     document.getElementById('watchlist-view-' + num).style.display = 'none';
   }
 
-  function displayWatchlist(movieData) {
-    // Loop through each movie data and display it
-    movieData.forEach(movieInfo => {
-        // Extract movie details
-        var title = movieInfo.original_title;
-        var moviePoster = movieInfo.poster_path;
-        var movieDescription = movieInfo.overview;
-        var releaseDate = movieInfo.release_date.split('-')[0];
-        var id = movieInfo.id;
-
-        console.log("Title: " + title);
-        console.log("Poster Path: " + moviePoster);
-        console.log("Overview: " + movieDescription);
-        console.log("Release Date: " + releaseDate);
-        console.log("Movie ID: " + id);
-
-        // Your logic to display movie goes here
-    });
-}
