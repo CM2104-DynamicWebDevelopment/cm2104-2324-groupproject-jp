@@ -217,16 +217,7 @@
     <p>List of all the movies you want to watch</p>
 <!-- myaccount.ejs or groups.ejs -->
 <h2>User Watchlist</h2>
-<ul>
-    <% if (watchlist && watchlist.length > 0) { %>
-        <% watchlist.forEach(movieId => { %>
-            <li><%= movieId %></li> <!-- Display each movie ID -->
-        <% }); %>
-    <% } else { %>
-        <li>No movies in watchlist</li>
-    <% } %>
-</ul>
-    
+<%= user.watchlist.movieIds %>
     <div class="watchlist-movie-card">
         <div class="watchlist-movie-details" id="watchlist-movie-details">
           <h2>Movie Title</h2>
