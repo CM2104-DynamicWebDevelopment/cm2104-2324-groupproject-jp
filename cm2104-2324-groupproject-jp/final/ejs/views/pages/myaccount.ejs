@@ -216,21 +216,20 @@
     <h1>Your Watchlist</h1>
     <p>List of all the movies you want to watch</p>
     <h2>User Watchlist</h2>
-    <p><%- user.watchlist.movieIds %></p>
+    <p><%- user.watchlist.movieIds %></p> 
     <% if (user && user.watchlist && user.watchlist.movieIds) { %>
-      <ul>
-          <% user.watchlist.movieIds.forEach(function(movieId) { %>
-              <li><%= movieId %></li>
-          <% }); %>
-      </ul>
-  <% } else { %>
-      <p>No movies in watchlist</p>
-  <% } %>
+        <ul>
+            <% user.watchlist.movieIds.forEach(function(movieId) { %>
+                <li><%= movieId %></li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No movies in watchlist</p>
+    <% } %>
     <div class="watchlist-movie-card-container">
         <!-- Movie cards will be dynamically added here -->
     </div>
 </div>
-
 
 
 

@@ -55,6 +55,10 @@ function viewWatchlistOptions(num) {
     document.getElementById('watchlist-view-' + num).style.display = 'none';
   }
 
+document.addEventListener("DOMContentLoaded", function() {
+    getSearchFromTMDB(<%- JSON.stringify(user.watchlist.movieIds) %>);
+});
+
 // Function to get search results from TMDB using movie ID
 function getSearchFromTMDB(movieIds) {
   movieIds.forEach(function(movieId) {
