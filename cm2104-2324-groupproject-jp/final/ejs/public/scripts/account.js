@@ -58,7 +58,7 @@ function viewWatchlistOptions(num) {
 // Function to get search results from TMDB using movie ID
 function getSearchFromTMDB(movieId) {
   console.log(movieId);
-  
+
   // Build URL to fetch movie details
   var apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
   var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;

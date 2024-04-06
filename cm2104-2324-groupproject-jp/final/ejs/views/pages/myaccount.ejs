@@ -216,17 +216,18 @@
     <h1>Your Watchlist</h1>
     <p>List of all the movies you want to watch</p>
     <h2>User Watchlist</h2>
-    <% user.watchlist.movieIds.forEach(function(movieId) { %>
-      <% getSearchFromTMDB(movieId); %>
-  <% }); %>
-  
+
     <div class="watchlist-movie-card-container">
-        <!-- Movies will be displayed here -->
-        <% function displayWatchlist(movie) { %>
-            <!-- Your displayWatchlist function content goes here -->
-        <% } %>
+        <!-- Movie cards will be dynamically added here -->
     </div>
+
+    <% moviewatchlistid.forEach(function(movieId) { %>
+        <script>
+            getSearchFromTMDB(<%= movieId %>);
+        </script>
+    <% }); %>
 </div>
+
 
 
 
