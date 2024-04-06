@@ -55,23 +55,25 @@ function viewWatchlistOptions(num) {
     document.getElementById('watchlist-view-' + num).style.display = 'none';
   }
 
-// Function to get search results from TMDB using movie ID
-function getWatchlistFromTMDB(movieIds) {
-  movieIds.forEach(function(movieId) {
-    // Build URL to fetch movie details
-    var apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
-    var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
 
-    // Fetch JSON data from TMDB
-    $.getJSON(url, function(jsondata) {
-      // Send data to the displayWatchlist function
-      displayWatchlist(jsondata);
-    });
+
+// Function to fetch watchlist data from TMDB and display watchlist cards
+function getWatchlistFromTMDB(movieIds) {
+  movieIds.forEach(function(movieId, index) {
+      // Build URL to fetch movie details
+      var apiKey = "YOUR_TMDB_API_KEY";
+      var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
+
+      // Fetch JSON data from TMDB
+      $.getJSON(url, function(movie) {
+          // Send data to the displayWatchlist function
+          displayWatchlist(movie, index);
+      });
   });
 }
 
-// Display the watchlist
-function displayWatchlist(movie) {
+// Function to display watchlist movie card
+function displayWatchlist(movie, index) {
   // Extract movie details
   var title = movie.title;
   var moviePoster = movie.poster_path;
@@ -81,27 +83,26 @@ function displayWatchlist(movie) {
 
   // Build HTML string for the watchlist movie card
   var htmlString = `
-      <div class="watchlist-movie-card">
-          <div class="watchlist-movie-details" id="watchlist-movie-details">
-              <h2>${title}</h2>
-              <img src="https://image.tmdb.org/t/p/original/${moviePoster}" alt="Movie Poster">
-              <p>Year: ${releaseDate}</p>
-          </div>
+  <div class="watchlist-movie-card">
+  <div class="watchlist-movie-details" id="watchlist-movie-details">
+      <h2>${title}</h2>
+      <img src="https://image.tmdb.org/t/p/original/${moviePoster}" alt="Movie Poster">
+      <p>Year: ${releaseDate}</p>
+  </div>
 
-          <div class="watchlist-extra" id="watchlist-extra-0" style="background-image: url('https://image.tmdb.org/t/p/original/${movieBackdrop}'); display: flex;">
-              <h3>Description</h3>
-              <p>${movieDescription}</p>
-              <!-- Goes to where to watch using JS, will add where to watch API next semester -->          
-              <button class="watchlist-change-button" onclick="viewWatchlistOptions(0)">Where to watch</button>
-          </div>
+  <div class="watchlist-extra" id="watchlist-extra-0" style="background-image: url('https://image.tmdb.org/t/p/original/${movieBackdrop}'); display: flex;">
+      <h3>Description</h3>
+      <p>${movieDescription}</p>
+      <!-- Goes to where to watch using JS, will add where to watch API next semester -->          
+      <button class="watchlist-change-button" onclick="viewWatchlistOptions(0)">Where to watch</button>
+  </div>
 
-          <div class="watchlist-view" id="watchlist-view-0" style="background-image: url('https://image.tmdb.org/t/p/original/${movieBackdrop}'); display: none;">
-              <h3>Where to watch</h3>
-              <h4>Disney +</h4>
-              <button class="watchlist-back" onclick="watchlistBack(0)">Back</button>
-          </div>
-      </div>`;
-
+  <div class="watchlist-view" id="watchlist-view-0" style="background-image: url('https://image.tmdb.org/t/p/original/${movieBackdrop}'); display: none;">
+      <h3>Where to watch</h3>
+      <h4>Disney +</h4>
+      <button class="watchlist-back" onclick="watchlistBack(0)">Back</button>
+  </div>
+</div>`;
   // Insert HTML into watchlist container
-  $('.watchlist-movie-card-container').append(htmlString);
+  $('#watchlist-movie-card-' + index).html(htmlString);
 }
