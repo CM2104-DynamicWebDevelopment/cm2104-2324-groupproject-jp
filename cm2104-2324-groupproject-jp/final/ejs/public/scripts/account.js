@@ -63,9 +63,9 @@ function getSearchFromTMDB(movieIds) {
     var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
 
     // Fetch JSON data from TMDB
-    $.getJSON(url, function (jsondata) {
-        // Send data to the displayWatchlist function
-        displayWatchlist(jsondata);
+    $.getJSON(url, function(jsondata) {
+      // Send data to the displayWatchlist function
+      displayWatchlist(jsondata);
     });
   });
 }
@@ -101,7 +101,7 @@ function displayWatchlist(movie) {
               <button class="watchlist-back" onclick="watchlistBack(0)">Back</button>
           </div>
       </div>`;
-  
+
   // Insert HTML into watchlist container
   $('.watchlist-movie-card-container').append(htmlString);
 }
