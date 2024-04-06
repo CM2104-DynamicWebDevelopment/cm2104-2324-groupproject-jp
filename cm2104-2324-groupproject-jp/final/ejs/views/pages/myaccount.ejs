@@ -226,28 +226,57 @@
         <!-- Display movie cards -->
         <div class="watchlist-movie-card-container">
             <!-- Movie cards will be dynamically added here -->
-            <% user.watchlist.movieIds.forEach(function(movieId) { %>
-                <% 
-                function getSearchFromTMDB(movieId) {
-                    // Build URL to fetch movie details
-                    var apiKey = "YOUR_API_KEY"; // Replace with your TMDB API key
-                    var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
-
-                    // Fetch JSON data from TMDB
-                    $.getJSON(url, function(jsondata) {
-                        // Send data to the displayWatchlist function
-                        displayWatchlist(jsondata);
-                    });
-                }
-                getSearchFromTMDB(movieId); 
-                %>
-            <% }); %>
         </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
+        <script>
+            $(document).ready(function() {
+                <% user.watchlist.movieIds.forEach(function(movieId) { %>
+                    var apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
+                    var url = "https://api.themoviedb.org/3/movie/<%= movieId %>?api_key=" + apiKey;
+                    $.getJSON(url, function(movie) {
+                        // Extract movie details
+                        var title = movie.title;
+                        var moviePoster = movie.poster_path;
+                        var movieDescription = movie.overview;
+                        var movieBackdrop = movie.backdrop_path;
+                        var releaseDate = movie.release_date;
+
+                        // Build HTML string for the watchlist movie card
+                        var htmlString = `
+                            <div class="watchlist-movie-card">
+                                <div class="watchlist-movie-details" id="watchlist-movie-details">
+                                    <h2>${title}</h2>
+                                    <img src="https://image.tmdb.org/t/p/original/${moviePoster}" alt="Movie Poster">
+                                    <p>Year: ${releaseDate}</p>
+                                </div>
+
+                                <div class="watchlist-extra" id="watchlist-extra-<%= movieId %>" style="background-image: url('https://image.tmdb.org/t/p/original/${movieBackdrop}'); display: flex;">
+                                    <h3>Description</h3>
+                                    <p>${movieDescription}</p>
+                                    <!-- Goes to where to watch using JS, will add where to watch API next semester -->          
+                                    <button class="watchlist-change-button" onclick="viewWatchlistOptions(<%= movieId %>)">Where to watch</button>
+                                </div>
+
+                                <div class="watchlist-view" id="watchlist-view-<%= movieId %>" style="background-image: url('https://image.tmdb.org/t/p/original/${movieBackdrop}'); display: none;">
+                                    <h3>Where to watch</h3>
+                                    <h4>Disney +</h4>
+                                    <button class="watchlist-back" onclick="watchlistBack(<%= movieId %>)">Back</button>
+                                </div>
+                            </div>`;
+                        
+                        // Insert HTML into watchlist container
+                        $('.watchlist-movie-card-container').append(htmlString);
+                    });
+                <% }); %>
+            });
+        </script>
     <% } else { %>
         <!-- If no movies in watchlist -->
         <p>No movies in watchlist</p>
     <% } %>
 </div>
+
+
 
 
 
@@ -262,5 +291,6 @@
 </body>
 
 <script src="/scripts/account.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </html>
