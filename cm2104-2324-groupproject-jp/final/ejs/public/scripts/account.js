@@ -61,7 +61,7 @@ function viewWatchlistOptions(num) {
 function getWatchlistFromTMDB(movieIds) {
   movieIds.forEach(function(movieId, index) {
       // Build URL to fetch movie details
-      var apiKey = "YOUR_TMDB_API_KEY";
+      var apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
       var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
 
       // Fetch JSON data from TMDB
