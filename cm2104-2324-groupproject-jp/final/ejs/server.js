@@ -49,15 +49,14 @@ app.get('/', (req, res) => {
 
 // Route to render the myaccount.ejs page
 app.get('/myaccount', (req, res) => {
-  // Redirect to login if not logged in
-  if (!req.session.loggedin) {
-      res.redirect('/');
-      return;
-  }
-  res.render('pages/myaccount', { user: req.session.user });
+    // Redirect to login if not logged in
+    if (!req.session.loggedin) {
+        res.redirect('/');
+        return;
+    }
+    // Render myaccount page with user data and watchlist
+    res.render('pages/myaccount', { user: req.session.user, watchlist: req.session.user.watchlist });
 });
-
-
 
 // Route to render the group.ejs page
 app.get('/groups', (req, res) => {
@@ -66,7 +65,8 @@ app.get('/groups', (req, res) => {
         res.redirect('/');
         return;
     }
-    res.render('pages/groups', { user: req.session.user });
+    // Render groups page with user data and watchlist
+    res.render('pages/groups', { user: req.session.user, watchlist: req.session.user.watchlist });
 });
 
 // Route to handle login form submission
@@ -87,6 +87,7 @@ app.post('/dologin', (req, res) => {
             req.session.currentuser = uname;
             req.session.userId = result._id; // Set userId in session
             req.session.user = result; // Store user data in session
+            req.body.movieId = movieId
             
             // Retrieve watchlist data for the user and store it in the session
             db.collection('people').findOne({ _id: result._id }, { watchlist: 1 }, (err, watchlistResult) => {
