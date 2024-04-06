@@ -49,24 +49,14 @@ app.get('/', (req, res) => {
 
 // Route to render the myaccount.ejs page
 app.get('/myaccount', (req, res) => {
-    // Redirect to login if not logged in
-    if (!req.session.loggedin) {
-        res.redirect('/');
-        return;
-    }
-
-    // Retrieve user data including watchlist from the database
-    db.collection('people').findOne({ _id: req.session.userId }, (err, user) => {
-        if (err) {
-            console.error('Error retrieving user data:', err);
-            res.status(500).send('Error retrieving user data');
-            return;
-        }
-
-        // Render the myaccount page and pass user data to the template
-        res.render('pages/myaccount', { user: user });
-    });
+  // Redirect to login if not logged in
+  if (!req.session.loggedin) {
+      res.redirect('/');
+      return;
+  }
+  res.render('pages/myaccount', { user: req.session.user });
 });
+
 
 
 // Route to render the group.ejs page
@@ -97,7 +87,13 @@ app.post('/dologin', (req, res) => {
             req.session.currentuser = uname;
             req.session.userId = result._id; // Set userId in session
             req.session.user = result; // Store user data in session
-            res.redirect('/myaccount'); // Redirect to myaccount if login successful
+            
+            // Retrieve watchlist data for the user and store it in the session
+            db.collection('people').findOne({ _id: result._id }, { watchlist: 1 }, (err, watchlistResult) => {
+                if (err) throw err;
+                req.session.user.watchlist = watchlistResult.watchlist;
+                res.redirect('/myaccount'); // Redirect to myaccount if login successful
+            });
         } else {
             res.redirect('/');
         }
