@@ -55,20 +55,23 @@ function viewWatchlistOptions(num) {
     document.getElementById('watchlist-view-' + num).style.display = 'none';
   }
 
+  function getWatchlistFromTMDB(movieid){
+    console.log(movieid);
+  }
 // Function to get search results from TMDB using movie ID
-function getSearchFromTMDB(movieIds) {
-  movieIds.forEach(function(movieId) {
-    // Build URL to fetch movie details
-    var apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
-    var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
+//function getWatchlistFromTMDB(movieIds) {
+//   movieIds.forEach(function(movieId) {
+//     // Build URL to fetch movie details
+//     var apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
+//     var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
 
-    // Fetch JSON data from TMDB
-    $.getJSON(url, function(jsondata) {
-      // Send data to the displayWatchlist function
-      displayWatchlist(jsondata);
-    });
-  });
-}
+//     // Fetch JSON data from TMDB
+//     $.getJSON(url, function(jsondata) {
+//       // Send data to the displayWatchlist function
+//       displayWatchlist(jsondata);
+//     });
+//   });
+// }
 
 // Display the watchlist
 function displayWatchlist(movie) {
