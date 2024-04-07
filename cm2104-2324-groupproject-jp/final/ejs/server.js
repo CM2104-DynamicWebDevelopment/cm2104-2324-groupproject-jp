@@ -129,7 +129,7 @@ app.post('/adduser', (req, res) => {
         console.log('User saved to database');
         // Set userId in session after user creation
         req.session.userId = result.insertedId;
-        res.redirect('/'); // Redirect if signup successful
+        res.redirect('/myaccount'); // Redirect if signup successful
     });
 });
 
@@ -186,7 +186,7 @@ app.post('/addwatchlist', (req, res) => {
     // Update the watchlist in the database
     db.collection('people').updateOne(
         { _id: req.session.userId },
-        { $set: { watchlist: watchlist } },
+        { $set: { watchlist: req.session.user.watchlist } }, // Updated to use the session user's watchlist
         (err, result) => {
             if (err) {
                 console.error('Error updating watchlist:', err);
@@ -198,6 +198,7 @@ app.post('/addwatchlist', (req, res) => {
         }
     );
 });
+
 
 
 // Route to retrieve watchlist movie IDs

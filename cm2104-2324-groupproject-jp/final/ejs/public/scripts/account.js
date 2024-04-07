@@ -133,5 +133,5 @@ function buildMovieCard(movieInfo) {
 // Call fetchWatchlistMovieIds() when the page is loaded
 document.addEventListener("DOMContentLoaded", function () {
     fetchWatchlistMovieIds();
-    console.log("FETHC WATCHKKKUSTTT CAKKKED")
+    console.log("fetch watchlist called")
 });
