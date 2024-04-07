@@ -116,7 +116,7 @@ app.post('/adduser', (req, res) => {
             "thumbnail": defaultProfilePic // Using default picture if no thumbnail provided
         },
         "watchlist": { // Adding watchlist field
-            "movieIds": ["1234", "1223"] // Initial movie IDs to add upon signup
+            "movieIds": ["105", "165"] // Initial movie IDs to add upon signup
         }
     };
 
