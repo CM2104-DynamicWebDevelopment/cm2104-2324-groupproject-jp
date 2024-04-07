@@ -166,7 +166,7 @@ app.post('/addwatchlist', (req, res) => {
                 res.status(500).send('Error adding movie to watchlist');
                 return;
             }
-            console.log('Movie added to watchlist');
+            console.log('Movie added to watchlist' + movieId);
             // Update the user's watchlist in the session as well
             req.session.user.watchlist.movieIds.push(movieId);
         }
