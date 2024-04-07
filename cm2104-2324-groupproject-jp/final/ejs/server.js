@@ -158,7 +158,7 @@ app.post('/addwatchlist', (req, res) => {
     // Update the user's document in the database to add the new movie to the watchlist
     db.collection('people').updateOne(
         { _id: userId },
-        { $push: { 'watchlist.movieIds': movieId } },
+        { $addToSet: { 'watchlist.movieIds': movieId } }, // Use $addToSet to ensure no duplicates
         (err, result) => {
             if (err) {
                 console.error('Error adding movie to watchlist:', err);
@@ -166,9 +166,19 @@ app.post('/addwatchlist', (req, res) => {
                 return;
             }
             console.log('Movie added to watchlist: ' + movieId);
-            // Update the user's watchlist in the session as well
-            req.session.user.watchlist.movieIds.push(movieId);
-            res.send('Movie added to watchlist'); // Send response after the operation is completed
+
+            // Retrieve the updated user document from the database
+            db.collection('people').findOne({ _id: userId }, (err, user) => {
+                if (err) {
+                    console.error('Error retrieving user:', err);
+                    res.status(500).send('Error retrieving user');
+                    return;
+                }
+
+                // Update the user's watchlist in the session with the updated data
+                req.session.user.watchlist = user.watchlist;
+                res.send('Movie added to watchlist'); // Send response after the operation is completed
+            });
         }
     );
 });
