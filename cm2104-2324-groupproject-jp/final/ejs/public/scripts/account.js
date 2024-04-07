@@ -67,9 +67,8 @@ function fetchWatchlistMovieIds() {
       .then(data => {
           // Handle the response data
           console.log(data.watchlistMovieIds);
-          // You can now use the watchlist movie IDs in your client-side JavaScript
-          // For example, iterate over them or perform any other operations
+          // Update the HTML content with the watchlist movie IDs
+          document.getElementById('watchlist-movie-ids').innerHTML = data.watchlistMovieIds.join(', ');
       })
       .catch(error => console.error('Error:', error));
 }
-
