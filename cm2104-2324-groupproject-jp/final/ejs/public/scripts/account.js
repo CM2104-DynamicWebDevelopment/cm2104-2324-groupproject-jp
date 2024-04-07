@@ -123,14 +123,8 @@ function buildMovieCard(movieInfo) {
   '<div class="watchlist-extra" id="watchlist-extra-1" style="background-image: url(\'https://image.tmdb.org/t/p/original/' + moviePoster + '\'); display: flex;">' +
     '<h3>description</h3>' +
     '<p>' + movieDescription + '</p>' +
-    '<button class="watchlist-change-button" onclick="viewWatchlistOptions(1)">Edit</button>' +
   '</div>' +
 
-  '<div class="watchlist-view" id="watchlist-view-1" style="background-image: url(\'https://image.tmdb.org/t/p/original/' + moviePoster + '\'); display: none;">' +
-    '<h3>Where to watch</h3>' +
-    '<h4>Netfix</h4>' +
-    '<button class="watchlist-back" onclick="watchlistBack(1)">Back</button>' +
-  '</div>' +
 '</div>';
 
   // Inserting the HTML into the watchlist movie card container
