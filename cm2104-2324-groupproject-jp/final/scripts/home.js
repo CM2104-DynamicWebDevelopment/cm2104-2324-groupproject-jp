@@ -263,6 +263,7 @@ $(document).ready(function () {
             var movieBackdrop = movies[i].backdrop_path;
             var movieRating = movies[i].vote_average;
             var releaseDate = movies[i].release_date;
+            var id = movies[i].id;
 
             console.log("THISSSS IS SSS REVIEWWW Title: " + title);
             console.log("Poster Path: " + moviePoster);
@@ -281,6 +282,7 @@ $(document).ready(function () {
                 "<div class='results-extra' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "');\">" +
                 "<h3>About " + title + "</h3>" +
                 "<p>" + movieDescription + "</p>" +
+                "<button class='button-watchlist' action='/addwatchlist' method='POST' onclick='addtowatchlist("+id+")'>Add to Watchlist</button>" +
                 "</div>" +
                 "</div>";
         }

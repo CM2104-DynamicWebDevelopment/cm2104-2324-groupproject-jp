@@ -215,3 +215,64 @@ app.get('/getWatchlistMovieIds', (req, res) => {
     // Send the watchlist movie IDs as the response
     res.json({ watchlistMovieIds });
 });
+
+// Route to handle adding a review
+app.post('/addreview', (req, res) => {
+    // Check if the user is logged in
+    if (!req.session.loggedin) {
+        res.redirect('/'); // Redirect to login if not logged in
+        return;
+    }
+
+    // Get the movie ID, review number, and review text from the request body
+    const movieId = req.body.movieId;
+    const reviewNumber = req.body.reviewNumber;
+    const reviewText = req.body.reviewText;
+
+    // Check if all required fields are provided
+    if (!movieId || !reviewNumber || !reviewText) {
+        res.status(400).send('All fields are required.');
+        return;
+    }
+
+    // Construct the review object
+    const review = {
+        movieId: movieId,
+        reviewNumber: reviewNumber,
+        reviewText: reviewText
+    };
+
+    // Add the review to the user's reviews array
+    req.session.user.reviews.push(review);
+
+    // Update the user's reviews in the database
+    db.collection('people').updateOne(
+        { _id: req.session.userId },
+        { $push: { reviews: review } },
+        (err, result) => {
+            if (err) {
+                console.error('Error adding review:', err);
+                res.status(500).send('Error adding review');
+                return;
+            }
+            console.log('Review added successfully');
+            res.status(200).send('Review added successfully');
+        }
+    );
+});
+
+// Route to retrieve all review details
+app.get('/getReviewDetails', (req, res) => {
+    // Check if the user is logged in
+    if (!req.session.loggedin) {
+        res.status(401).json({ error: 'Unauthorized' }); // Unauthorized if not logged in
+        return;
+    }
+
+    // Retrieve all reviews of the user
+    const reviews = req.session.user.reviews;
+
+    // Send all review details as the response
+    res.json({ reviews: reviews });
+});
+
