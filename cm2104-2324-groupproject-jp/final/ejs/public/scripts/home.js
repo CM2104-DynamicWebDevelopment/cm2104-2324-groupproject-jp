@@ -302,7 +302,10 @@ $(document).ready(function () {
                 "<div class='results-extra' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "');\">" +
                 "<h3>About " + title + "</h3>" +
                 "<p>" + movieDescription + "</p>" +
-                "<button class='button-watchlist' action='/addwatchlist' method='POST' onclick='addtowatchlist("+id+")'>Add to Watchlist</button>" +
+                "<form id='watchlistForm' action='/addwatchlist' method='POST'>" +
+                "<input type='hidden' name='movieId' value='" + id + "'>" +
+                "<button class='button-watchlist' type='submit'>Add to Watchlist</button>" +
+                "</form>"+
                 "</div>" +
                 "</div>";
         }
