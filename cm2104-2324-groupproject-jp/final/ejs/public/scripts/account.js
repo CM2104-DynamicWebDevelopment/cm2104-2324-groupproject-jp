@@ -55,3 +55,21 @@ function viewWatchlistOptions(num) {
     document.getElementById('watchlist-view-' + num).style.display = 'none';
   }
 
+// Define a function to fetch watchlist movie IDs
+function fetchWatchlistMovieIds() {
+  fetch('/getWatchlistMovieIds')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      })
+      .then(data => {
+          // Handle the response data
+          console.log(data.watchlistMovieIds);
+          // You can now use the watchlist movie IDs in your client-side JavaScript
+          // For example, iterate over them or perform any other operations
+      })
+      .catch(error => console.error('Error:', error));
+}
+

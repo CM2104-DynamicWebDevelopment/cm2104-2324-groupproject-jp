@@ -201,3 +201,17 @@ app.post('/addwatchlist', (req, res) => {
 });
 
 
+// Route to retrieve watchlist movie IDs
+app.get('/getWatchlistMovieIds', (req, res) => {
+    // Check if the user is logged in
+    if (!req.session.loggedin) {
+        res.status(401).json({ error: 'Unauthorized' }); // Unauthorized if not logged in
+        return;
+    }
+
+    // Retrieve the watchlist movie IDs from the session
+    const watchlistMovieIds = req.session.user.watchlist.movieIds;
+
+    // Send the watchlist movie IDs as the response
+    res.json({ watchlistMovieIds });
+});
