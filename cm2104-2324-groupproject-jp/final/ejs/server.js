@@ -171,25 +171,16 @@ app.post('/addwatchlist', (req, res) => {
     const userId = req.session.user._id;
 
     // Update the user's watchlist in the database
-    db.collection('people').findOneAndUpdate(
+    db.collection('people').updateOne(
         { _id: userId },
-        { $addToSet: { "watchlist.movieIds": movieId } }, // Use $addToSet to add only if not already present
-        { returnOriginal: false }, // To get the updated document
+        { $addToSet: { watchlist: movieId } }, // Add movieId to watchlist array, preventing duplicates
         (err, result) => {
             if (err) {
-                console.error('Error updating watchlist:', err);
-                res.status(500).send('Error updating watchlist');
+                console.error('Error saving to database:', err);
+                res.status(500).send('Error saving to database');
                 return;
             }
-
-            // Check if user found
-            if (!result.value) {
-                res.status(404).send('User not found');
-                return;
-            }
-
-            console.log('Watchlist updated successfully');
-            req.session.user = result.value; // Update session user with the updated document
+            console.log('Watchlist updated in the database');
             res.status(200).send('Movie added to watchlist successfully');
         }
     );
