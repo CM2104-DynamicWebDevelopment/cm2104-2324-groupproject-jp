@@ -168,7 +168,7 @@ $(document).ready(function () {
         console.log("Poster Path: " + moviePoster);
         console.log("Overview: " + movieDescription);
         console.log("Release Date: " + releaseDate);
-        console.log("Movie id is " + id);
+        console.log("movie id" + id);
     
         // build html
         htmlString += "<div class='movie-details'>" +
@@ -178,10 +178,7 @@ $(document).ready(function () {
         "<p>Year: "+ releaseDate +"</p>" +
         "</div>" +
         "<div class='reviews'>" +
-        "<form id='watchlistForm' action='/addwatchlist' method='POST'>" +
-        "<input type='hidden' name='movieId' value='" + id + "'>" +
-        "<button class='button-watchlist' type='submit'>Add to Watchlist</button>" +
-        "</form>"+
+        "<button class='button-watchlist' action='/addwatchlist' method='POST' onclick='addtowatchlist("+id+")'>Add to Watchlist</button>" +
         "<div class='rating-buttons'>" +
         "<button class='rating' value='1'>1</button>" +
         "<button class='rating' value='2'>2</button>" +
@@ -211,23 +208,6 @@ $(document).ready(function () {
 
         // insert html in the movie card dive it was called from
         $('.movie-card-' + Rlocation).append(htmlString);
-
-            // Prevent the default form submission behavior
-        $('#watchlistForm').on('submit', function(event) {
-            event.preventDefault();
-            // AJAX call to submit the form data
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: $(this).serialize(),
-                success: function(response) {
-                    console.log(response); // You can handle the response here
-                },
-                error: function(xhr, status, error) {
-                    console.error(error); // Handle errors here
-                }
-            });
-        });
     }
 
 
@@ -274,7 +254,7 @@ $(document).ready(function () {
         // set up the html to be used later
         var htmlString = "";
         // get the top 5 movies from search
-        for (var i = 0; i < 5 && i < movies.length; i++) {
+        for (var i = 0; i < 2 && i < movies.length; i++) {
             // get the data from the json 
             console.log("review has been called");
             var title = movies[i].title;
@@ -283,6 +263,7 @@ $(document).ready(function () {
             var movieBackdrop = movies[i].backdrop_path;
             var movieRating = movies[i].vote_average;
             var releaseDate = movies[i].release_date;
+            var id = movies[i].id;
 
             console.log("THISSSS IS SSS REVIEWWW Title: " + title);
             console.log("Poster Path: " + moviePoster);
@@ -301,6 +282,8 @@ $(document).ready(function () {
                 "<div class='results-extra' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "');\">" +
                 "<h3>About " + title + "</h3>" +
                 "<p>" + movieDescription + "</p>" +
+                "<p> hello </p>" +
+                "<button class='button-watchlist' action='/addwatchlist' method='POST' onclick='addtowatchlist("+id+")'>Add to Watchlist</button>" +
                 "</div>" +
                 "</div>";
         }
