@@ -104,28 +104,38 @@ function getWatchlistFromTMDB(movieId) {
 
 // Function to build movie card HTML
 function buildMovieCard(movieInfo) {
-    // Extracting movie information
-    var title = movieInfo.original_title;
-    var moviePoster = movieInfo.poster_path;
-    var movieDescription = movieInfo.overview;
-    var releaseDate = movieInfo.release_date.split('-')[0];
-    var id = movieInfo.id;
+  // Extracting movie information
+  var title = movieInfo.original_title;
+  var moviePoster = movieInfo.poster_path;
+  var movieDescription = movieInfo.overview;
+  var releaseDate = movieInfo.release_date.split('-')[0];
+  var id = movieInfo.id;
 
-    // Constructing the HTML string for movie card
-    var htmlString =
-        "<div class='watchlist-movie-card'>" +
-        "<div class='watchlist-movie-details'>" +
-        "<h2>" + title + "</h2>" +
-        "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='" + title + " Poster'>" +
-        "<p>Year: " + releaseDate + "</p>" +
-        "<p>Description: " + movieDescription + "</p>" +
-        "</div>" +
-        "</div>";
+  // Constructing the HTML string for movie card
+  var htmlString =
+  '<div class="watchlist-movie-card">'+
+  '<div class="watchlist-movie-details" id="watchlist-movie-details">'+
+    '<h2>' + title + '</h2>' +
+    '<img src="https://image.tmdb.org/t/p/original/' + moviePoster + '" alt="Movie Poster">' +
+    '<p>Year: ' + releaseDate + '</p>' +
+  '</div>' +
 
-    // Inserting the HTML into the watchlist movie card container
-    $('.watchlist-movie-card-container').append(htmlString);
+  '<div class="watchlist-extra" id="watchlist-extra-1" style="background-image: url(\'https://image.tmdb.org/t/p/original/' + moviePoster + '\'); display: flex;">' +
+    '<h3>description</h3>' +
+    '<p>' + movieDescription + '</p>' +
+    '<button class="watchlist-change-button" onclick="viewWatchlistOptions(1)">Edit</button>' +
+  '</div>' +
+
+  '<div class="watchlist-view" id="watchlist-view-1" style="background-image: url(\'https://image.tmdb.org/t/p/original/' + moviePoster + '\'); display: none;">' +
+    '<h3>Where to watch</h3>' +
+    '<h4>Netfix</h4>' +
+    '<button class="watchlist-back" onclick="watchlistBack(1)">Back</button>' +
+  '</div>' +
+'</div>';
+
+  // Inserting the HTML into the watchlist movie card container
+  $('.watchlist-movie-card-container').append(htmlString);
 }
-
 // Call fetchWatchlistMovieIds() when the page is loaded
 document.addEventListener("DOMContentLoaded", function () {
     fetchWatchlistMovieIds();
