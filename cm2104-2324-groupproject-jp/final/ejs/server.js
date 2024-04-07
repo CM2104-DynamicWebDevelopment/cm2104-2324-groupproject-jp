@@ -56,7 +56,6 @@ app.get('/myaccount', (req, res) => {
     }
     // Render myaccount page with user data and watchlist
     res.render('pages/myaccount', { user: req.session.user});
-    getWatchlistMovies(req.session.user.watchlist.movieIds);
 });
 
 // Route to render the group.ejs page
