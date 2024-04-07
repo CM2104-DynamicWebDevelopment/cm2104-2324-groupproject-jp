@@ -150,7 +150,6 @@ app.post('/logout', function (req, res) {
   });
 });
 
-
 // Route to handle adding a movie to the user's watchlist
 app.post('/addwatchlist', (req, res) => {
     const userId = req.session.userId; // Get the user's ID from the session
@@ -166,9 +165,10 @@ app.post('/addwatchlist', (req, res) => {
                 res.status(500).send('Error adding movie to watchlist');
                 return;
             }
-            console.log('Movie added to watchlist' + movieId);
+            console.log('Movie added to watchlist: ' + movieId);
             // Update the user's watchlist in the session as well
             req.session.user.watchlist.movieIds.push(movieId);
+            res.send('Movie added to watchlist'); // Send response after the operation is completed
         }
     );
 });
