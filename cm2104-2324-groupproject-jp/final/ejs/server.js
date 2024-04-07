@@ -150,42 +150,28 @@ app.post('/logout', function (req, res) {
   });
 });
 
+
 // Route to handle adding a movie to the user's watchlist
 app.post('/addwatchlist', (req, res) => {
-    // Check if the user is logged in
-    if (!req.session.loggedin) {
-        res.redirect('/'); // Redirect to login if not logged in
-        return;
-    }
+    const userId = req.session.userId; // Get the user's ID from the session
+    const movieId = req.body.movieId; // Get the movie ID from the request body
 
-    // Get the movie ID from the request body
-    const movieId = req.body.movieId;
-
-    // Check if the movieId is provided
-    if (!movieId) {
-        res.status(400).send('Movie ID is required.');
-        return;
-    }
-
-    // Get the user's ID from the session
-    const userId = req.session.user._id;
-
-    // Update the user's watchlist in the database
+    // Update the user's document in the database to add the new movie to the watchlist
     db.collection('people').updateOne(
         { _id: userId },
-        { $addToSet: { watchlist: movieId } }, // Add movieId to watchlist array, preventing duplicates
+        { $push: { 'watchlist.movieIds': movieId } },
         (err, result) => {
             if (err) {
-                console.error('Error saving to database:', err);
-                res.status(500).send('Error saving to database');
+                console.error('Error adding movie to watchlist:', err);
+                res.status(500).send('Error adding movie to watchlist');
                 return;
             }
-            console.log('Watchlist updated in the database');
-            res.status(200).send('Movie added to watchlist successfully');
+            console.log('Movie added to watchlist');
+            // Update the user's watchlist in the session as well
+            req.session.user.watchlist.movieIds.push(movieId);
         }
     );
 });
-
 
 
 
