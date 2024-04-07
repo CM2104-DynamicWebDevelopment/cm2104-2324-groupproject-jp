@@ -215,8 +215,8 @@
   <div id="container-Watchlist" class="account-container">
     <h1>Your Watchlist</h1>
     <p>List of all the movies you want to watch</p>
-    <p id="watchlist-movie-ids"><%= user.watchlist.movieIds.join(', ') %></p>
-    <button onclick="fetchWatchlistMovieIds();">Get IDs</button>
+    <p id="watchlist-movie-ids"><%= user.watchlist.movieIds %></p>
+    <div class="watchlist-movie-card-container"></div>
   </div>
   </div>
   
@@ -225,6 +225,78 @@
 
 </body>
 
+<script>
+  // Define a function to fetch watchlist movie IDs
+  function fetchWatchlistMovieIds() {
+      fetch('/getWatchlistMovieIds')
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              return response.json();
+          })
+          .then(data => {
+              // Handle the response data
+              console.log(data.watchlistMovieIds);
+              // Update the HTML content with the watchlist movie IDs
+              document.getElementById('watchlist-movie-ids').innerText = data.watchlistMovieIds.join(', ');
+              
+              // After fetching movie IDs, build movie cards for each movie
+              data.watchlistMovieIds.forEach(movieId => {
+                  getSearchFromTMDB(movieId);
+              });
+          })
+          .catch(error => console.error('Error:', error));
+  }
+
+  // Call the function to fetch watchlist movie IDs when the page loads
+  fetchWatchlistMovieIds();
+
+  // Function to get movie details from TMDB
+  function getSearchFromTMDB(movieId) {
+      console.log(movieId);
+      var apiKey = "YOUR_API_KEY"; // Replace with your TMDB API key
+      var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
+
+      fetch(url)
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              return response.json();
+          })
+          .then(jsondata => {
+              console.log(jsondata);
+              // Build movie card with the retrieved data
+              buildMovieCard(jsondata);
+          })
+          .catch(error => console.error('Error:', error));
+  }
+
+  // Function to build movie card HTML
+  function buildMovieCard(movieInfo) {
+      // Extracting movie information
+      var title = movieInfo.original_title;
+      var moviePoster = movieInfo.poster_path;
+      var movieDescription = movieInfo.overview;
+      var releaseDate = movieInfo.release_date.split('-')[0];
+      var id = movieInfo.id;
+
+      // Constructing the HTML string for movie card
+      var htmlString = 
+          "<div class='watchlist-movie-card'>" +
+              "<div class='watchlist-movie-details'>" +
+                  "<h2>" + title + "</h2>" +
+                  "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='" + title + " Poster'>" +
+                  "<p>Year: " + releaseDate + "</p>" +
+                  "<p>Description: " + movieDescription + "</p>" +
+              "</div>" +
+          "</div>";
+
+      // Inserting the HTML into the watchlist movie card container
+      $('.watchlist-movie-card-container').append(htmlString);
+  }
+</script>
 <script src="/scripts/account.js"></script>
 
 </html>

@@ -54,21 +54,3 @@ function viewWatchlistOptions(num) {
     document.getElementById('watchlist-extra-' + num).style.display = 'flex';
     document.getElementById('watchlist-view-' + num).style.display = 'none';
   }
-
-// Define a function to fetch watchlist movie IDs
-function fetchWatchlistMovieIds() {
-  fetch('/getWatchlistMovieIds')
-      .then(response => {
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          return response.json();
-      })
-      .then(data => {
-          // Handle the response data
-          console.log(data.watchlistMovieIds);
-          // Update the HTML content with the watchlist movie IDs
-          document.getElementById('watchlist-movie-ids').innerHTML = data.watchlistMovieIds.join(', ');
-      })
-      .catch(error => console.error('Error:', error));
-}
