@@ -162,8 +162,7 @@ app.post('/addwatchlist', (req, res) => {
         (err, result) => {
             if (err) {
                 console.error('Error adding movie to watchlist:', err);
-                res.status(500).send('Error adding movie to watchlist');
-                return;
+                return res.status(500).send('Error adding movie to watchlist');
             }
             console.log('Movie added to watchlist: ' + movieId);
 
@@ -171,8 +170,17 @@ app.post('/addwatchlist', (req, res) => {
             db.collection('people').findOne({ _id: userId }, (err, user) => {
                 if (err) {
                     console.error('Error retrieving user:', err);
-                    res.status(500).send('Error retrieving user');
-                    return;
+                    return res.status(500).send('Error retrieving user');
+                }
+                if (!user) {
+                    console.error('User not found');
+                    return res.status(404).send('User not found');
+                }
+
+                // Check if user object has watchlist property
+                if (!user.watchlist) {
+                    console.error('User watchlist not found');
+                    return res.status(404).send('User watchlist not found');
                 }
 
                 // Update the user's watchlist in the session with the updated data
@@ -182,6 +190,7 @@ app.post('/addwatchlist', (req, res) => {
         }
     );
 });
+
 
 
 
