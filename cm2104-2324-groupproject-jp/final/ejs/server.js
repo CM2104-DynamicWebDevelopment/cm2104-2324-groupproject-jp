@@ -150,7 +150,6 @@ app.post('/logout', function (req, res) {
   });
 });
 
-
 // Route to handle adding a movie to the user's watchlist
 app.post('/addwatchlist', (req, res) => {
     // Check if the user is logged in
@@ -168,36 +167,34 @@ app.post('/addwatchlist', (req, res) => {
         return;
     }
 
-    // Get the user's watchlist from the session
-    const watchlist = req.session.user.watchlist;
+    // Get the user's ID from the session
+    const userId = req.session.user._id;
 
-    // Check if the movie is already in the watchlist
-    if (watchlist.movieIds.includes(movieId)) {
-        res.status(400).send('Movie is already in the watchlist.');
-        return;
-    }
-
-    // Add the movieId to the user's watchlist
-    watchlist.movieIds.push(movieId);
-
-    // Update the user's watchlist in the session
-    req.session.user.watchlist = watchlist;
-
-    // Update the watchlist in the database
-    db.collection('people').updateOne(
-        { _id: req.session.userId },
-        { $set: { watchlist: req.session.user.watchlist } }, // Updated to use the session user's watchlist
+    // Update the user's watchlist in the database
+    db.collection('people').findOneAndUpdate(
+        { _id: userId },
+        { $addToSet: { "watchlist.movieIds": movieId } }, // Use $addToSet to add only if not already present
+        { returnOriginal: false }, // To get the updated document
         (err, result) => {
             if (err) {
                 console.error('Error updating watchlist:', err);
                 res.status(500).send('Error updating watchlist');
                 return;
             }
+
+            // Check if user found
+            if (!result.value) {
+                res.status(404).send('User not found');
+                return;
+            }
+
             console.log('Watchlist updated successfully');
-            res.status(200).send('Movie added to watchlist successfully ');
+            req.session.user = result.value; // Update session user with the updated document
+            res.status(200).send('Movie added to watchlist successfully');
         }
     );
 });
+t
 
 
 
