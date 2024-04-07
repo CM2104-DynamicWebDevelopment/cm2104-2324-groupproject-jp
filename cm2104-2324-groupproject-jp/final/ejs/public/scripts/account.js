@@ -74,17 +74,18 @@ function viewWatchlistOptions(num) {
 
             // After fetching movie IDs, build movie cards for each movie
             data.watchlistMovieIds.forEach(movieId => {
-                getSearchFromTMDB(movieId);
+                getWatchlistFromTMDB(movieId);
             });
         })
         .catch(error => console.error('Error:', error));
 }
 
 // Function to get movie details from TMDB
-function getSearchFromTMDB(movieId) {
+function getWatchlistFromTMDB(movieId) {
     console.log(movieId);
     var apiKey = "7e6dd248e2a77acc70a843ea3a92a687"; // Replace with your TMDB API key
     var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
+    console.log("movie searched for " + movieId)
 
     fetch(url)
         .then(response => {
