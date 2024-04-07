@@ -282,7 +282,6 @@ $(document).ready(function () {
                 "<div class='results-extra' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "');\">" +
                 "<h3>About " + title + "</h3>" +
                 "<p>" + movieDescription + "</p>" +
-                "<p> hello </p>" +
                 "<button class='button-watchlist' action='/addwatchlist' method='POST' onclick='addtowatchlist("+id+")'>Add to Watchlist</button>" +
                 "</div>" +
                 "</div>";
