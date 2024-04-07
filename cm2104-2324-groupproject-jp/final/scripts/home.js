@@ -254,7 +254,7 @@ $(document).ready(function () {
         // set up the html to be used later
         var htmlString = "";
         // get the top 5 movies from search
-        for (var i = 0; i < 5 && i < movies.length; i++) {
+        for (var i = 0; i < 2 && i < movies.length; i++) {
             // get the data from the json 
             console.log("review has been called");
             var title = movies[i].title;
