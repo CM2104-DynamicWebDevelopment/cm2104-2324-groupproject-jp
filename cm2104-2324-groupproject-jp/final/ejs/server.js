@@ -180,10 +180,6 @@ app.post('/addwatchlist', async (req, res) => {
 
         if (result.modifiedCount === 1) {
             console.log('Movie added to watchlist successfully.');
-            // Fetch the updated user profile
-            const updatedProfile = await collection.findOne({ _id: userId });
-            // Update session watchlist with the new data
-            req.session.watchlist = updatedProfile.watchlist;
             res.sendStatus(200);
         } else {
             console.log('No changes were made.');
