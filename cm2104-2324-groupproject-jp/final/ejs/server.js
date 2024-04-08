@@ -185,13 +185,9 @@ app.post('/addwatchlist', (req, res) => {
 
     // Update the watchlist in the database
     db.collection('people').updateOne(
-        { _id: req.session.userId },
-        { $set: { watchlist: watchlist }}, // use $set to update the entire watchlist
-        function(err, result){
-            if (err) throw err;
-            res.redirect('/');
-        }
-    );
+        { _id: req.session.userId  }, // Filter to identify the document
+        { "$push": {  watchlist: watchlist } } // Update operation to push the element
+      )
 });
 
 
