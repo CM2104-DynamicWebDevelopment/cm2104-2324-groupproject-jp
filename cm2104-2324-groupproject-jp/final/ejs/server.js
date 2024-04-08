@@ -153,8 +153,11 @@ app.post('/logout', function (req, res) {
 
 app.post('/addwatchlist', async (req, res) => {
     try {
+        console.log("Received request:", req.body);
+
         // Check if the user is logged in
         if (!req.session.loggedin) {
+            console.log("User not logged in. Redirecting...");
             res.redirect('/'); // Redirect to login if not logged in
             return;
         }
@@ -165,9 +168,12 @@ app.post('/addwatchlist', async (req, res) => {
 
         // Check if the movieId is provided
         if (!movieId) {
+            console.log("Movie ID not provided.");
             res.status(400).send('Movie ID is required.');
             return;
         }
+
+        console.log("Adding movie to watchlist:", movieId);
 
         const db = client.db('profiles');
         const collection = db.collection('people');
@@ -177,6 +183,8 @@ app.post('/addwatchlist', async (req, res) => {
             { _id: userId },
             { $addToSet: { "watchlist.movieIds": movieId } } // $addToSet ensures no duplicate movieIds are added
         );
+
+        console.log("MongoDB update result:", result);
 
         if (result.modifiedCount === 1) {
             console.log('Movie added to watchlist successfully.');
