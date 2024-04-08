@@ -178,7 +178,7 @@ app.post('/addwatchlist', (req, res) => {
         
         console.log('Connected successfully to server');
 
-        const db = client.db(dbName);
+        const db = client.db('profiles');
         const collection = db.collection('people');
 
         // Update operation
