@@ -184,7 +184,7 @@ app.post('/addwatchlist', (req, res) => {
     req.session.user.watchlist = watchlist;
 
     // Update the watchlist in the database
-    db.collection('people').updateOne({ _id: req.session.user._id }, { $set: { watchlist: watchlist }}, function(err, result){
+    db.collection('people').updateOne({ _id: req.session.userId }, { $set: { watchlist: watchlist }}, function(err, result){
         if (err) throw err;
         res.redirect('/');
     });
