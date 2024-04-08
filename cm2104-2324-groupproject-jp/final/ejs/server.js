@@ -152,6 +152,7 @@ app.post('/logout', function (req, res) {
 
 
 // Route to handle adding a movie to the user's watchlist
+// Route to handle adding a movie to the user's watchlist
 app.post('/addwatchlist', (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
@@ -170,12 +171,12 @@ app.post('/addwatchlist', (req, res) => {
     }
 
     client.connect(function(err) {
-        if(err) {
+        if (err) {
             console.error('Error occurred while connecting to MongoDB', err);
             res.status(500).send('Error occurred while connecting to the database.');
             return;
         }
-        
+
         console.log('Connected successfully to server');
 
         const db = client.db('profiles');
@@ -183,10 +184,10 @@ app.post('/addwatchlist', (req, res) => {
 
         // Update operation
         collection.updateOne(
-            { name: userId },
-            { $addToSet: { "watchlist.movieids": movieId } }, // $addToSet ensures no duplicate movieIds are added
+            { _id: userId }, // Assuming userId is the MongoDB ObjectId
+            { $addToSet: { "watchlist.movieIds": movieId } }, // $addToSet ensures no duplicate movieIds are added
             function(err, result) {
-                if(err) {
+                if (err) {
                     console.error('Error occurred while updating document', err);
                     res.status(500).send('Error occurred while updating document.');
                     return;
