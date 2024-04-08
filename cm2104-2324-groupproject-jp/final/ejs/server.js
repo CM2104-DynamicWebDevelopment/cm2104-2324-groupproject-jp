@@ -164,6 +164,9 @@ app.post('/addwatchlist', async (req, res) => {
     const movieId = req.body.movieId;
     const userId = req.session.userId;
 
+    console.log(movieId)
+    console.log(userId)
+
     // Check if the movieId is provided
     if (!movieId) {
         res.status(400).send('Movie ID is required.');
