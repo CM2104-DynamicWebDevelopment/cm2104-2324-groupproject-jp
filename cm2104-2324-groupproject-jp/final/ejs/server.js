@@ -150,7 +150,6 @@ app.post('/logout', function (req, res) {
   });
 });
 
-
 app.post('/addwatchlist', async (req, res) => {
     try {
         console.log("Received request:", req.body);
@@ -198,6 +197,7 @@ app.post('/addwatchlist', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 
 
