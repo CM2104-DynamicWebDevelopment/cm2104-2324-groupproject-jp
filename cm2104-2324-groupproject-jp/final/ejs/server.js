@@ -153,54 +153,45 @@ app.post('/logout', function (req, res) {
 
 // Route to handle adding a movie to the user's watchlist
 // Route to handle adding a movie to the user's watchlist
-app.post('/addwatchlist', (req, res) => {
-    // Check if the user is logged in
-    if (!req.session.loggedin) {
-        res.redirect('/'); // Redirect to login if not logged in
-        return;
-    }
-
-    // Get the movie ID from the request body
-    const movieId = req.body.movieId;
-    const userId = req.session.userId;
-
-    // Check if the movieId is provided
-    if (!movieId) {
-        res.status(400).send('Movie ID is required.');
-        return;
-    }
-
-    client.connect(function(err) {
-        if (err) {
-            console.error('Error occurred while connecting to MongoDB', err);
-            res.status(500).send('Error occurred while connecting to the database.');
+app.post('/addwatchlist', async (req, res) => {
+    try {
+        // Check if the user is logged in
+        if (!req.session.loggedin) {
+            res.redirect('/'); // Redirect to login if not logged in
             return;
         }
 
-        console.log('Connected successfully to server');
+        // Get the movie ID from the request body
+        const movieId = req.body.movieId;
+        const userId = req.session.userId;
+
+        // Check if the movieId is provided
+        if (!movieId) {
+            res.status(400).send('Movie ID is required.');
+            return;
+        }
 
         const db = client.db('profiles');
         const collection = db.collection('people');
 
         // Update operation
-        collection.updateOne(
-            { _id: userId }, // Assuming userId is the MongoDB ObjectId
-            { $addToSet: { "watchlist.movieIds": movieId } }, // $addToSet ensures no duplicate movieIds are added
-            function(err, result) {
-                if (err) {
-                    console.error('Error occurred while updating document', err);
-                    res.status(500).send('Error occurred while updating document.');
-                    return;
-                }
-
-                console.log('Document updated successfully');
-                res.send('Movie added to watchlist successfully.');
-                client.close();
-            }
+        const result = await collection.updateOne(
+            { _id: userId },
+            { $addToSet: { "watchlist.movieIds": movieId } } // $addToSet ensures no duplicate movieIds are added
         );
-    });
-});
 
+        if (result.modifiedCount === 1) {
+            console.log('Movie added to watchlist successfully.');
+            res.sendStatus(200);
+        } else {
+            console.log('No changes were made.');
+            res.sendStatus(400);
+        }
+    } catch (error) {
+        console.error('Error occurred:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 
 // Route to retrieve watchlist movie IDs
