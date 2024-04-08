@@ -152,7 +152,7 @@ app.post('/logout', function (req, res) {
 
 
 // Route to handle adding a movie to the user's watchlist
-app.post('/addwatchlist', async (req, res) => {
+app.post('/addwatchlist', (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
         res.redirect('/'); // Redirect to login if not logged in
@@ -161,7 +161,6 @@ app.post('/addwatchlist', async (req, res) => {
 
     // Get the movie ID from the request body
     const movieId = req.body.movieId;
-    const userId = req.session.userId;
 
     // Check if the movieId is provided
     if (!movieId) {
@@ -169,28 +168,28 @@ app.post('/addwatchlist', async (req, res) => {
         return;
     }
 
-    console.log(movieId)
-    console.log(userId)
+    // Get the user's watchlist from the session
+    const watchlist = req.session.user.watchlist;
 
-    try {
-        // Update the watchlist in MongoDB
-        const result = await db.collection('people').updateOne(
-            { _id: userId },
-            { $push: { "watchlist.movieIds": { $each: [movieId] } } }
-        );
-
-        if (result.modifiedCount === 1) {
-            console.log('Movie added to watchlist');
-            res.status(200).send('Movie added to watchlist successfully');
-        } else {
-            console.log('Movie already exists in watchlist');
-            res.status(200).send('Movie already exists in watchlist');
-        }
-    } catch (error) {
-        console.error('Error occurred while updating watchlist:', error);
-        res.status(500).send('Error occurred while updating watchlist');
+    // Check if the movie is already in the watchlist
+    if (watchlist.movieIds.includes(movieId)) {
+        res.status(400).send('Movie is already in the watchlist.');
+        return;
     }
+
+    // Add the movieId to the user's watchlist
+    watchlist.movieIds.push(movieId);
+
+    // Update the user's watchlist in the session
+    req.session.user.watchlist = watchlist;
+
+    // Update the watchlist in the database
+    db.collection('people').updateOne({ _id: req.session.user._id }, { $set: { watchlist: watchlist }}, function(err, result){
+        if (err) throw err;
+        res.redirect('/');
+    });
 });
+
 
 
 
