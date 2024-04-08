@@ -114,6 +114,9 @@ app.post('/adduser', (req, res) => {
         },
         "picture": { // Nested structure for profile picture
             "thumbnail": defaultProfilePic // Using default picture if no thumbnail provided
+        },
+        "watchlist": { // Adding watchlist field
+            "movieIds": [] // Initial movie IDs to add upon signup
         }
     };
 
