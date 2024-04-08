@@ -152,7 +152,6 @@ app.post('/logout', function (req, res) {
 
 
 // Route to handle adding a movie to the user's watchlist
-// Route to handle adding a movie to the user's watchlist
 app.post('/addwatchlist', (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
@@ -162,6 +161,7 @@ app.post('/addwatchlist', (req, res) => {
 
     // Get the movie ID from the request body
     const movieId = req.body.movieId;
+    const userId = req.session.userId;
 
     // Check if the movieId is provided
     if (!movieId) {
@@ -169,27 +169,35 @@ app.post('/addwatchlist', (req, res) => {
         return;
     }
 
-    // Get the user's watchlist from the session
-    const watchlist = req.session.user.watchlist;
+    client.connect(function(err) {
+        if(err) {
+            console.error('Error occurred while connecting to MongoDB', err);
+            res.status(500).send('Error occurred while connecting to the database.');
+            return;
+        }
+        
+        console.log('Connected successfully to server');
 
-    // Check if the movie is already in the watchlist
-    if (watchlist.movieIds.includes(movieId)) {
-        res.status(400).send('Movie is already in the watchlist.');
-        return;
-    }
+        const db = client.db(dbName);
+        const collection = db.collection('people');
 
-    // Add the movieId to the user's watchlist
-    watchlist.movieIds.push(movieId);
+        // Update operation
+        collection.updateOne(
+            { name: userId },
+            { $addToSet: { "watchlist.movieids": movieId } }, // $addToSet ensures no duplicate movieIds are added
+            function(err, result) {
+                if(err) {
+                    console.error('Error occurred while updating document', err);
+                    res.status(500).send('Error occurred while updating document.');
+                    return;
+                }
 
-    // Update the user's watchlist in the session
-    req.session.user.watchlist = watchlist;
-
-    // Update the watchlist in the database
-    db.collection('people').updateOne(watchlist, function(err, result){
-    if (err) throw err;
-    res.redirect('/');
-});
-
+                console.log('Document updated successfully');
+                res.send('Movie added to watchlist successfully.');
+                client.close();
+            }
+        );
+    });
 });
 
 
