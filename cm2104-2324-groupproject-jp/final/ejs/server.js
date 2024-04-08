@@ -103,35 +103,52 @@ app.post('/dologin', (req, res) => {
 // Route to handle adding a new user
 app.post('/adduser', (req, res) => {
     const defaultProfilePic = 'img/user1.jpg';
-    const datatostore = {
-        "name": {
-            "first": req.body.first
-        },
-        "email": req.body.email,
-        "login": {
-            "username": req.body.username,
-            "password": req.body.password
-        },
-        "picture": { // Nested structure for profile picture
-            "thumbnail": defaultProfilePic // Using default picture if no thumbnail provided
-        },
-        "watchlist": { // Adding watchlist field
-            "movieIds": ["105", "165"] // Initial movie IDs to add upon signup
-        }
-    };
-
-    db.collection('people').insertOne(datatostore, (err, result) => {
+    
+    // Check if the username already exists
+    db.collection('people').findOne({ "login.username": req.body.username }, (err, user) => {
         if (err) {
-            console.error('Error saving to database:', err);
-            res.status(500).send('Error saving to database');
+            console.error('Error checking username existence:', err);
+            res.status(500).send('Error checking username existence');
             return;
         }
-        console.log('User saved to database');
-        // Set userId in session after user creation
-        req.session.userId = result.insertedId;
-        res.redirect('/myaccount'); // Redirect if signup successful
+        if (user) {
+            // Username already exists, send an error response
+            res.status(400).send('Username already exists');
+            return;
+        }
+
+        // Username is unique, proceed with user creation
+        const datatostore = {
+            "name": {
+                "first": req.body.first
+            },
+            "email": req.body.email,
+            "login": {
+                "username": req.body.username,
+                "password": req.body.password
+            },
+            "picture": { // Nested structure for profile picture
+                "thumbnail": defaultProfilePic // Using default picture if no thumbnail provided
+            },
+            "watchlist": { // Adding watchlist field
+                "movieIds": ["105", "165"] // Initial movie IDs to add upon signup
+            }
+        };
+
+        db.collection('people').insertOne(datatostore, (err, result) => {
+            if (err) {
+                console.error('Error saving to database:', err);
+                res.status(500).send('Error saving to database');
+                return;
+            }
+            console.log('User saved to database');
+            // Set userId in session after user creation
+            req.session.userId = result.insertedId;
+            res.redirect('/myaccount'); // Redirect if signup successful
+        });
     });
 });
+
 
 
 //logour route cause the page to Logout.
@@ -152,7 +169,6 @@ app.post('/logout', function (req, res) {
 
 
 // Route to handle adding a movie to the user's watchlist
-// Route to handle adding a movie to the user's watchlist
 app.post('/addwatchlist', (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
@@ -160,9 +176,9 @@ app.post('/addwatchlist', (req, res) => {
         return;
     }
 
-    // Get the movie ID from the request body
+    // Get the movie ID and username from the request body
     const movieId = req.body.movieId;
-    const userId = req.session.userId;
+    const username = req.session.username; // Assuming the username is stored in the session
 
     // Check if the movieId is provided
     if (!movieId) {
@@ -182,22 +198,37 @@ app.post('/addwatchlist', (req, res) => {
         const db = client.db('profiles');
         const collection = db.collection('people');
 
-        // Update operation
-        collection.updateOne(
-            { _id: userId }, // Assuming userId is the MongoDB ObjectId
-            { $addToSet: { "watchlist.movieIds": movieId } }, // $addToSet ensures no duplicate movieIds are added
-            function(err, result) {
-                if (err) {
-                    console.error('Error occurred', err);
-                    return;
-                }
-
-                console.log('movie added');
+        // Find the user document by username
+        collection.findOne({ "login.username": username }, function(err, user) {
+            if (err) {
+                console.error('Error occurred while finding user', err);
+                res.status(500).send('Error occurred while finding user.');
+                return;
             }
-        );
+
+            if (!user) {
+                res.status(404).send('User not found.');
+                return;
+            }
+
+            // Update the watchlist for the found user
+            collection.updateOne(
+                { "_id": user._id }, // Assuming _id is the MongoDB ObjectId
+                { $addToSet: { "watchlist.movieIds": movieId } }, // $addToSet ensures no duplicate movieIds are added
+                function(err, result) {
+                    if (err) {
+                        console.error('Error occurred while updating watchlist', err);
+                        res.status(500).send('Error occurred while updating watchlist.');
+                        return;
+                    }
+
+                    console.log('Movie added to watchlist');
+                    res.send('Movie added to watchlist');
+                }
+            );
+        });
     });
 });
-
 
 
 // Route to retrieve watchlist movie IDs
