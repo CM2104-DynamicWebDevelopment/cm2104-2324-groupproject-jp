@@ -185,20 +185,13 @@ app.post('/addwatchlist', (req, res) => {
     req.session.user.watchlist = watchlist;
 
     // Update the watchlist in the database
-    db.collection('people').updateOne(
-        { _id: req.session.userId },
-        { $set: { watchlist: watchlist } },
-        (err, result) => {
-            if (err) {
-                console.error('Error updating watchlist:', err);
-                res.status(500).send('Error updating watchlist');
-                return;
-            }
-            console.log('Watchlist updated successfully');
-            res.status(200).send('Movie added to watchlist successfully ');
-        }
-    );
+    db.collection('people').updateOne(watchlist, function(err, result){
+    if (err) throw err;
+    res.redirect('/');
 });
+
+});
+
 
 
 // Route to retrieve watchlist movie IDs
@@ -275,4 +268,3 @@ app.get('/getReviewDetails', (req, res) => {
     // Send all review details as the response
     res.json({ reviews: reviews });
 });
-
