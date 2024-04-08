@@ -152,7 +152,8 @@ app.post('/logout', function (req, res) {
 
 
 // Route to handle adding a movie to the user's watchlist
-app.post('/addwatchlist', (req, res) => {
+// Route to handle adding a movie to the user's watchlist
+app.post('/addwatchlist', async (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
         res.redirect('/'); // Redirect to login if not logged in
@@ -169,26 +170,26 @@ app.post('/addwatchlist', (req, res) => {
         return;
     }
 
-    console.log('Attempting to add movie to watchlist...');
-    console.log('User ID:', userId);
-    console.log('Movie ID:', movieId);
+    try {
+        // Update the watchlist in MongoDB
+        const result = await db.collection('people').updateOne(
+            { _id: ObjectId(userId) },
+            { $addToSet: { "watchlist.movieIds": movieId } } // $addToSet ensures no duplicate movieIds are added
+        );
 
-    // Update the watchlist in MongoDB
-    db.collection('people').updateOne(
-        { _id: userId},
-        { $addToSet: { "watchlist.movieIds": movieId } }, // $addToSet ensures no duplicate movieIds are added
-        function(err, result) {
-            if (err) {
-                console.error('Error occurred', err);
-                res.status(500).send('Error occurred while updating watchlist');
-                return;
-            }
-
+        if (result.modifiedCount === 1) {
             console.log('Movie added to watchlist');
             res.status(200).send('Movie added to watchlist successfully');
+        } else {
+            console.log('Movie already exists in watchlist');
+            res.status(200).send('Movie already exists in watchlist');
         }
-    );
+    } catch (error) {
+        console.error('Error occurred while updating watchlist:', error);
+        res.status(500).send('Error occurred while updating watchlist');
+    }
 });
+
 
 
 
