@@ -85,7 +85,7 @@ app.post('/dologin', (req, res) => {
         if (result.login.password == pword) {
             req.session.loggedin = true;
             req.session.currentuser = uname;
-            req.session.userId = result._id.toString(); // Convert ObjectId to string
+            req.session.userId = result._id; // Set userId in session
             req.session.user = result; // Store user data in session
             
             // Retrieve watchlist data for the user and store it in the session
@@ -99,7 +99,6 @@ app.post('/dologin', (req, res) => {
         }
     });
 });
-
 
 // Route to handle adding a new user
 app.post('/adduser', (req, res) => {
@@ -182,6 +181,7 @@ app.post('/addwatchlist', (req, res) => {
 
         const db = client.db('profiles');
         const collection = db.collection('people');
+        console.log(userId)
 
         // Update operation
         collection.updateOne(
@@ -189,7 +189,7 @@ app.post('/addwatchlist', (req, res) => {
             { $addToSet: { "watchlist.movieIds": movieId } }, // $addToSet ensures no duplicate movieIds are added
             function(err, result) {
                 if (err) {
-                    console.error('Error occurred', err);
+                    console.error('Error occurred while updating ', err);
                     return;
                 }
 
