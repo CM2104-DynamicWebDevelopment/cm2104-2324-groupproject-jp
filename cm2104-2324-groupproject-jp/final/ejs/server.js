@@ -163,7 +163,6 @@ app.post('/addwatchlist', async (req, res) => {
 
         // Get the movie ID from the request body
         const movieId = req.body.movieId;
-        const userId = req.session.userId;
 
         // Check if the movieId is provided
         if (!movieId) {
@@ -173,6 +172,9 @@ app.post('/addwatchlist', async (req, res) => {
         }
 
         console.log("Adding movie to watchlist:", movieId);
+
+        // Get userId from session
+        const userId = req.session.userId;
 
         const db = client.db('profiles');
         const collection = db.collection('people');
