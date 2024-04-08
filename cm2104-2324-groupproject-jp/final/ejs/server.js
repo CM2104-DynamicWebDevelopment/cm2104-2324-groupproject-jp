@@ -171,7 +171,7 @@ app.post('/addwatchlist', (req, res) => {
 
     // Update the watchlist in MongoDB
     db.collection('people').updateOne(
-        { _id: ObjectId(userId) },
+        { _id: userId },
         { $addToSet: { "watchlist.movieIds": movieId } }, // $addToSet ensures no duplicate movieIds are added
         function(err, result) {
             if (err) {
