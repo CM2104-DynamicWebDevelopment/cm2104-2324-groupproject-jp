@@ -114,9 +114,6 @@ app.post('/adduser', (req, res) => {
         },
         "picture": { // Nested structure for profile picture
             "thumbnail": defaultProfilePic // Using default picture if no thumbnail provided
-        },
-        "watchlist": { // Adding watchlist field
-            "movieIds": ["105", "165"] // Initial movie IDs to add upon signup
         }
     };
 
@@ -151,7 +148,6 @@ app.post('/logout', function (req, res) {
 });
 
 
-// Route to handle adding a movie to the user's watchlist
 // Route to handle adding a movie to the user's watchlist
 app.post('/addwatchlist', async (req, res) => {
     try {
