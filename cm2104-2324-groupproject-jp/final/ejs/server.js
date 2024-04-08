@@ -169,9 +169,13 @@ app.post('/addwatchlist', (req, res) => {
         return;
     }
 
+    console.log('Attempting to add movie to watchlist...');
+    console.log('User ID:', userId);
+    console.log('Movie ID:', movieId);
+
     // Update the watchlist in MongoDB
     db.collection('people').updateOne(
-        { _id: userId },
+        { _id: userId},
         { $addToSet: { "watchlist.movieIds": movieId } }, // $addToSet ensures no duplicate movieIds are added
         function(err, result) {
             if (err) {
@@ -185,6 +189,7 @@ app.post('/addwatchlist', (req, res) => {
         }
     );
 });
+
 
 
 // Route to retrieve watchlist movie IDs
