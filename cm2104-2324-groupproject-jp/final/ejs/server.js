@@ -152,7 +152,6 @@ app.post('/logout', function (req, res) {
 
 
 // Route to handle adding a movie to the user's watchlist
-// Route to handle adding a movie to the user's watchlist
 app.post('/addwatchlist', (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
@@ -170,36 +169,22 @@ app.post('/addwatchlist', (req, res) => {
         return;
     }
 
-    client.connect(function(err) {
-        if (err) {
-            console.error('Error occurred while connecting to MongoDB', err);
-            res.status(500).send('Error occurred while connecting to the database.');
-            return;
-        }
-
-        console.log('Connected successfully to server');
-
-        const db = client.db('profiles');
-        const collection = db.collection('people');
-        console.log(userId)
-
-        // Update operation
-        collection.updateOne(
-            { _id: userId }, // Assuming userId is the MongoDB ObjectId
-            console.log(userId),
-            { $addToSet: { "watchlist.movieIds": movieId } }, // $addToSet ensures no duplicate movieIds are added
-            function(err, result) {
-                if (err) {
-                    console.error('Error occurred while updating ', err);
-                    return;
-                }
-
-                console.log('movie added');
+    // Update the watchlist in MongoDB
+    db.collection('people').updateOne(
+        { _id: ObjectId(userId) },
+        { $addToSet: { "watchlist.movieIds": movieId } }, // $addToSet ensures no duplicate movieIds are added
+        function(err, result) {
+            if (err) {
+                console.error('Error occurred', err);
+                res.status(500).send('Error occurred while updating watchlist');
+                return;
             }
-        );
-    });
-});
 
+            console.log('Movie added to watchlist');
+            res.status(200).send('Movie added to watchlist successfully');
+        }
+    );
+});
 
 
 // Route to retrieve watchlist movie IDs
