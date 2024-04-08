@@ -180,8 +180,8 @@ app.post('/addwatchlist', (req, res) => {
     req.session.user.watchlist = watchlist;
 
     db.collection('people').updateOne(
-        { _id: req.session.userId },
-        { $set: { watchlist: watchlist }}, 
+        { _id: userId },
+        { $set: { watchlist: req.session.user.watchlist }}, 
         function(err, result){
             if (err) throw err;
             res.redirect('/');
