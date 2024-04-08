@@ -152,7 +152,6 @@ app.post('/logout', function (req, res) {
 
 
 // Route to handle adding a movie to the user's watchlist
-// Route to handle adding a movie to the user's watchlist
 app.post('/addwatchlist', async (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
@@ -164,20 +163,20 @@ app.post('/addwatchlist', async (req, res) => {
     const movieId = req.body.movieId;
     const userId = req.session.userId;
 
-    console.log(movieId)
-    console.log(userId)
-
     // Check if the movieId is provided
     if (!movieId) {
         res.status(400).send('Movie ID is required.');
         return;
     }
 
+    console.log(movieId)
+    console.log(userId)
+
     try {
         // Update the watchlist in MongoDB
         const result = await db.collection('people').updateOne(
             { _id: userId },
-            { $addToSet: { "watchlist.movieIds": movieId } } // $addToSet ensures no duplicate movieIds are added
+            { $push: { "watchlist.movieIds": { $each: [movieId] } } }
         );
 
         if (result.modifiedCount === 1) {
@@ -192,7 +191,6 @@ app.post('/addwatchlist', async (req, res) => {
         res.status(500).send('Error occurred while updating watchlist');
     }
 });
-
 
 
 
