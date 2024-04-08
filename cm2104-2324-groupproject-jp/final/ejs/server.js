@@ -159,7 +159,6 @@ app.post('/addwatchlist', (req, res) => {
         return;
     }
 
-
     const movieId = req.body.movieId;
 
     if (!movieId) {
@@ -175,17 +174,19 @@ app.post('/addwatchlist', (req, res) => {
         return;
     }
 
+    // Push the movieId to the watchlist
     watchlist.movieIds.push(movieId);
 
-    // update user session
+    // Update the user's watchlist in the session
     req.session.user.watchlist = watchlist;
 
+    // Update the document in the database
     db.collection('people').updateOne(
         { _id: userId },
-        { $set: { watchlist: req.session.user.watchlist }}, 
-        console.log("set movie id " + movieId + " to user " + userId),
+        { $set: { "watchlist.movieIds": req.session.user.watchlist.movieIds }}, 
         function(err, result){
             if (err) throw err;
+            console.log("Updated watchlist for user " + userId);
             res.redirect('/');
         }
     );
