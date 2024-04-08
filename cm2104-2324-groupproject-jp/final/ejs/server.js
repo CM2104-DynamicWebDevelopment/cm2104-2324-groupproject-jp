@@ -102,7 +102,7 @@ app.post('/dologin', (req, res) => {
 
 // Route to handle adding a new user
 app.post('/adduser', (req, res) => {
-    const defaultProfilePic = 'img/user1.png';
+    const defaultProfilePic = 'img/user1.jpg';
     const datatostore = {
         "name": {
             "first": req.body.first
