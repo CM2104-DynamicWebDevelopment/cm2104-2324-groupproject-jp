@@ -150,57 +150,53 @@ app.post('/logout', function (req, res) {
   });
 });
 
-app.post('/addwatchlist', async (req, res) => {
-    try {
-        console.log("Received request:", req.body);
 
-        // Check if the user is logged in
-        if (!req.session.loggedin) {
-            console.log("User not logged in. Redirecting...");
-            res.redirect('/'); // Redirect to login if not logged in
+// Route to handle adding a movie to the user's watchlist
+// Route to handle adding a movie to the user's watchlist
+app.post('/addwatchlist', (req, res) => {
+    // Check if the user is logged in
+    if (!req.session.loggedin) {
+        res.redirect('/'); // Redirect to login if not logged in
+        return;
+    }
+
+    // Get the movie ID from the request body
+    const movieId = req.body.movieId;
+    const userId = req.session.userId;
+
+    // Check if the movieId is provided
+    if (!movieId) {
+        res.status(400).send('Movie ID is required.');
+        return;
+    }
+
+    client.connect(function(err) {
+        if (err) {
+            console.error('Error occurred while connecting to MongoDB', err);
+            res.status(500).send('Error occurred while connecting to the database.');
             return;
         }
 
-        // Get the movie ID from the request body
-        const movieId = req.body.movieId;
-
-        // Check if the movieId is provided
-        if (!movieId) {
-            console.log("Movie ID not provided.");
-            res.status(400).send('Movie ID is required.');
-            return;
-        }
-
-        console.log("Adding movie to watchlist:", movieId);
-
-        // Get userId from session
-        const userId = req.session.userId;
+        console.log('Connected successfully to server');
 
         const db = client.db('profiles');
         const collection = db.collection('people');
 
         // Update operation
-        const result = await collection.updateOne(
-            { _id: userId },
-            { $addToSet: { "watchlist.movieIds": movieId } } // $addToSet ensures no duplicate movieIds are added
+        collection.updateOne(
+            { _id: userId }, // Assuming userId is the MongoDB ObjectId
+            { $addToSet: { "watchlist.movieIds": movieId } }, // $addToSet ensures no duplicate movieIds are added
+            function(err, result) {
+                if (err) {
+                    console.error('Error occurred', err);
+                    return;
+                }
+
+                console.log('movie added');
+            }
         );
-
-        console.log("MongoDB update result:", result);
-
-        if (result.modifiedCount === 1) {
-            console.log('Movie added to watchlist successfully.');
-            res.sendStatus(200);
-        } else {
-            console.log('No changes were made.');
-            res.sendStatus(400);
-        }
-    } catch (error) {
-        console.error('Error occurred:', error);
-        res.status(500).send('Internal Server Error');
-    }
+    });
 });
-
-
 
 
 
