@@ -245,7 +245,6 @@ app.post('/removeWatchlist', (req, res) => {
             req.session.user.watchlist = watchlist;
             console.log("removed movie id " + movieId + " from user " + userEmail);
             console.log(result)
-            res.redirect('/');
         }
     );
 });
