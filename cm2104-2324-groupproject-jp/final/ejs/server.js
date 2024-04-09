@@ -167,7 +167,7 @@ app.post('/addwatchlist', (req, res) => {
     }
 
     const watchlist = req.session.user.watchlist;
-    const email = req.session.user.email;
+    const userEmail = req.session.user.email; // Retrieve user email from session
 
     if (watchlist.movieIds.includes(movieId)) {
         res.status(400).send('Movie is already in the watchlist.');
@@ -179,7 +179,7 @@ app.post('/addwatchlist', (req, res) => {
     // Update user session
     req.session.user.watchlist = watchlist;
 
-    console.log(email)
+    console.log(userEmail); // Logging user email
 
     // Update the database
     db.collection('people').updateOne(
@@ -197,6 +197,7 @@ app.post('/addwatchlist', (req, res) => {
         }
     );
 });
+
 
 
 
