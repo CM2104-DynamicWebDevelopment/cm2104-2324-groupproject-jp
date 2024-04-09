@@ -207,6 +207,7 @@ app.get('/getWatchlistMovieIds', (req, res) => {
     // get watchlist movie ids from the session
     const watchlistMovieIds = req.session.user.watchlist.movieIds;
 
+
     // send the movie ids as the response
     res.json({ watchlistMovieIds });
 });
@@ -219,6 +220,7 @@ app.post('/removeWatchlist', async (req, res) => {
     }
 
     const movieIdToRemove = req.body.movieId;
+    const userEmail = req.session.user.email; 
 
     // Check if movieId is provided
     if (!movieIdToRemove) {
@@ -229,7 +231,7 @@ app.post('/removeWatchlist', async (req, res) => {
     try {
         // Update the user document to remove the movieId from the watchlist
         const result = await User.updateOne(
-            { _id: req.session.userId }, // Replace userId with the actual user's ID
+            { email: userEmail }, // Replace userId with the actual user's ID
             { $pull: { 'watchlist.movieIds': movieIdToRemove } }
         );
 
