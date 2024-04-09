@@ -4,7 +4,6 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 const favicon = require('serve-favicon');
-const { ObjectId } = require('mongodb'); // Import ObjectId from MongoDB
 
 const app = express();
 const PORT = 8080; // Change port to the desired port number
@@ -180,22 +179,25 @@ app.post('/addwatchlist', (req, res) => {
     // Update user session
     req.session.user.watchlist = watchlist;
 
+    eemail = req.session.email;
 
     // Update the database
     db.collection('people').updateOne(
-        { _id: userObjectId },
+        { email: uemail },
         { $set: { watchlist: req.session.user.watchlist }}, 
         function(err, result){
             if (err) {
                 console.error("Error updating watchlist:", err);
-                res.status(500).send('Internal Server Error');
+                console.log(result)
                 return;
             }
             console.log("Set movie id " + movieId + " to user " + userId);
+            console.log(result)
             res.redirect('/');
         }
     );
 });
+
 
 
 
