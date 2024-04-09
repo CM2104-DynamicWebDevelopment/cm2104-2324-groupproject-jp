@@ -229,11 +229,6 @@ app.post('/removeWatchlist', (req, res) => {
     const watchlist = req.session.user.watchlist;
     const userEmail = req.session.user.email; 
 
-    if (watchlist.movieIds.includes(movieId)) {
-        res.status(400).send('Movie is already in the watchlist.');
-        return;
-    }
-
     watchlist.movieIds.pull(movieId);
 
     // Update user session
