@@ -210,3 +210,50 @@ app.get('/getWatchlistMovieIds', (req, res) => {
     // send the movie ids as the response
     res.json({ watchlistMovieIds });
 });
+
+
+app.post('/removeWatchlist', (req, res) => {
+    // Check if the user is logged in
+    if (!req.session.loggedin) {
+        res.redirect('/'); // Redirect to login 
+        return;
+    }
+
+    const movieId = req.body.movieId;
+
+    if (!movieId) {
+        res.status(400).send('Movie ID is required.');
+        return;
+    }
+
+    const watchlist = req.session.user.watchlist;
+    const userEmail = req.session.user.email; 
+
+    if (watchlist.movieIds.includes(movieId)) {
+        res.status(400).send('Movie is already in the watchlist.');
+        return;
+    }
+
+    watchlist.movieIds.pull(movieId);
+
+    // Update user session
+    req.session.user.watchlist = watchlist;
+
+    console.log(userEmail); // Logging user email
+
+    // Update the database
+    db.collection('people').updateOne(
+        { email: userEmail },
+        { $set: { watchlist: req.session.user.watchlist }}, 
+        function(err, result){
+            if (err) {
+                console.error("error updating watchlist:", err);
+                console.log(result)
+                return;
+            }
+            console.log("Set movie id " + movieId + " to user " + userEmail);
+            console.log(result)
+            res.redirect('/');
+        }
+    );
+});
