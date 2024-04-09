@@ -230,12 +230,17 @@ app.post('/removeWatchlist', async (req, res) => {
 
     try {
         // Update the user document to remove the movieId from the watchlist
-        const result = await User.updateOne(
-            { email: userEmail }, // Replace userId with the actual user's ID
+        const result = await db.collection('people').updateOne(
+            { email: userEmail },
             { $pull: { 'watchlist.movieIds': movieIdToRemove } }
         );
 
-        if (result.nModified === 1) {
+        if (result.modifiedCount === 1) {
+            // Update user session
+            const index = req.session.user.watchlist.movieIds.indexOf(movieIdToRemove);
+            if (index !== -1) {
+                req.session.user.watchlist.movieIds.splice(index, 1);
+            }
             res.json({ success: `Movie with ID ${movieIdToRemove} removed from watchlist.` });
         } else {
             res.status(404).json({ error: `Movie with ID ${movieIdToRemove} is not in the watchlist.` });
