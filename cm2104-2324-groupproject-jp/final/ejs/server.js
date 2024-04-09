@@ -6,53 +6,6 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const { ObjectId } = require('mongodb'); // Import ObjectId from MongoDB
 
-app.post('/addwatchlist', (req, res) => {
-    // Check if the user is logged in
-    if (!req.session.loggedin) {
-        res.redirect('/'); // Redirect to login 
-        return;
-    }
-
-    const movieId = req.body.movieId;
-
-    if (!movieId) {
-        res.status(400).send('Movie ID is required.');
-        return;
-    }
-
-    const watchlist = req.session.user.watchlist;
-    const userId = req.session.userId;
-
-    if (watchlist.movieIds.includes(movieId)) {
-        res.status(400).send('Movie is already in the watchlist.');
-        return;
-    }
-
-    watchlist.movieIds.push(movieId);
-
-    // Update user session
-    req.session.user.watchlist = watchlist;
-
-    // Convert session userId to ObjectId
-    const userObjectId = new ObjectId(userId);
-
-    // Update the database
-    db.collection('people').updateOne(
-        { _id: userObjectId },
-        { $set: { watchlist: req.session.user.watchlist }}, 
-        function(err, result){
-            if (err) {
-                console.error("Error updating watchlist:", err);
-                res.status(500).send('Internal Server Error');
-                return;
-            }
-            console.log("Set movie id " + movieId + " to user " + userId);
-            res.redirect('/');
-        }
-    );
-});
-
-
 const app = express();
 const PORT = 8080; // Change port to the desired port number
 
@@ -227,8 +180,6 @@ app.post('/addwatchlist', (req, res) => {
     // Update user session
     req.session.user.watchlist = watchlist;
 
-    // Convert session userId to ObjectId
-    const userObjectId = new ObjectId(userId);
 
     // Update the database
     db.collection('people').updateOne(
