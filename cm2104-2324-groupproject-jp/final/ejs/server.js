@@ -191,7 +191,7 @@ app.post('/addwatchlist', (req, res) => {
                 console.log(result)
                 return;
             }
-            console.log("Set movie id " + movieId + " to user " + userId);
+            console.log("Set movie id " + movieId + " to user " + userEmail);
             console.log(result)
             res.redirect('/');
         }
