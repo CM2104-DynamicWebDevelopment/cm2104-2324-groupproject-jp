@@ -178,7 +178,7 @@ app.post('/addwatchlist', (req, res) => {
 
     // Update user session
     req.session.user.watchlist = watchlist;
-    email = req.user.email;
+    email = req.session.email;
 
     console.log(email)
 
