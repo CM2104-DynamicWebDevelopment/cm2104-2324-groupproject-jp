@@ -187,7 +187,7 @@ app.post('/addwatchlist', (req, res) => {
         { $set: { watchlist: req.session.user.watchlist }}, 
         function(err, result){
             if (err) {
-                console.error("Error updating watchlist:", err);
+                console.error("error updating watchlist:", err);
                 console.log(result)
                 return;
             }
