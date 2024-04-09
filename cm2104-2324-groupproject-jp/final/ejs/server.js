@@ -211,50 +211,34 @@ app.get('/getWatchlistMovieIds', (req, res) => {
     res.json({ watchlistMovieIds });
 });
 
-
-app.post('/removeWatchlist', (req, res) => {
+app.post('/removeWatchlist', async (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
         res.redirect('/'); // Redirect to login page
         return;
     }
 
-    const movieId = req.body.movieId;
+    const movieIdToRemove = req.body.movieId;
 
     // Check if movieId is provided
-    if (!movieId) {
-        res.status(400).send('Movie ID is required.');
+    if (!movieIdToRemove) {
+        res.status(400).json({ error: "Movie ID is required." });
         return;
     }
 
-    // Extract user's watchlist and email from session
-    const userEmail = req.session.user.email;
+    try {
+        // Update the user document to remove the movieId from the watchlist
+        const result = await User.updateOne(
+            { _id: req.session.userId }, // Replace userId with the actual user's ID
+            { $pull: { 'watchlist.movieIds': movieIdToRemove } }
+        );
 
-    // Log user's email for debugging
-    console.log("User Email:", userEmail);
-
-    // Update the database by removing movieId from user's watchlist
-    db.collection('people').findOneAndUpdate(
-        { email: userEmail },
-        { $pull: { "watchlist.movieids": movieId }}, 
-        { returnOriginal: false }, // Return the modified document
-        function(err, result) {
-            if (err) {
-                // Handle error
-                console.error("Error updating watchlist:", err);
-                res.status(500).send("Error updating watchlist.");
-                return;
-            }
-            // Check if the document exists and if watchlist is an array
-            if (result.value && Array.isArray(result.value.watchlist.movieids)) {
-                // Update user session with the modified watchlist
-                req.session.user.watchlist = result.value.watchlist.movieids;
-                console.log("Removed movie id " + movieId + " from user " + userEmail);
-                res.status(200).send("Movie removed from watchlist successfully.");
-            } else {
-                console.error("Watchlist is not an array or document not found.");
-                res.status(500).send("Error updating watchlist.");
-            }
+        if (result.nModified === 1) {
+            res.json({ success: `Movie with ID ${movieIdToRemove} removed from watchlist.` });
+        } else {
+            res.status(404).json({ error: `Movie with ID ${movieIdToRemove} is not in the watchlist.` });
         }
-    );
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
