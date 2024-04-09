@@ -179,11 +179,11 @@ app.post('/addwatchlist', (req, res) => {
     // Update user session
     req.session.user.watchlist = watchlist;
 
-    eemail = req.session.email;
+    console.log(userId)
 
     // Update the database
     db.collection('people').updateOne(
-        { email: uemail },
+        { _id: userId },
         { $set: { watchlist: req.session.user.watchlist }}, 
         function(err, result){
             if (err) {
