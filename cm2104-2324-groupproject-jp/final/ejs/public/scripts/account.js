@@ -123,6 +123,7 @@ function buildMovieCard(movieInfo) {
   '<div class="watchlist-extra" id="watchlist-extra-1" style="background-image: url(\'https://image.tmdb.org/t/p/original/' + moviePoster + '\'); display: flex;">' +
     '<h3>description</h3>' +
     '<p>' + movieDescription + '</p>' +
+    "<h1> hello </h1>"+
     "<form id='watchlistForm' action='/removeWatchlist' method='POST'>" +
     "<input type='hidden' name='movieId' value='" + id + "'>" +
     "<button class='button-watchlist' type='submit'>remove from Watchlist</button>" +
