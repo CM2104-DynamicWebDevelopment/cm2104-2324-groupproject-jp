@@ -183,7 +183,7 @@ app.post('/addwatchlist', (req, res) => {
 
     // Update the database
     db.collection('people').updateOne(
-        { _id: userId },
+        { email: userEmail },
         { $set: { watchlist: req.session.user.watchlist }}, 
         function(err, result){
             if (err) {
