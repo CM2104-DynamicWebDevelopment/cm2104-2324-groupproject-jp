@@ -167,6 +167,7 @@ app.post('/addwatchlist', (req, res) => {
     }
 
     const watchlist = req.session.user.watchlist;
+    const userId = req.session.userId;
     const userEmail = req.session.user.email; // Retrieve user email from session
 
     if (watchlist.movieIds.includes(movieId)) {
