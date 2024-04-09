@@ -227,9 +227,18 @@ app.post('/removeWatchlist', (req, res) => {
     }
 
     const watchlist = req.session.user.watchlist;
-    const userEmail = req.session.user.email; 
+    const userEmail = req.session.user.email;
 
-    watchlist.movieIds.pull(movieId);
+    // Find the index of the movieId in the watchlist
+    const index = watchlist.findIndex(item => item.movieId === movieId);
+    
+    if (index === -1) {
+        res.status(404).send('Movie not found in watchlist.');
+        return;
+    }
+
+    // Remove the movieId from the watchlist
+    watchlist.splice(index, 1);
 
     // Update user session
     req.session.user.watchlist = watchlist;
@@ -246,7 +255,7 @@ app.post('/removeWatchlist', (req, res) => {
                 console.log(result)
                 return;
             }
-            console.log("Set movie id " + movieId + " to user " + userEmail);
+            console.log("Removed movie id " + movieId + " from user " + userEmail);
             console.log(result)
             res.redirect('/');
         }
