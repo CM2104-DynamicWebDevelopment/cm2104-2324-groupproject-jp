@@ -4,7 +4,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 const favicon = require('serve-favicon');
-const multer = require('multer');
+
 const app = express();
 const PORT = 8080; // Change port to the desired port number
 
@@ -39,35 +39,6 @@ connectDB();
 // Routes
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'img', 'cinemind_small_logo.png')));
-
-// Set up multer for file upload
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'public/img'); // Specify the destination folder for uploaded images
-    },
-    filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-      const ext = path.extname(file.originalname);
-      cb(null, uniqueSuffix + ext); // Generate a unique filename for the uploaded image
-    }
-  });
-  const upload = multer({ storage: storage });
-  
-  // Handle POST request for uploading images
-  app.post('/upload', upload.single('image'), (req, res) => {
-    // The uploaded file can be accessed via req.file
-    const imagePath = req.file.path;
-    // Update the user's database entry with the new image path
-    // Assuming you have access to the user's data and database functions here
-    // For example:
-    // updateUserImage(req.session.userId, imagePath);
-    res.send('Image uploaded successfully!');
-  });
-  
-  // Start the server
-  app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-  });
 
 // Route to render the index.ejs page
 app.get('/', (req, res) => {
