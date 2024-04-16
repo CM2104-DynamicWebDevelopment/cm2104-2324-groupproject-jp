@@ -261,8 +261,8 @@ app.post('/addreview', (req, res) => {
     }
 
     const movieId = req.body.movieId;
-    const movieReview = req.body.movieReview;
-    const movieReviewNumber = req.body.movieReviewNumber;
+    const movieReview = req.body.review; // Modified variable name
+    const movieReviewNumber = req.body.rating; // Modified variable name
 
     if (!movieId) {
         res.status(400).send('Movie ID is required.');
@@ -272,12 +272,14 @@ app.post('/addreview', (req, res) => {
     const reviews = req.session.user.reviews;
     const userEmail = req.session.user.email; 
 
-    if (reviews.movieIds.includes(movieId)) {
-        res.status(400).send('Movie is already in the watchlist.');
+    // Assuming reviews is an array of objects, if not, modify accordingly
+    if (reviews.some(review => review.movieId === movieId)) {
+        res.status(400).send('Review for this movie already exists.');
         return;
     }
 
-    reviews.movieIds.push(movieId, movieReview, movieReviewNumber);
+    // Assuming reviews is an array of objects, if not, modify accordingly
+    reviews.push({ movieId, review: movieReview, rating: movieReviewNumber });
 
     // Update user session
     req.session.user.reviews = reviews;
@@ -287,10 +289,10 @@ app.post('/addreview', (req, res) => {
     // Update the database
     db.collection('people').updateOne(
         { email: userEmail },
-        { $set: { reviews: req.session.user.watchlist }}, 
+        { $set: { reviews: req.session.user.reviews }}, // Fixed typo: changed 'watchlist' to 'reviews'
         function(err, result){
             if (err) {
-                console.error("error updating reviews:", err);
+                console.error("Error updating reviews:", err);
                 console.log(result)
                 return;
             }
