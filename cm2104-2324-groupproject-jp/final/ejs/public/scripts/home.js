@@ -176,38 +176,37 @@ $(document).ready(function () {
         "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='" + title + "'/>" +
         "<p>" + movieDescription + "</p>" +
         "<p>Year: "+ releaseDate +"</p>" +
-        "</div>" +
-        "<div class='reviews'>" +
-        "<form id='watchlistForm' action='/addwatchlist' method='POST'>" +
-        "<input type='hidden' name='movieId' value='" + id + "'>" +
-        "<button class='button-watchlist' type='submit'>Add to Watchlist</button>" +
-        "</form>"+
-        "<div class='rating-buttons'>" +
-        "<button class='rating' value='1'>1</button>" +
-        "<button class='rating' value='2'>2</button>" +
-        "<button class='rating' value='3'>3</button>" +
-        "<button class='rating' value='4'>4</button>" +
-        "</div>" +
-        "<div class='review-section'>" +
-        "<label class='comments-review'>Have your say:</label>" +
-        "<textarea class='review-section-text' rows='4'></textarea>" +
-        "<button class='leave-review'>Leave review</button>" +
-        "</div>" +
-        "</div>" +
-        "<div class='right'>" +
+    "</div>" +
+    "<div class='reviews'>" +
+        "<form id='reviewForm' action='/addreview' method='post'>" +
+            "<input type='hidden' id='movieId' name='movieId' value='" + id + "'>" +
+            "<div class='rating-buttons'>" +
+                "<button class='rating' value='1'>1</button>" +
+                "<button class='rating' value='2'>2</button>" +
+                "<button class='rating' value='3'>3</button>" +
+                "<button class='rating' value='4'>4</button>" +
+            "</div>" +
+            "<div class='review-section'>" +
+                "<label class='comments-review'>Have your say:</label>" +
+                "<textarea id='reviewText' class='review-section-text' rows='4'></textarea>" +
+                "<button class='leave-review' type='submit'>Leave review</button>" +
+            "</div>" +
+        "</form>" +
+    "</div>" +
+    "<div class='right'>" +
         "<div class='friends-ratings'>" +
-        "<h3>Friends Ratings</h3>" +
-        "<p>Rating 1: 25%</p>" +
-        "<p>Rating 2: 30%</p>" +
-        "<p>Rating 3: 20%</p>" +
-        "<p>Rating 4: 25%</p>" +
+            "<h3>Friends Ratings</h3>" +
+            "<p>Rating 1: 25%</p>" +
+            "<p>Rating 2: 30%</p>" +
+            "<p>Rating 3: 20%</p>" +
+            "<p>Rating 4: 25%</p>" +
         "</div>" +
         "<div class='similar-movies'>" +
-        "<h3>Similar Movies</h3>" +
-        "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='Similar " + title + " Poster'/>" +
+            "<h3>Similar Movies</h3>" +
+            "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='Similar " + title + " Poster'/>" +
         "</div>" +
-        "</div>" +
-        "</div>";
+    "</div>";
+    
 
         // insert html in the movie card dive it was called from
         $('.movie-card-' + Rlocation).append(htmlString);
