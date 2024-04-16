@@ -11,6 +11,7 @@ body {
   background-color: var(--background-colour1);
 }
 
+
 .button-group {
   display: flex;
   align-items: center;
@@ -25,16 +26,21 @@ select#rating {
   padding: 8px 12px;
   background-color: #fff;
   cursor: pointer;
-}
-
-select#rating::-ms-expand {
-  display: none;
+  display: flex;
 }
 
 select#rating option {
-  padding: 0px;
+  flex: 1;
+  padding: 8px 12px;
+  background-color: #fff;
+  cursor: pointer;
+  border: none;
 }
 
+/* Optional: Add spacing between options */
+select#rating option:not(:last-child) {
+  margin-right: 5px;
+}
 
 .movieTitle{
   font-size: 40px;
