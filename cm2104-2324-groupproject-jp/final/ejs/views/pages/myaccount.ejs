@@ -80,25 +80,10 @@
               <div class="preference" style="margin-left: 0;">
                 <h3>Profile Picture</h3>
                 <img src="<%= user.picture.thumbnail %>" alt="Thumbnail">
-                <input type="file" accept="image/*" id="profile-pic-upload" onchange="previewImage(event)">
-                <img id="profile-pic-preview" src="#" alt="Preview Image" style="display:none; max-width: 100px; max-height: 100px; margin-top: 10px;">
-                <button type="button" onclick="confirmProfilePic()">Confirm</button>
-                <script>
-                    function previewImage(event) {
-                        var reader = new FileReader();
-                        reader.onload = function() {
-                            var output = document.getElementById('profile-pic-preview');
-                            output.style.display = 'block';
-                            output.src = reader.result;
-                        };
-                        reader.readAsDataURL(event.target.files[0]);
-                    }
-        
-                    function confirmProfilePic() {
-                        // Add logic to save or update the profile picture
-                        alert("Profile picture confirmed!"); 
-                    }
-                </script>
+                <form id="imageUploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+                  <input type="file" name="image" id="imageInput" accept="image/*">
+                  <button type="submit">Upload</button>
+                </form>
             </div>
             <div class="preference">
               <h3>Account Support</h3>
