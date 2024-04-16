@@ -11,6 +11,30 @@ body {
   background-color: var(--background-colour1);
 }
 
+.button-group {
+  display: flex;
+  align-items: center;
+}
+
+select#rating {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+select#rating::-ms-expand {
+  display: none;
+}
+
+select#rating option {
+  padding: 0px;
+}
+
 
 .movieTitle{
   font-size: 40px;
