@@ -188,10 +188,8 @@ $(document).ready(function () {
             "<button class='rating' type='button' name='rating' value='2'>2</button>" +
             "<button class='rating' type='button' name='rating' value='3'>3</button>" +
             "<button class='rating' type='button' name='rating' value='4'>4</button>" +
-            "</form>" +
             "</div>" +
             "<div class='review-section'>" +
-            "<form id='reviewForm' action='/addreview' method='POST'>" +
             "<input type='hidden' name='movieId' value='" + id + "'>" +
             "<label class='comments-review'>Have your say:</label>" +
             "<textarea class='review-section-text' rows='4' name='review'></textarea>" +
