@@ -171,7 +171,7 @@ $(document).ready(function () {
         console.log("Movie id is " + id);
     
 // build html
-        htmlString += "<div class='movie-details'>" +
+htmlString += "<div class='movie-details'>" +
             "<h2>" + title + "</h2>" +
             "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='" + title + "'/>" +
             "<p>" + movieDescription + "</p>" +
@@ -199,8 +199,8 @@ $(document).ready(function () {
                 "</div>" +
               "</form>" +
             "</div>" +
-          "</div>";
-            "<div class='right'>" +
+          "</div>" +
+          "<div class='right'>" + // Added opening div tag here
             "<div class='friends-ratings'>" +
             "<h3>Friends Ratings</h3>" +
             "<p>Rating 1: 25%</p>" +
@@ -212,8 +212,9 @@ $(document).ready(function () {
             "<h3>Similar Movies</h3>" +
             "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='Similar " + title + " Poster'/>" +
             "</div>" +
-            "</div>" +
-            "</div>";
+          "</div>" + // Added closing div tag here
+          "</div>";
+
 
 
         // insert html in the movie card dive it was called from
