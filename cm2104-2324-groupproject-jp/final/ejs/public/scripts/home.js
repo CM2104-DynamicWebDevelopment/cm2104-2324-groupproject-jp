@@ -181,10 +181,10 @@ $(document).ready(function () {
         "<form id='reviewForm' action='/addreview' method='post'>" +
             "<input type='hidden' id='movieId' name='movieId' value='" + id + "'>" +
             "<div class='rating-buttons'>" +
-                "<button class='rating' value='1'>1</button>" +
-                "<button class='rating' value='2'>2</button>" +
-                "<button class='rating' value='3'>3</button>" +
-                "<button class='rating' value='4'>4</button>" +
+                "<button class='rating' type='button' value='1'>1</button>" +
+                "<button class='rating' type='button' value='2'>2</button>" +
+                "<button class='rating' type='button' value='3'>3</button>" +
+                "<button class='rating' type='button' value='4'>4</button>" +
             "</div>" +
             "<div class='review-section'>" +
                 "<label class='comments-review'>Have your say:</label>" +
