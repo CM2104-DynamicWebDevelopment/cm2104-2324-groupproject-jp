@@ -250,3 +250,53 @@ app.post('/removeWatchlist', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+
+
+app.post('/addreview', (req, res) => {
+    // Check if the user is logged in
+    if (!req.session.loggedin) {
+        res.redirect('/'); // Redirect to login 
+        return;
+    }
+
+    const movieId = req.body.movieId;
+    const movieReview = req.body.movieReview;
+    const movieReviewNumber = req.body.movieReviewNumber;
+
+    if (!movieId) {
+        res.status(400).send('Movie ID is required.');
+        return;
+    }
+
+    const reviews = req.session.user.reviews;
+    const userEmail = req.session.user.email; 
+
+    if (reviews.movieIds.includes(movieId)) {
+        res.status(400).send('Movie is already in the watchlist.');
+        return;
+    }
+
+    reviews.movieIds.push(movieId, movieReview, movieReviewNumber);
+
+    // Update user session
+    req.session.user.reviews = reviews;
+
+    console.log(userEmail); // Logging user email
+
+    // Update the database
+    db.collection('people').updateOne(
+        { email: userEmail },
+        { $set: { reviews: req.session.user.watchlist }}, 
+        function(err, result){
+            if (err) {
+                console.error("error updating reviews:", err);
+                console.log(result)
+                return;
+            }
+            console.log("Set review of movie id " + movieId + " to user " + userEmail);
+            console.log(result)
+            res.redirect('/');
+        }
+    );
+});
