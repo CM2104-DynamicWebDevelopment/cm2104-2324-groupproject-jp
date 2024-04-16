@@ -12,36 +12,6 @@ body {
 }
 
 
-.button-group {
-  display: flex;
-  align-items: center;
-}
-
-select#rating {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 8px 12px;
-  background-color: #fff;
-  cursor: pointer;
-  display: flex;
-}
-
-select#rating option {
-  flex: 1;
-  padding: 8px 12px;
-  background-color: #fff;
-  cursor: pointer;
-  border: none;
-}
-
-/* Optional: Add spacing between options */
-select#rating option:not(:last-child) {
-  margin-right: 5px;
-}
-
 .movieTitle{
   font-size: 40px;
   color: white;
