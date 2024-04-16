@@ -269,8 +269,10 @@ app.post('/addreview', (req, res) => {
         return;
     }
 
-    const reviews = req.session.user.reviews;
     const userEmail = req.session.user.email; 
+
+    // Check if the user session contains reviews data, if not, initialize it as an empty array
+    const reviews = req.session.user.reviews || [];
 
     // Assuming reviews is an array of objects, if not, modify accordingly
     if (reviews.some(review => review.movieId === movieId)) {
