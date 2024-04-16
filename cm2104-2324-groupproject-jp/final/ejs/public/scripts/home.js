@@ -200,8 +200,6 @@ $(document).ready(function () {
               "</form>" +
             "</div>" +
           "</div>";
-          
-            "</div>" +
             "<div class='right'>" +
             "<div class='friends-ratings'>" +
             "<h3>Friends Ratings</h3>" +
