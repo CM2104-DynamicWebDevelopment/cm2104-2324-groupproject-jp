@@ -373,3 +373,19 @@ function popup2() {
         console.log("Error: Unable to find elements with IDs 'results-extra-" + id + "' and 'make-review-" + id + "'");
     }
 }
+
+function backReview(id) {
+
+    var resultsExtra = document.getElementById('results-extra-' + id);
+    var makeReview = document.getElementById('make-review-' + id);
+
+    console.log("resultsExtra:", resultsExtra);
+    console.log("makeReview:", makeReview);
+
+    if (resultsExtra && makeReview) {
+        resultsExtra.style.display = 'block';
+        makeReview.style.display = 'none';
+    } else {
+        console.log("Error: Unable to find elements with IDs 'results-extra-" + id + "' and 'make-review-" + id + "'");
+    }
+}
