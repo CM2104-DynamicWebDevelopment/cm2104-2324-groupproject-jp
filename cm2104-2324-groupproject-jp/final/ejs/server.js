@@ -529,7 +529,7 @@ app.post('/delete-review', async (req, res) => {
 // Multer configuration
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, '/img'); // Set the destination folder for uploaded files
+      cb(null, 'public/img'); // Set the destination folder for uploaded files
     },
     filename: function (req, file, cb) {
       // Check if username is available in the session
