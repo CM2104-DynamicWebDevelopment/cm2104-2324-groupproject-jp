@@ -194,7 +194,7 @@ function buildReviewsMovieCard(movieInfo) {
   // Extracting movie information
   var title = movieInfo.original_title;
   var moviePoster = "https://image.tmdb.org/t/p/original" + movieInfo.poster_path;
-  var backdrop = "https://image.tmdb.org/t/p/original" + movieInfo.backdrop_path;
+  var movieBackdrop = "https://image.tmdb.org/t/p/original" + movieInfo.backdrop_path;
   var movieDescription = movieInfo.overview;
   var releaseDate = movieInfo.release_date.split('-')[0];
   var id = movieInfo.id;
@@ -212,7 +212,7 @@ function buildReviewsMovieCard(movieInfo) {
       "<p id='review-text-" + id + "'>Loved it then and love it now. It's aged like a fine wine. Say what you like about movies from the eighties but when they got it right, boy did they get it right. Still one of the most inventive, superbly performed, wonderfully written, expertly directed and wholly endearing comedies you'll ever watch. Even the great theme tune is memorable. A true classic in every sense of the word.</p>" +
       "<button class='review-change-button' onclick='changeReview(" + id + ")'>Edit</button>" +
       "</div>" +
-      "<div class='review-change' id='review-change-" + id + "style='background-image: url('" +backdrop+ "'); display: none;'>" +
+      "<div class='review-change' id='review-change-" + id + " style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "');\">" +
       "<h3>Edit your review</h3>" +
       "<input type='text' class='change-review-textbox-" + id + "' id='change-review-textbox-" + id + "' placeholder='Enter your new review'>" +
       "<button class='review-change-button' onclick='saveReview(" + id + ")'>Save</button>" +
