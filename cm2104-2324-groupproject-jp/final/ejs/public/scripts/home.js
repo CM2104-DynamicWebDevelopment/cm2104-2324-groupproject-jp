@@ -316,7 +316,7 @@ htmlString += "<div class='movie-details'>" +
             "</form>"+
             "<button class='button-review' type='submit' onclick='addReview(" + id + ")'>Review</button>" +
             "</div>" +
-            "<div class='make-review' id='make-review-" + id + "' style=\'background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "');  display: none;\'>" +
+            "<div class='make-review' id='make-review-" + id + "'  style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "'); display: none;\">" +
             "<form id='reviewForm' action='/addreview' method='POST'>" +
             "<input type='hidden' name='movieId' value='" + id + "'>" +
             "<h6>number review</h6>"+
