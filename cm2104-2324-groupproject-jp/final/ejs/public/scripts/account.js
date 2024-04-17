@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // Function to fetch reviews movie IDs
-  function fetchReviewMovieIds() {
+  function fetchReviewsMovieIds() {
     fetch('/getReviewsMovieIds')
         .then(response => {
             if (!response.ok) {
@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 
 // Function to get movie details from TMDB
-function getWatchlistFromTMDB(movieId) {
+function getReviewsFromTMDB(movieId) {
     console.log(movieId);
     var apiKey = "7e6dd248e2a77acc70a843ea3a92a687"; // Replace with your TMDB API key
     var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
