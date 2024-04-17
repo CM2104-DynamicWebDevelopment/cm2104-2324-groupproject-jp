@@ -309,3 +309,16 @@ app.get('/getReviewsMovieIds', (req, res) => {
     // send the movie ids and review texts as the response
     res.json({ reviewsData });
 });
+
+
+
+// Route to handle changing user's name
+app.post('/change-name', (req, res) => {
+    const newName = req.body.newName;
+    if (newName) {
+        user.name.first = newName;
+        res.send(`User first name changed to ${newName}`);
+    } else {
+        res.send('Please provide a new name');
+    }
+});
