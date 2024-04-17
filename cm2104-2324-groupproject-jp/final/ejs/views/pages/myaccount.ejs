@@ -110,7 +110,12 @@
 
   <div id="container-Reviews" class="account-container">
       <h1>Reviews</h1>
-      <p id="reviews-movie-ids"><%= user.reviews.movieIds %></p>
+      <div id="reviews-movie-ids">
+        <% user.reviews.movieIds.forEach(function(movieId) { %>
+            <p><%= movieId %></p>
+        <% }); %>
+    </div>
+    
       <div class="reviews-movie-card-container"></div>
   </div>
 
