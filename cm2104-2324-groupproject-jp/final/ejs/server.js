@@ -532,20 +532,35 @@ const storage = multer.diskStorage({
       cb(null, 'public/img/'); // Set the destination folder for uploaded files
     },
     filename: function (req, file, cb) {
-      // Assuming username is available in the request
-      const username = req.session.user.login.username; // Replace this with the actual way you get the username
-      const fileExtension = file.originalname.split('.').pop(); // Get the file extension
-      cb(null, username + '.' + fileExtension); // Set the filename with username and original file extension
+      // Check if username is available in the session
+      if (req.session && req.session.user && req.session.user.login && req.session.user.login.username) {
+        const username = req.session.user.login.username;
+        const fileExtension = path.extname(file.originalname); // Get the file extension
+        cb(null, username + fileExtension); // Set the filename with username and original file extension
+      } else {
+        cb(new Error('Username not found in session'), null);
+      }
     }
   });
-  const upload = multer({ storage: storage });
-
-// Route to handle file upload
-app.post('/upload', upload.single('photo'), (req, res) => {
-    res.send('File uploaded successfully');
-    const newImageName = req.session.user.login.username + path.extname(req.file.originalname);
-    // Update the user's profile picture name to the new image name
-    req.session.user.picture.thumbnail = newImageName;
-    // Update the database with the new image name if necessary
-  });
   
+  // Initialize multer with the defined storage
+  const upload = multer({ storage: storage });
+  
+  // Route to handle file upload
+  app.post('/upload', upload.single('photo'), (req, res) => {
+    // Check if file is present in the request
+    if (!req.file) {
+      return res.status(400).send('No file uploaded');
+    }
+  
+    // Update the user's profile picture name to the new image name
+    if (req.session && req.session.user && req.session.user.login && req.session.user.login.username) {
+      const newImageName = req.session.user.login.username + path.extname(req.file.originalname);
+      req.session.user.picture.thumbnail = newImageName;
+      // Update the database with the new image name if necessary
+    } else {
+      return res.status(500).send('Failed to update profile picture');
+    }
+  
+    res.send('File uploaded successfully');
+  });
