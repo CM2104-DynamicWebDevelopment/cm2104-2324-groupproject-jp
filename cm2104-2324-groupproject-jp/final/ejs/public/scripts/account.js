@@ -140,3 +140,93 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchWatchlistMovieIds();
     console.log("fetch watchlist called")
 });
+
+
+
+// Function to fetch reviews movie IDs
+  function fetchReviewMovieIds() {
+    fetch('/getReviewsMovieIds')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Handle the response data
+            console.log(data.reviewsMovieIds);
+            // Update the HTML content with the reviews movie IDs
+            document.getElementById('reviews-movie-ids').innerText = data.reviewsMovieIds.join(', ');
+
+            // After fetching movie IDs, build movie cards for each movie
+            data.reviewsMovieIds.forEach(movieId => {
+                getReviewsFromTMDB(movieId);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// Function to get movie details from TMDB
+function getWatchlistFromTMDB(movieId) {
+    console.log(movieId);
+    var apiKey = "7e6dd248e2a77acc70a843ea3a92a687"; // Replace with your TMDB API key
+    var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
+    console.log("movie searched for " + movieId)
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(jsondata => {
+            console.log(jsondata);
+            // Build movie card with the retrieved data
+            buildReviewsMovieCard(jsondata);
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+
+// Function to build movie card HTML
+function buildReviewsMovieCard(movieInfo) {
+  // Extracting movie information
+  var title = movieInfo.original_title;
+  var moviePoster = movieInfo.poster_path;
+  var movieDescription = movieInfo.overview;
+  var releaseDate = movieInfo.release_date.split('-')[0];
+  var id = movieInfo.id;
+
+  // Constructing the HTML string for movie card
+
+  "<div class='review-movie-card'>" +
+  "<div class='review-movie-details'>" +
+    "<h2>Back to the Future</h2>"
+    "<img src='https://image.tmdb.org/t/p/original/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg' alt='Movie Poster'>" +
+    "<p>Year: 1985</p>" +
+   "</div>" +
+
+  "<div class='review-extra' id='review-extra-0' style='background-image: url('https://image.tmdb.org/t/p/original/3lbTiIN8cVonMUQwaeh5nvn61lr.jpg'); display: flex;'>" +
+    "<h3>Your review</h3>"+
+    "<p id='review-text-0'>Loved it then and love it now. It's aged like a fine wine. Say what you like about movies from the eighties but when they got it right, boy did they get it right. Still one of the most inventive, superbly performed, wonderfully written, expertly directed and wholly endearing comedies you'll ever watch. Even the great theme tune is memorable. A true classic in every sense of the word.</p>" +
+    "<button  class='review-change-button' onclick='changeReview(0)'>Edit</button>"+
+"</div>"+ 
+"<div class='review-change' id='review-change-0' style='background-image: url('https://image.tmdb.org/t/p/original/3lbTiIN8cVonMUQwaeh5nvn61lr.jpg'); display: none;'>"+
+  "<h3>Edit your review</h3>" +
+  "<input type='text' class='change-review-textbox-0' id='change-review-textbox-0' placeholder='Enter your new review'>"+
+  "<button class='review-change-button' onclick='saveReview(0)'>Save</button>"+
+"</div>"+
+"</div>";
+
+  // Inserting the HTML into the watchlist movie card container
+  $('.reviews-movie-card-container').append(htmlString);
+}
+// Call fetchWatchlistMovieIds() when the page is loaded
+document.addEventListener("DOMContentLoaded", function () {
+    fetchReviewsMovieIds();
+    console.log("fetch review called")
+});
+
+
+
