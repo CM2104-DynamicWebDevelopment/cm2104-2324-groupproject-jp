@@ -297,12 +297,14 @@ app.post('/addreview', (req, res) => {
 });
 
 
-// retrieve reviews movie IDs
+// retrieve reviews movie IDs and texts
 app.get('/getReviewsMovieIds', (req, res) => {
-    // get reviews movie ids from the session
-    const reviewsMovieIds = req.session.user.reviews.map(review => review.movieId);
-    const reviewsText = req.session.user.reviews.map(review => review.reviews);
+    // get reviews movie ids and texts from the session
+    const reviewsData = req.session.user.reviews.map(review => ({
+        movieId: review.movieId,
+        reviewText: review.reviewText
+    }));
 
-    // send the movie ids as the response
-    res.json({ reviewsMovieIds, reviewsText });
+    // send the movie ids and review texts as the response
+    res.json({ reviewsData });
 });

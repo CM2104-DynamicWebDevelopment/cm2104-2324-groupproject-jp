@@ -144,53 +144,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // Function to fetch reviews movie IDs
-  function fetchReviewsMovieIds() {
-    fetch('/getReviewsMovieIds')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Handle the response data
-            console.log(data.reviewsMovieIds);
-            // Update the HTML content with the reviews movie IDs
-            document.getElementById('reviews-movie-ids').innerText = data.reviewsMovieIds.join(', ');
+function fetchReviewsMovieIds() {
+  fetch('/getReviewsMovieIds')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      })
+      .then(data => {
+          // Handle the response data
+          console.log(data.reviewsData);
+          // Update the HTML content with the reviews movie IDs
+          document.getElementById('reviews-movie-ids').innerText = data.reviewsData.map(review => review.movieId).join(', ');
 
-            // After fetching movie IDs, build movie cards for each movie
-            data.reviewsMovieIds.forEach(movieId => {
-                getReviewsFromTMDB(movieId);
-            });
-        })
-        .catch(error => console.error('Error:', error));
+          // After fetching movie IDs, build movie cards for each movie
+          data.reviewsData.forEach(review => {
+              getReviewsFromTMDB(review.movieId, review.reviewText);
+          });
+      })
+      .catch(error => console.error('Error:', error));
 }
 
 // Function to get movie details from TMDB
-function getReviewsFromTMDB(movieId) {
-    console.log(movieId);
-    var apiKey = "7e6dd248e2a77acc70a843ea3a92a687"; // Replace with your TMDB API key
-    var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
-    console.log("movie searched for " + movieId)
+function getReviewsFromTMDB(movieId, reviewText) {
+  console.log(movieId);
+  var apiKey = "7e6dd248e2a77acc70a843ea3a92a687"; // Replace with your TMDB API key
+  var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
+  console.log("movie searched for " + movieId)
 
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(jsondata => {
-            console.log(jsondata);
-            // Build movie card with the retrieved data
-            buildReviewsMovieCard(jsondata);
-        })
-        .catch(error => console.error('Error:', error));
+  fetch(url)
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      })
+      .then(jsondata => {
+          console.log(jsondata);
+          // Build movie card with the retrieved data and review text
+          buildReviewsMovieCard(jsondata, reviewText);
+      })
+      .catch(error => console.error('Error:', error));
 }
 
 
 // Function to build movie card HTML
-function buildReviewsMovieCard(movieInfo, reviewsText) {
+function buildReviewsMovieCard(movieInfo, reviewText) {
   // Extracting movie information
   var title = movieInfo.original_title;
   var moviePoster = "https://image.tmdb.org/t/p/original" + movieInfo.poster_path;
@@ -198,9 +198,6 @@ function buildReviewsMovieCard(movieInfo, reviewsText) {
   var movieDescription = movieInfo.overview;
   var releaseDate = movieInfo.release_date.split('-')[0];
   var id = movieInfo.id;
-
-  // Retrieve review text for this movie
-  var reviewText = reviewsText.find(review => review.movieId === id)?.text || 'No review available';
 
   // Constructing the HTML string for movie card
   var htmlString = "<div class='review-movie-card'>" +
@@ -222,15 +219,12 @@ function buildReviewsMovieCard(movieInfo, reviewsText) {
       "</div>" +
       "</div>";
 
-  // Inserting the HTML into the watchlist movie card container
+  // Inserting the HTML into the reviews movie card container
   $('.reviews-movie-card-container').append(htmlString);
 }
 
 // Call fetchWatchlistMovieIds() when the page is loaded
 document.addEventListener("DOMContentLoaded", function () {
-    fetchReviewsMovieIds();
-    console.log("fetch review called")
+  fetchReviewsMovieIds();
+  console.log("fetch review called")
 });
-
-
-
