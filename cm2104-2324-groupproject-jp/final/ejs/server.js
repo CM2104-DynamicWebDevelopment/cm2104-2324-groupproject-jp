@@ -305,3 +305,13 @@ app.post('/addreview', (req, res) => {
     );
 });
 
+
+// retrieve watchlist movie IDs
+app.get('/getReviewsMovieIds', (req, res) => {
+    // get watchlist movie ids from the session
+    const reviewsMovieIds = req.session.user.reviews.movieIds;
+
+
+    // send the movie ids as the response
+    res.json({ reviewsMovieIds });
+});
