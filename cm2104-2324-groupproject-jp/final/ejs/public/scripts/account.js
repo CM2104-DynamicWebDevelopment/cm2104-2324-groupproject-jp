@@ -210,6 +210,10 @@ function buildReviewsMovieCard(movieInfo, reviewText, reviewNumber) {
   "<h3>You rated it " + reviewNumber + " Stars!</h3>" +
   "<p id='review-text-" + id + "'>" + reviewText + "</p>" +
   "<button class='review-change-button' onclick='changeReview(" + id + ")'>Edit</button>" +
+  "<form action='/delete-review' method='POST'>" +
+  "<input type='hidden' id='movieId' name='movieId' value='" + id + "'>" +
+  "<button class='review-delete-button' type='submit'>Delete</button>" +
+  "</form>" +
   "</div>" +
   "<div class='review-change' id='review-change-" + id + "' style='background-image: url(" + movieBackdrop + ");'>" +
   "<h3>Edit your review</h3>" +

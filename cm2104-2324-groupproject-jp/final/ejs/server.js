@@ -484,3 +484,43 @@ app.post('/change-review', (req, res) => {
         }
     );
 });
+
+app.post('/delete-review', async (req, res) => {
+    // Check if the user is logged in
+    if (!req.session.loggedin) {
+        res.redirect('/'); // Redirect to login page
+        return;
+    }
+
+    const movieIdToRemove = req.body.movieId;
+    const userEmail = req.session.user.email; 
+
+    // Check if movieId is provided
+    if (!movieIdToRemove) {
+        res.status(400).json({ error: "Movie ID is required." });
+        return;
+    }
+
+    try {
+        // Update the user document to remove the review for the specified movieId
+        const result = await db.collection('people').updateOne(
+            { email: userEmail },
+            { $pull: { 'reviews': { movieId: movieIdToRemove } } }
+        );
+
+        if (result.modifiedCount === 1) {
+            // Update user session
+            const user = req.session.user;
+            const index = user.reviews.findIndex(review => review.movieId === movieIdToRemove);
+            if (index !== -1) {
+                user.reviews.splice(index, 1);
+            }
+            console.log(`Review for movie with ID ${movieIdToRemove} removed.`);
+            res.redirect('/myaccount'); // Redirect to the account page
+        } else {
+            res.status(404).json({ error: `Review for movie with ID ${movieIdToRemove} not found.` });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
