@@ -546,21 +546,22 @@ const storage = multer.diskStorage({
   // Initialize multer with the defined storage
   const upload = multer({ storage: storage });
   
-  // Route to handle file upload
-  app.post('/upload', upload.single('photo'), (req, res) => {
+// Route to handle file upload
+app.post('/upload', upload.single('photo'), (req, res) => {
     // Check if file is present in the request
     if (!req.file) {
-      return res.status(400).send('No file uploaded');
+        return res.status(400).send('No file uploaded');
     }
-  
+
     // Update the user's profile picture name to the new image name
-    if (req.session && req.session.user && req.session.user.login && req.session.user.login.username) {
-      const newImageName = req.session.user.login.username + path.extname(req.file.originalname);
-      req.session.user.picture.thumbnail = newImageName;
-      // Update the database with the new image name if necessary
+    if (req.session.user.login && req.session.user.login.username) {
+        const username = req.session.user.login.username;
+        const newImageName = "img/" + username + path.extname(req.file.originalname); // Prepend "img/" before the new image name
+        req.session.user.picture.thumbnail = newImageName;
+        // Update the database with the new image name if necessary
     } else {
-      return res.status(500).send('Failed to update profile picture');
+        return res.status(500).send('Failed to update profile picture');
     }
-  
+
     res.send('File uploaded successfully');
-  });
+});
