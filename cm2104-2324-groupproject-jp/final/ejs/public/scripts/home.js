@@ -358,10 +358,10 @@ function popup2() {
 
   
 // Function to switch to the review form for a specific movie
-function addReview(num) {
+function addReview(id) {
     console.log("add review called");
     // Hide the movie description
-    document.getElementById('results-extra-' + num).style.display = 'none';
+    document.getElementById('results-extra-' + id).style.display = 'none';
     // Show the review form
-    document.getElementById('make-review-' + num).style.display = 'block';
+    document.getElementById('make-review-' + id).style.display = 'block';
 }
