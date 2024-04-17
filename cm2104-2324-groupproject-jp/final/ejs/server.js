@@ -4,6 +4,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 const favicon = require('serve-favicon');
+const multer = require('multer');
 
 const app = express();
 const PORT = 8080; // Change port to the desired port number
@@ -524,3 +525,27 @@ app.post('/delete-review', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+// Multer configuration
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/img/'); // Set the destination folder for uploaded files
+    },
+    filename: function (req, file, cb) {
+      // Assuming username is available in the request
+      const username = req.session.user.login.username; // Replace this with the actual way you get the username
+      const fileExtension = file.originalname.split('.').pop(); // Get the file extension
+      cb(null, username + '.' + fileExtension); // Set the filename with username and original file extension
+    }
+  });
+  const upload = multer({ storage: storage });
+
+// Route to handle file upload
+app.post('/upload', upload.single('photo'), (req, res) => {
+    res.send('File uploaded successfully');
+    const newImageName = req.session.user.login.username + path.extname(req.file.originalname);
+    // Update the user's profile picture name to the new image name
+    req.session.user.picture.thumbnail = newImageName;
+    // Update the database with the new image name if necessary
+  });
+  

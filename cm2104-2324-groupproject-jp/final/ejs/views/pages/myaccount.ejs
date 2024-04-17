@@ -92,10 +92,10 @@
               <div class="preference" style="margin-left: 0;">
                 <h3>Profile Picture</h3>
                 <img src="<%= user.picture.thumbnail %>" alt="Thumbnail">
-                <form id="imageUploadForm" action="/upload" method="POST" enctype="multipart/form-data">
-                  <input type="file" name="image" id="imageInput" accept="image/*">
+                <form action="/upload" method="POST" enctype="multipart/form-data">
+                  <input type="file" name="photo" accept="image/*">
                   <button type="submit">Upload</button>
-                </form>
+              </form>
             </div>
             <div class="preference">
               <h3>Account Support</h3>
@@ -122,7 +122,6 @@
 
   <div id="container-Reviews" class="account-container">
       <h1>Reviews</h1>
-      <p id="reviews-movie-ids"><%= user.reviews.movieIds %></p>
       <div class="reviews-movie-card-container"></div>
   </div>
 
@@ -173,7 +172,6 @@
   <div id="container-Watchlist" class="account-container">
     <h1>Your Watchlist</h1>
     <p>List of all the movies you want to watch</p>
-    <p id="watchlist-movie-ids"><%= user.watchlist.movieIds %></p>
     <div class="watchlist-movie-card-container"></div>
   </div>
   </div>
