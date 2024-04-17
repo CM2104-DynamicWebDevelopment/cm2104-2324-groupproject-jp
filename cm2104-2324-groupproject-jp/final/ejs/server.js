@@ -347,7 +347,7 @@ app.post('/change-username', (req, res) => {
     const newUsername = req.body.newUsername;
 
     // Check if new first name is provided
-    if (!newFirstName) {
+    if (!newUsername) {
         res.status(400).send('New first name is required.');
         return;
     }
@@ -372,24 +372,24 @@ app.post('/change-username', (req, res) => {
     );
 });
 
-// Route to handle changing user's first name
-app.post('/change-first-name', (req, res) => {
-    const newFirstName = req.body.newFirstName;
+// Route to handle changing user's email
+app.post('/change-email', (req, res) => {
+    const newEmail = req.body.newEmail;
 
-    // Check if new first name is provided
-    if (!newFirstName) {
+    // Check if new email is provided
+    if (!newEmail) {
         res.status(400).send('New first name is required.');
         return;
     }
 
     // Update the user's first name in the session
-    req.session.user.name.first = newFirstName;
+    req.session.user.email = newEmail;
 
     // Update the user's first name in the database
-    const userEmail = req.session.user.email;
+    const userUsername = req.session.user.login.username;
     db.collection('people').updateOne(
-        { email: userEmail },
-        { $set: { "name.first": newFirstName } },
+        { username: userUsername },
+        { $set: { "email": newEmail } },
         (err, result) => {
             if (err) {
                 console.error("Error updating user's first name:", err);
