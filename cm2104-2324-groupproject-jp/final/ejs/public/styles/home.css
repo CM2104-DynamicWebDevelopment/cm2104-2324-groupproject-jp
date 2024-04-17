@@ -325,6 +325,7 @@ align-items: center;
   color: white;
   background-color: #ad3c3c;
   padding: 20px;
+  overflow-y: auto;
   text-shadow: 
     -1px -1px 0 #000, /* Top-left shadow */
     1px -1px 0 #000,  /* Top-right shadow */
