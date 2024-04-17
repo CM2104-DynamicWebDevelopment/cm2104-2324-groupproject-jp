@@ -160,14 +160,14 @@ function fetchReviewsMovieIds() {
 
           // After fetching movie IDs, build movie cards for each movie
           data.reviewsData.forEach(review => {
-              getReviewsFromTMDB(review.movieId, review.reviewText);
+              getReviewsFromTMDB(review.movieId, review.reviewText, review.rating);
           });
       })
       .catch(error => console.error('Error:', error));
 }
 
 // Function to get movie details from TMDB
-function getReviewsFromTMDB(movieId, reviewText) {
+function getReviewsFromTMDB(movieId, reviewText, reviewNumber) {
   console.log(movieId);
   var apiKey = "7e6dd248e2a77acc70a843ea3a92a687"; // Replace with your TMDB API key
   var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
@@ -183,19 +183,18 @@ function getReviewsFromTMDB(movieId, reviewText) {
       .then(jsondata => {
           console.log(jsondata);
           // Build movie card with the retrieved data and review text
-          buildReviewsMovieCard(jsondata, reviewText);
+          buildReviewsMovieCard(jsondata, reviewText, reviewNumber);
       })
       .catch(error => console.error('Error:', error));
 }
 
 
 // Function to build movie card HTML
-function buildReviewsMovieCard(movieInfo, reviewText) {
+function buildReviewsMovieCard(movieInfo, reviewText, reviewNumber) {
   // Extracting movie information
   var title = movieInfo.original_title;
   var moviePoster = "https://image.tmdb.org/t/p/original" + movieInfo.poster_path;
   var movieBackdrop = "https://image.tmdb.org/t/p/original" + movieInfo.backdrop_path;
-  var movieDescription = movieInfo.overview;
   var releaseDate = movieInfo.release_date.split('-')[0];
   var id = movieInfo.id;
 
@@ -208,7 +207,7 @@ function buildReviewsMovieCard(movieInfo, reviewText) {
       "</div>" +
 
       "<div class='review-extra' id='review-extra-" + id + "' style='background-image: url(" + movieBackdrop + ");'>" +
-      "<h3>Your review</h3>" +
+      "<h3>Your review "+reviewNumber+"</h3>" +
       "<p id='review-text-" + id + "'>" + reviewText + "</p>" +
       "<button class='review-change-button' onclick='changeReview(" + id + ")'>Edit</button>" +
       "</div>" +

@@ -302,7 +302,8 @@ app.get('/getReviewsMovieIds', (req, res) => {
     // get reviews movie ids and texts from the session
     const reviewsData = req.session.user.reviews.map(review => ({
         movieId: review.movieId,
-        reviewText: review.review
+        reviewText: review.review,
+        reviewNumber: review.rating
     }));
 
     // send the movie ids and review texts as the response
