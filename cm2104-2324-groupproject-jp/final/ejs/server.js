@@ -556,11 +556,12 @@ app.post('/upload', upload.single('photo'), async (req, res) => {
     // Update the user's profile picture path in MongoDB
     if (req.session && req.session.user && req.session.user.login && req.session.user.login.username) {
         const username = req.session.user.login.username;
+        const email = req.session.user.email;
         const newImageName = "img/" + username + path.extname(req.file.originalname); // Construct the new image path
         // Update the user's profile picture path in MongoDB
         try {
             // Assuming you have a mongoose model for users and the field is named profilePicture
-            await User.updateOne({ username: username }, { $set: { profilePicture: newImageName } });
+            await User.updateOne({ email: email }, { $set: { "picture.thumbnail": newImageName } });
             req.session.user.picture.thumbnail = newImageName;
             res.send('File uploaded successfully');
         } catch (error) {
