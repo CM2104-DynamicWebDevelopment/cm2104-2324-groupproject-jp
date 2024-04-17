@@ -57,17 +57,26 @@
                   </form>
         
                     <h3>Change your email:</h3>
-                    <input type="text" class="account-textbox" placeholder="Enter your new email">
-                    <button class="account-change-button">Submit</button><br>
+                    <form action="/change-email" method="POST">
+                      <label for="newEmail">New Email:</label><br>
+                      <input type="email" class="account-textbox" id="newEmail" name="newEmail">
+                      <button class="account-change-button" type="submit">Change</button>
+                  </form>
         
                     <h3>Change your username:</h3>
-                    <input type="text" class="account-textbox" placeholder="Enter your new username">
-                    <button  class="account-change-button">Submit</button><br>
-        
+                    <form action="/change-username" method="POST">
+                      <label for="newUsername">New Username:</label><br>
+                      <input type="text" class="account-textbox" id="newUsername" name="newUsername">
+                      <button class="account-change-button" type="submit">Change</button>
+                  </form>
+
                     <h3>Change your password:</h3>
-                    <input type="password" class="account-textbox" placeholder="Enter your new password"><br>
-                    <input type="password" class="account-textbox" placeholder="Re-enter your new password">
-                    <button  class="account-change-button">Submit</button>
+                    <form action="/change-password" method="POST">
+                      <label for="newPassword">New Password:</label><br>
+                      <input type="text" class="account-textbox" id="newPassword" name="newPassword">
+                      <input type="text" class="account-textbox" id="newPassword2" name="newPassword2">
+                      <button class="account-change-button" type="submit">Change</button>
+                  </form>
         
                 </div>
                 <div class="activities-container" style="padding: 5px;">

@@ -341,3 +341,93 @@ app.post('/change-first-name', (req, res) => {
         }
     );
 });
+
+// Route to handle changing user's first name
+app.post('/change-username', (req, res) => {
+    const newUsername = req.body.newUsername;
+
+    // Check if new first name is provided
+    if (!newFirstName) {
+        res.status(400).send('New first name is required.');
+        return;
+    }
+
+    // Update the user's first name in the session
+    req.session.user.login.username = newUsername;
+
+    // Update the user's first name in the database
+    const userEmail = req.session.user.email;
+    db.collection('people').updateOne(
+        { email: userEmail },
+        { $set: { "login.username": newUsername } },
+        (err, result) => {
+            if (err) {
+                console.error("Error updating user's username:", err);
+                res.status(500).send('Error updating user\'s username');
+                return;
+            }
+            console.log("User's username updated successfully");
+            res.redirect('/myaccount'); // Redirect to the account page
+        }
+    );
+});
+
+// Route to handle changing user's first name
+app.post('/change-first-name', (req, res) => {
+    const newFirstName = req.body.newFirstName;
+
+    // Check if new first name is provided
+    if (!newFirstName) {
+        res.status(400).send('New first name is required.');
+        return;
+    }
+
+    // Update the user's first name in the session
+    req.session.user.name.first = newFirstName;
+
+    // Update the user's first name in the database
+    const userEmail = req.session.user.email;
+    db.collection('people').updateOne(
+        { email: userEmail },
+        { $set: { "name.first": newFirstName } },
+        (err, result) => {
+            if (err) {
+                console.error("Error updating user's first name:", err);
+                res.status(500).send('Error updating user\'s first name');
+                return;
+            }
+            console.log("User's first name updated successfully");
+            res.redirect('/myaccount'); // Redirect to the account page
+        }
+    );
+});
+
+// Route to handle changing user's first name
+app.post('/change-first-name', (req, res) => {
+    const newFirstName = req.body.newFirstName;
+
+    // Check if new first name is provided
+    if (!newFirstName) {
+        res.status(400).send('New first name is required.');
+        return;
+    }
+
+    // Update the user's first name in the session
+    req.session.user.name.first = newFirstName;
+
+    // Update the user's first name in the database
+    const userEmail = req.session.user.email;
+    db.collection('people').updateOne(
+        { email: userEmail },
+        { $set: { "name.first": newFirstName } },
+        (err, result) => {
+            if (err) {
+                console.error("Error updating user's first name:", err);
+                res.status(500).send('Error updating user\'s first name');
+                return;
+            }
+            console.log("User's first name updated successfully");
+            res.redirect('/myaccount'); // Redirect to the account page
+        }
+    );
+});
