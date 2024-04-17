@@ -328,7 +328,7 @@ htmlString += "<div class='movie-details'>" +
                     "</select>" +
                     "<div class='review-section'>" +
                         "<label class='comments-review'>Have your say:</label>" +
-                        "<textarea class='review-section-text' rows='4' name='review'></textarea>" +
+                        "<textarea class='review-section-text' rows='3' name='review'></textarea>" +
                         "<button class='leave-review' type='submit'>Leave review</button>" +
                     "</div>" +
                 "</form>" +
