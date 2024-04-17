@@ -314,7 +314,7 @@ htmlString += "<div class='movie-details'>" +
                 "<input type='hidden' name='movieId' value='" + id + "'>" +
                 "<button class='button-watchlist' type='submit'>Add to Watchlist</button>" +
                 "</form>"+
-                "<button class='button-review' type='submit'>Review</button>" +
+                "<button class='button-review' type='submit'  onclick='addReview(" + id + ")>Review</button>" +
                 "</div>" +
                 "<div class='make-review' id='make-review-" + id + "' style='background-image: url(" + movieBackdrop + "); display: none;'>" +
                 "<form id='reviewForm' action='/addreview' method='POST'>" +
@@ -363,18 +363,4 @@ function addReview(num) {
     document.getElementById('results-extra-' + num).style.display = 'none';
     // Show the review form
     document.getElementById('make-review-' + num).style.display = 'block';
-}
-
-// Function to save the review and switch back to the movie description
-function saveReview(num) {
-    console.log("save review called");
-    // Get the review data from the form
-    var rating = document.getElementById('make-review-' + num).querySelector('select[name="rating"]').value;
-    var review = document.getElementById('make-review-' + num).querySelector('textarea[name="review"]').value;
-    // Update the display with the new review data
-    document.getElementById('review-text-' + num).innerHTML = review;
-    // Hide the review form
-    document.getElementById('make-review-' + num).style.display = 'none';
-    // Show the movie description
-    document.getElementById('results-extra-' + num).style.display = 'block';
 }
