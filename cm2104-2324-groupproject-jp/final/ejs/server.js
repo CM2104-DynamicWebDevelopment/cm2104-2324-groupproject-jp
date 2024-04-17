@@ -297,11 +297,10 @@ app.post('/addreview', (req, res) => {
 });
 
 
-// retrieve watchlist movie IDs
+// retrieve reviews movie IDs
 app.get('/getReviewsMovieIds', (req, res) => {
-    // get watchlist movie ids from the session
-    const reviewsMovieIds = req.session.user.reviews.movieId;
-
+    // get reviews movie ids from the session
+    const reviewsMovieIds = req.session.user.reviews.map(review => review.movieId);
 
     // send the movie ids as the response
     res.json({ reviewsMovieIds });
