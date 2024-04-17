@@ -200,26 +200,27 @@ function buildReviewsMovieCard(movieInfo, reviewText, reviewNumber) {
 
   // Constructing the HTML string for movie card
   var htmlString = "<div class='review-movie-card'>" +
-      "<div class='review-movie-details'>" +
-      "<h2>" + title + "</h2>" +
-      "<img src='" + moviePoster + "' alt='Movie Poster'>" +
-      "<p>Year: " + releaseDate + "</p>" +
-      "</div>" +
+  "<div class='review-movie-details'>" +
+  "<h2>" + title + "</h2>" +
+  "<img src='" + moviePoster + "' alt='Movie Poster'>" +
+  "<p>Year: " + releaseDate + "</p>" +
+  "</div>" +
 
-      "<div class='review-extra' id='review-extra-" + id + "' style='background-image: url(" + movieBackdrop + ");'>" +
-      "<h3>You rated it  "+ reviewNumber +" Stars!</h3>" +
-      "<p id='review-text-" + id + "'>" + reviewText + "</p>" +
-      "<button class='review-change-button' onclick='changeReview(" + id + ")'>Edit</button>" +
-      "</div>" +
-      "<div class='review-change' id='review-change-" + id + "' style='background-image: url(" + movieBackdrop + ");'>" +
-      "<h3>Edit your review</h3>" +
-      "<form action='/change-review' method='POST'>" +
-      "<input type='text' class='newReview' id='newReview' placeholder='Enter your new review'>" +
-      "<input type='hidden' id='movieId' name='movieId' value='" + id + "'></input>" +
-      "<button class='review-change-button' type='submit' >Save</button>" +
-      "</form>"
-      "</div>" +
-      "</div>";
+  "<div class='review-extra' id='review-extra-" + id + "' style='background-image: url(" + movieBackdrop + ");'>" +
+  "<h3>You rated it " + reviewNumber + " Stars!</h3>" +
+  "<p id='review-text-" + id + "'>" + reviewText + "</p>" +
+  "<button class='review-change-button' onclick='changeReview(" + id + ")'>Edit</button>" +
+  "</div>" +
+  "<div class='review-change' id='review-change-" + id + "' style='background-image: url(" + movieBackdrop + ");'>" +
+  "<h3>Edit your review</h3>" +
+  "<form action='/change-review' method='POST'>" +
+  "<input type='text' class='change-review-textbox' id='change-review-textbox-" + id + "' name='newReview' placeholder='Enter your new review'>" +
+  "<input type='hidden' id='movieId' name='movieId' value='" + id + "'>" +
+  "<button class='review-change-button' type='submit'>Save</button>" +
+  "</form>" +
+  "</div>" +
+  "</div>";
+
 
   // Inserting the HTML into the reviews movie card container
   $('.reviews-movie-card-container').append(htmlString);
