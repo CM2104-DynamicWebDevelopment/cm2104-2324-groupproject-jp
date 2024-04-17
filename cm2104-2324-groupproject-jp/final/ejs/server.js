@@ -438,3 +438,49 @@ app.post('/change-password', (req, res) => {
         }
     );
 });
+
+// Route to handle changing user's movie review
+app.post('/change-review', (req, res) => {
+    const newReview = req.body.newReview;
+    const movieId = req.body.movieId;
+
+    // Check if new review is provided
+    if (!newReview) {
+        res.status(400).send('New review is required.');
+        return;
+    }
+
+    // Check if movie ID is provided
+    if (!movieId) {
+        res.status(400).send('Movie ID is required.');
+        return;
+    }
+
+    // Find the index of the review with the specified movie ID
+    const reviewIndex = req.session.user.reviews.findIndex(review => review.movieId === movieId);
+
+    // Check if the review exists
+    if (reviewIndex === -1) {
+        res.status(404).send('Review not found for the specified movie ID.');
+        return;
+    }
+
+    // Update the review text for the specified movie ID
+    req.session.user.reviews[reviewIndex].review = newReview;
+
+    // Update the review text in the database
+    const userEmail = req.session.user.email;
+    db.collection('people').updateOne(
+        { email: userEmail, "reviews.movieId": movieId }, // Update the review with matching movieId
+        { $set: { "reviews.$.review": newReview } }, // Use $ to specify the matched array element
+        (err, result) => {
+            if (err) {
+                console.error("Error updating user's review:", err);
+                res.status(500).send('Error updating user\'s review');
+                return;
+            }
+            console.log("User's review updated successfully");
+            res.redirect('/myaccount'); // Redirect to the account page
+        }
+    );
+});
