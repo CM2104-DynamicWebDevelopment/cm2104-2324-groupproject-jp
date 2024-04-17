@@ -332,7 +332,7 @@ htmlString += "<div class='movie-details'>" +
             "<button class='leave-review' type='submit'>Leave review</button>" +
             "</div>" +
             "</form>" +
-            "<button class='back' onclick='saveReview(" + id + ")'>Back</button>" +
+            "<button class='back' onclick='backReview(" + id + ")'>Back</button>" +
             "</div>" +
             "</div>";
         
