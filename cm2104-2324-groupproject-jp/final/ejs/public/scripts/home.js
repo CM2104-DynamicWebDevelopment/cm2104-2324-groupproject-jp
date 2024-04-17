@@ -357,11 +357,19 @@ function popup2() {
   }
 
   
-// Function to switch to the review form for a specific movie
-function addReview(id) {
-    console.log("add review called");
-    // Hide the movie description
-    document.getElementById('results-extra-' + id).style.display = 'none';
-    // Show the review form
-    document.getElementById('make-review-' + id).style.display = 'block';
+  function addReview(id) {
+    console.log("addReview function called for id:", id);
+
+    var resultsExtra = document.getElementById('results-extra-' + id);
+    var makeReview = document.getElementById('make-review-' + id);
+
+    console.log("resultsExtra:", resultsExtra);
+    console.log("makeReview:", makeReview);
+
+    if (resultsExtra && makeReview) {
+        resultsExtra.style.display = 'none';
+        makeReview.style.display = 'block';
+    } else {
+        console.log("Error: Unable to find elements with IDs 'results-extra-" + id + "' and 'make-review-" + id + "'");
+    }
 }
