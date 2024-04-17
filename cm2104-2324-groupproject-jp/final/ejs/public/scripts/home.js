@@ -299,35 +299,23 @@ htmlString += "<div class='movie-details'>" +
             console.log("Release Date: " + releaseDate);
 
             // build html string for search results card
-            var htmlString = "<div class='results-movie-card'>" +
-            "<div class='results-movie-details'>" +
-            "<h2>" + title + "</h2>" +
-            "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='" + title + " Poster'>" +
-            "<p>" + releaseDate + "</p>" +
-            "<p>" + movieRating + "</p>" +
-            "</div>" +
-            "<div class='results-extra' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "');\">" +
-            "<h3>About " + title + "</h3>" +
-            "<p>" + movieDescription + "</p>" +
-            "<button class='button-watchlist' onclick='addReview(" + id + ")'>Add Review</button>" +
-            "<form id='reviewForm-" + id + "' action='/addreview' method='POST' style='display:none;'>" +
-            "<input type='hidden' name='movieId' value='" + id + "'>" +
-            "<h6>number review</h6>" +
-            "<select name='rating'>" +
-            "<option value='1'>1</option>" +
-            "<option value='2'>2</option>" +
-            "<option value='3'>3</option>" +
-            "<option value='4'>4</option>" +
-            "</select>" +
-            "<div class='review-section'>" +
-            "<label class='comments-review'>Have your say:</label>" +
-            "<textarea class='review-section-text' rows='4' name='review'></textarea>" +
-            "<button class='leave-review' type='submit'>Leave review</button>" +
-            "</div>" +
-            "</form>" +
-            "</div>" +
-            "</div>";
-        
+            htmlString +=
+                "<div class='results-movie-card'>" +
+                "<div class='results-movie-details'>" +
+                "<h2>" + title + "</h2>" +
+                "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='" + title + " Poster'>" +
+                "<p>" + releaseDate + "</p>" +
+                "<p>" + movieRating + "</p>" +
+                "</div>" +
+                "<div class='results-extra' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "');\">" +
+                "<h3>About " + title + "</h3>" +
+                "<p>" + movieDescription + "</p>" +
+                "<form id='watchlistForm' action='/addwatchlist' method='POST'>" +
+                "<input type='hidden' name='movieId' value='" + id + "'>" +
+                "<button class='button-watchlist' type='submit'>Add to Watchlist</button>" +
+                "</form>"+
+                "</div>" +
+                "</div>";
         }
         // insert html into search resutls container
         $('.results-movie-card-container').html(htmlString);
@@ -347,3 +335,5 @@ function popup2() {
     var popup = document.getElementById("myPopup3");
     popup.classList.toggle("show");
   }
+
+  
