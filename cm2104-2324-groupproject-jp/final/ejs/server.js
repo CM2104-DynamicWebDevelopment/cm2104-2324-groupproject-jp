@@ -408,7 +408,7 @@ app.post('/change-password', (req, res) => {
     const newPassword2 = req.body.newPassword2;
 
     // Check if new first name is provided
-    if (!newFirstName) {
+    if (!newPassword) {
         res.status(400).send('New password is required.');
         return;
     }
@@ -429,11 +429,11 @@ app.post('/change-password', (req, res) => {
         { $set: { "login.password": newPassword } },
         (err, result) => {
             if (err) {
-                console.error("Error updating user's first name:", err);
-                res.status(500).send('Error updating user\'s first name');
+                console.error("Error updating user's password:", err);
+                res.status(500).send('Error updating user\'s password');
                 return;
             }
-            console.log("User's first name updated successfully");
+            console.log("User's password updated successfully");
             res.redirect('/myaccount'); // Redirect to the account page
         }
     );
