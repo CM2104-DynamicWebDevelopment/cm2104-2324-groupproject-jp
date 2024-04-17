@@ -536,16 +536,23 @@ const storage = multer.diskStorage({
       if (req.session && req.session.user && req.session.user.login && req.session.user.login.username) {
         const username = req.session.user.login.username;
         const fileExtension = path.extname(file.originalname); // Get the file extension
-        cb(null, username + fileExtension); // Set the filename with username and original file extension
+        const filename = `${username}${fileExtension}`; // Set the filename with username and original file extension
+        cb(null, filename); 
       } else {
         cb(new Error('Username not found in session'), null);
       }
     }
   });
-  
-  // Initialize multer with the defined storage
-  const upload = multer({ storage: storage });
-  
+
+// Initialize multer with the defined storage
+const upload = multer({
+    storage: storage,
+    // Overwrite existing files with the same name
+    fileFilter: function (req, file, cb) {
+        cb(null, true);
+    }
+});
+
 // Route to handle file upload
 app.post('/upload', upload.single('photo'), async (req, res) => {
     // Check if file is present in the request
