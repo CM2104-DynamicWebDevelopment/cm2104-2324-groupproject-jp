@@ -301,7 +301,8 @@ app.post('/addreview', (req, res) => {
 app.get('/getReviewsMovieIds', (req, res) => {
     // get reviews movie ids from the session
     const reviewsMovieIds = req.session.user.reviews.map(review => review.movieId);
+    const reviewsText = req.session.user.reviews.map(review => review.reviews);
 
     // send the movie ids as the response
-    res.json({ reviewsMovieIds });
+    res.json({ reviewsMovieIds, reviewsText });
 });

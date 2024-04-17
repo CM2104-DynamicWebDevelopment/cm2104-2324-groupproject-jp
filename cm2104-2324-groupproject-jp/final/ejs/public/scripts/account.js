@@ -190,7 +190,7 @@ function getReviewsFromTMDB(movieId) {
 
 
 // Function to build movie card HTML
-function buildReviewsMovieCard(movieInfo) {
+function buildReviewsMovieCard(movieInfo, reviewsText) {
   // Extracting movie information
   var title = movieInfo.original_title;
   var moviePoster = "https://image.tmdb.org/t/p/original" + movieInfo.poster_path;
@@ -198,6 +198,9 @@ function buildReviewsMovieCard(movieInfo) {
   var movieDescription = movieInfo.overview;
   var releaseDate = movieInfo.release_date.split('-')[0];
   var id = movieInfo.id;
+
+  // Retrieve review text for this movie
+  var reviewText = reviewsText.find(review => review.movieId === id)?.text || 'No review available';
 
   // Constructing the HTML string for movie card
   var htmlString = "<div class='review-movie-card'>" +
@@ -209,7 +212,7 @@ function buildReviewsMovieCard(movieInfo) {
 
       "<div class='review-extra' id='review-extra-" + id + "' style='background-image: url(" + movieBackdrop + ");'>" +
       "<h3>Your review</h3>" +
-      "<p id='review-text-" + id + "'>Loved it then and love it now. It's aged like a fine wine. Say what you like about movies from the eighties but when they got it right, boy did they get it right. Still one of the most inventive, superbly performed, wonderfully written, expertly directed and wholly endearing comedies you'll ever watch. Even the great theme tune is memorable. A true classic in every sense of the word.</p>" +
+      "<p id='review-text-" + id + "'>" + reviewText + "</p>" +
       "<button class='review-change-button' onclick='changeReview(" + id + ")'>Edit</button>" +
       "</div>" +
       "<div class='review-change' id='review-change-" + id + "' style='background-image: url(" + movieBackdrop + ");'>" +
@@ -219,10 +222,10 @@ function buildReviewsMovieCard(movieInfo) {
       "</div>" +
       "</div>";
 
-
   // Inserting the HTML into the watchlist movie card container
   $('.reviews-movie-card-container').append(htmlString);
 }
+
 // Call fetchWatchlistMovieIds() when the page is loaded
 document.addEventListener("DOMContentLoaded", function () {
     fetchReviewsMovieIds();
