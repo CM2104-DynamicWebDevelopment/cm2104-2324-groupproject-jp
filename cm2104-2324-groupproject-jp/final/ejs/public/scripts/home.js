@@ -337,6 +337,7 @@ htmlString += "<div class='movie-details'>" +
         "</div>";
         
         
+        
         }
         // insert html into search resutls container
         $('.results-movie-card-container').html(htmlString);
