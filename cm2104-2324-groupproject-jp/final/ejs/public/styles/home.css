@@ -358,20 +358,6 @@ align-items: center;
   margin-bottom: 10px; /* Adjust as needed */
 }
 
-.review-section button {
-  background-color: #008CBA;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.review-section button:hover {
-  background-color: #005f75;
-}
-
 .back {
   margin-top: 20px; /* Adjust as needed */
 }
