@@ -307,7 +307,7 @@ htmlString += "<div class='movie-details'>" +
             "<p>" + releaseDate + "</p>" +
             "<p>" + movieRating + "</p>" +
             "</div>" +
-            "<div class='results-extra' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "'); display: block;\">" +
+            "<div class='results-extra' id='resutls-extra-"+id+"' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "'); display: block;\">" +
             "<h3>About " + title + "</h3>" +
             "<p>" + movieDescription + "</p>" +
             "<form id='watchlistForm' action='/addwatchlist' method='POST'>" +
