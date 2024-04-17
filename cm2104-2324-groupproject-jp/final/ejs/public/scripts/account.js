@@ -160,7 +160,7 @@ function fetchReviewsMovieIds() {
 
           // After fetching movie IDs, build movie cards for each movie
           data.reviewsData.forEach(review => {
-              getReviewsFromTMDB(review.movieId, review.reviewText, review.rating);
+              getReviewsFromTMDB(review.movieId, review.reviewText, review.reviewNumber);
           });
       })
       .catch(error => console.error('Error:', error));
@@ -207,7 +207,7 @@ function buildReviewsMovieCard(movieInfo, reviewText, reviewNumber) {
       "</div>" +
 
       "<div class='review-extra' id='review-extra-" + id + "' style='background-image: url(" + movieBackdrop + ");'>" +
-      "<h3>Your review "+reviewNumber+"</h3>" +
+      "<h3>You rated it  "+ reviewNumber +" Stars!</h3>" +
       "<p id='review-text-" + id + "'>" + reviewText + "</p>" +
       "<button class='review-change-button' onclick='changeReview(" + id + ")'>Edit</button>" +
       "</div>" +
