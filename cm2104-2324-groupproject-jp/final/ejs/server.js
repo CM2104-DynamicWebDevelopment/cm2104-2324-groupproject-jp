@@ -579,11 +579,11 @@ app.post('/upload', upload.single('photo'), async (req, res) => {
                 res.redirect('/myaccount');
             } else {
                 console.error("Failed to update profile picture path in MongoDB");
-                return res.status(500).send('Failed to update profile picture');
+                res.redirect('/myaccount');
             }
         } catch (error) {
             console.error("Error updating profile picture path in MongoDB:", error);
-            return res.status(500).send('Failed to update profile picture');
+            res.redirect('/myaccount');
         }
     } else {
         return res.status(500).send('Failed to update profile picture');
