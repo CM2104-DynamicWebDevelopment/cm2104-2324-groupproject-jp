@@ -547,21 +547,27 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage });
   
 // Route to handle file upload
-app.post('/upload', upload.single('photo'), (req, res) => {
+app.post('/upload', upload.single('photo'), async (req, res) => {
     // Check if file is present in the request
     if (!req.file) {
         return res.status(400).send('No file uploaded');
     }
 
-    // Update the user's profile picture name to the new image name
-    if (req.session.user.login && req.session.user.login.username) {
+    // Update the user's profile picture path in MongoDB
+    if (req.session && req.session.user && req.session.user.login && req.session.user.login.username) {
         const username = req.session.user.login.username;
-        const newImageName = "img/" + username + path.extname(req.file.originalname); // Prepend "img/" before the new image name
-        req.session.user.picture.thumbnail = newImageName;
-        // Update the database with the new image name if necessary
+        const newImageName = "img/" + username + path.extname(req.file.originalname); // Construct the new image path
+        // Update the user's profile picture path in MongoDB
+        try {
+            // Assuming you have a mongoose model for users and the field is named profilePicture
+            await User.updateOne({ username: username }, { $set: { profilePicture: newImageName } });
+            req.session.user.picture.thumbnail = newImageName;
+            res.send('File uploaded successfully');
+        } catch (error) {
+            console.error("Error updating profile picture path in MongoDB:", error);
+            return res.status(500).send('Failed to update profile picture');
+        }
     } else {
         return res.status(500).send('Failed to update profile picture');
     }
-
-    res.send('File uploaded successfully');
 });
