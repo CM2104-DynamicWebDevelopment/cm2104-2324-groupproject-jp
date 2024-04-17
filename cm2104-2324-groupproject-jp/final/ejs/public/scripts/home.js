@@ -347,21 +347,3 @@ function popup2() {
     var popup = document.getElementById("myPopup3");
     popup.classList.toggle("show");
   }
-
-  // Function to show the review form and hide the movie description
-function addReview(num) {
-    console.log("add review called");
-    // Hide the movie description
-    document.getElementById('results-extra-' + num).style.display = 'none';
-    // Show the review form
-    document.getElementById('reviewForm-' + num).style.display = 'block';
-}
-
-// Function to go back to the movie description from the review form
-function cancelAddReview(num) {
-    console.log("cancel add review called");
-    // Show the movie description
-    document.getElementById('results-extra-' + num).style.display = 'block';
-    // Hide the review form
-    document.getElementById('reviewForm-' + num).style.display = 'none';
-}
