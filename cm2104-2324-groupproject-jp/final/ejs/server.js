@@ -312,13 +312,32 @@ app.get('/getReviewsMovieIds', (req, res) => {
 
 
 
-// Route to handle changing user's name
-app.post('/change-name', (req, res) => {
-    const newName = req.body.newName;
-    if (newName) {
-        user.name.first = newName;
-        res.send(`User first name changed to ${newName}`);
-    } else {
-        res.send('Please provide a new name');
+// Route to handle changing user's first name
+app.post('/change-first-name', (req, res) => {
+    const newFirstName = req.body.newFirstName;
+
+    // Check if new first name is provided
+    if (!newFirstName) {
+        res.status(400).send('New first name is required.');
+        return;
     }
+
+    // Update the user's first name in the session
+    req.session.user.name.first = newFirstName;
+
+    // Update the user's first name in the database
+    const userEmail = req.session.user.email;
+    db.collection('people').updateOne(
+        { email: userEmail },
+        { $set: { "name.first": newFirstName } },
+        (err, result) => {
+            if (err) {
+                console.error("Error updating user's first name:", err);
+                res.status(500).send('Error updating user\'s first name');
+                return;
+            }
+            console.log("User's first name updated successfully");
+            res.redirect('/myaccount'); // Redirect to the account page
+        }
+    );
 });
