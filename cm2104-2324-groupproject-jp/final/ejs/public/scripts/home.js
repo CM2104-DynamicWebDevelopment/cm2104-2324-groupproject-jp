@@ -307,7 +307,7 @@ htmlString += "<div class='movie-details'>" +
             "<p>" + releaseDate + "</p>" +
             "<p>" + movieRating + "</p>" +
             "</div>" +
-            "<div class='results-extra' id='resutls-extra-"+id+"' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "'); display: block;\">" +
+            "<div class='results-extra' id='results-extra-"+id+"' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "'); display: block;\">" +
             "<h3>About " + title + "</h3>" +
             "<p>" + movieDescription + "</p>" +
             "<form id='watchlistForm' action='/addwatchlist' method='POST'>" +
@@ -317,6 +317,7 @@ htmlString += "<div class='movie-details'>" +
             "<button class='button-review' type='submit' onclick='addReview(" + id + ")'>Review</button>" +
             "</div>" +
             "<div class='make-review' id='make-review-" + id + "' style='background-image: url(" + movieBackdrop + "); display: none;'>" +
+            console.log("HTML for make-review with id: " + id);
             "<form id='reviewForm' action='/addreview' method='POST'>" +
             "<input type='hidden' name='movieId' value='" + id + "'>" +
             "<h6>number review</h6>"+
