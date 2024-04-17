@@ -252,7 +252,6 @@ app.post('/removeWatchlist', async (req, res) => {
 });
 
 
-
 app.post('/addreview', (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
@@ -274,19 +273,11 @@ app.post('/addreview', (req, res) => {
     // Check if the user session contains reviews data, if not, initialize it as an empty array
     const reviews = req.session.user.reviews || [];
 
-    // Assuming reviews is an array of objects, if not, modify accordingly
-    if (reviews.some(review => review.movieId === movieId)) {
-        res.status(400).send('Review for this movie already exists.');
-        return;
-    }
-
-    // Assuming reviews is an array of objects, if not, modify accordingly
+    // Assuming reviews is an array of objects
     reviews.push({ movieId, review: movieReview, rating: movieReviewNumber });
 
     // Update user session
     req.session.user.reviews = reviews;
-
-    console.log(userEmail); // Logging user email
 
     // Update the database
     db.collection('people').updateOne(
