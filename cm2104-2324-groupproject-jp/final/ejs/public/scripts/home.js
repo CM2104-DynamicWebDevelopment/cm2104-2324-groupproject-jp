@@ -317,7 +317,6 @@ htmlString += "<div class='movie-details'>" +
             "<button class='button-review' type='submit' onclick='addReview(" + id + ")'>Review</button>" +
             "</div>" +
             "<div class='make-review' id='make-review-" + id + "' style='background-image: url(" + movieBackdrop + "); display: none;'>" +
-            console.log("HTML for make-review with id: " + id);
             "<form id='reviewForm' action='/addreview' method='POST'>" +
             "<input type='hidden' name='movieId' value='" + id + "'>" +
             "<h6>number review</h6>"+
