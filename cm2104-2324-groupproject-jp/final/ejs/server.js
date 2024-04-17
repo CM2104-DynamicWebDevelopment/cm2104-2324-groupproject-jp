@@ -403,23 +403,30 @@ app.post('/change-email', (req, res) => {
 });
 
 // Route to handle changing user's first name
-app.post('/change-first-name', (req, res) => {
-    const newFirstName = req.body.newFirstName;
+app.post('/change-password', (req, res) => {
+    const newPassword = req.body.newPassword;
+    const newPassword2 = req.body.newPassword2;
 
     // Check if new first name is provided
     if (!newFirstName) {
-        res.status(400).send('New first name is required.');
+        res.status(400).send('New password is required.');
+        return;
+    }
+
+        // Check if new first name is provided
+    if (newPassword != newPassword2) {
+        res.status(400).send('Passwords dont match.');
         return;
     }
 
     // Update the user's first name in the session
-    req.session.user.name.first = newFirstName;
+    req.session.user.login.password = newPassword;
 
     // Update the user's first name in the database
     const userEmail = req.session.user.email;
     db.collection('people').updateOne(
         { email: userEmail },
-        { $set: { "name.first": newFirstName } },
+        { $set: { "login.password": newPassword } },
         (err, result) => {
             if (err) {
                 console.error("Error updating user's first name:", err);
