@@ -576,7 +576,7 @@ app.post('/upload', upload.single('photo'), async (req, res) => {
             if (result.modifiedCount === 1) {
                 // Update the profile picture path in the session user object
                 req.session.user.picture.thumbnail = newImageName;
-                res.send('File uploaded successfully');
+                res.redirect('/myaccount');
             } else {
                 console.error("Failed to update profile picture path in MongoDB");
                 return res.status(500).send('Failed to update profile picture');
