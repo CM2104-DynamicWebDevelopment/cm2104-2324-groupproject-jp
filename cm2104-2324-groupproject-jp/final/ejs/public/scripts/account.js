@@ -207,7 +207,7 @@ function buildReviewsMovieCard(movieInfo) {
       "<p>Year: " + releaseDate + "</p>" +
       "</div>" +
 
-      "<div class='review-extra' id='review-extra-" + id + "'>" +
+      "<div class='review-extra' id='review-extra-" + id + "style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "');\">" +
       "<h3>Your review</h3>" +
       "<p id='review-text-" + id + "'>Loved it then and love it now. It's aged like a fine wine. Say what you like about movies from the eighties but when they got it right, boy did they get it right. Still one of the most inventive, superbly performed, wonderfully written, expertly directed and wholly endearing comedies you'll ever watch. Even the great theme tune is memorable. A true classic in every sense of the word.</p>" +
       "<button class='review-change-button' onclick='changeReview(" + id + ")'>Edit</button>" +
