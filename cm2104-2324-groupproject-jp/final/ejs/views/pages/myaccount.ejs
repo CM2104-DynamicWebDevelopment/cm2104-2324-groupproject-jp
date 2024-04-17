@@ -91,7 +91,7 @@
             <div class="preferences-container">
               <div class="preference" style="margin-left: 0;">
                 <h3>Profile Picture</h3>
-                <img src="<%= user.picture.thumbnail %>" alt="Thumbnail">
+                <img src="<%= user.picture.thumbnail %>"  class="profile-picture" alt="Profile Picture">
                 <form action="/upload" method="POST" enctype="multipart/form-data">
                   <input type="file" name="photo" accept="image/*">
                   <button type="submit">Upload</button>
