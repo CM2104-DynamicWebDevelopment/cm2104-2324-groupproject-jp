@@ -630,7 +630,21 @@ app.post('/addGroup', (req, res) => {
             return;
         }
         console.log('Group saved to database');
-        res.redirect('/groups'); // Redirect if group creation is correct
+
+        // Update the user's document to add the group code
+        db.collection('people').updateOne(
+            { "login.username": loggedInUser },
+            { $push: { "groups": groupCode } },
+            (err, result) => {
+                if (err) {
+                    console.error('Error updating user document:', err);
+                    res.status(500).send('Error updating user document');
+                    return;
+                }
+                console.log(`Group code ${groupCode} added to user ${loggedInUser}`);
+                res.redirect('/groups'); // Redirect if group creation and user update are successful
+            }
+        );
     });
 });
 
