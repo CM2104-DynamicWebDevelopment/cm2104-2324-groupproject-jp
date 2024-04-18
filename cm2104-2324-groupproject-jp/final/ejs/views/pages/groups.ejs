@@ -13,27 +13,27 @@
 <!-- Include the navbar -->
 <%- include('../partials/nav.ejs', { currentPage: 'groups'}) %>
 
-
-  <div id="main-container" class="wrapper">
-<div class="side-nav">
-    <!-- side nav show the container -->
-    <h2>Groups</h2>
-    <a href="#" onclick="showAccountContent('New-Group')">New group</a>
-    <!-- Loop through user's group codes and generate links -->
-    <% userGroups.forEach(groupCode => { %>
-        <a href="#" onclick="showAccountContent('<%= groupCode %>')"><%= groupCode %></a>
-    <% }); %>
-</div>
-
-<% userGroups.forEach(group => { %>
-  <div id="container-<%= group.groupCode %>" class="account-container" style="display: none;">
-      <!-- Display group code -->
-      <h1>Group Code: <%= group.groupCode %></h1>
-      <!-- Display group name -->
-      <h2>Group Name: <%= group.groupName %></h2>
-      <!-- Display other group details here -->
+<div id="main-container" class="wrapper">
+  <div class="side-nav">
+      <!-- side nav show the container -->
+      <h2>Groups</h2>
+      <a href="#" onclick="showAccountContent('New-Group')">New group</a>
+      <!-- Loop through user's group codes and generate links -->
+      <% userGroups.forEach(group => { %>
+          <a href="#" onclick="showAccountContent('<%= group.groupCode %>')"><%= group.groupName %></a>
+      <% }); %>
   </div>
-<% }); %>
+
+  <% userGroups.forEach(group => { %>
+      <div id="container-<%= group.groupCode %>" class="account-container" style="display: none;">
+          <!-- Display group code -->
+          <h1>Group Code: <%= group.groupCode %></h1>
+          <!-- Display group name -->
+          <h2>Group Name: <%= group.groupName %></h2>
+
+      </div>
+  <% }); %>
+</div>
 
 
 

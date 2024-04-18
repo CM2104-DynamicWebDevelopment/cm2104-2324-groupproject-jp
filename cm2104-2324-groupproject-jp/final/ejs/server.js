@@ -65,35 +65,6 @@ app.get('/myaccount', (req, res) => {
     res.render('pages/myaccount', { user: req.session.user});
 });
 
-// Define a function to fetch group information based on group codes
-function getGroupInfo(groupCodes, callback) {
-    // Query the database for groups with the given group codes
-    db.collection('groups').find({ groupCode: { $in: groupCodes } }).toArray((err, groups) => {
-        if (err) {
-            console.error('Error retrieving group information:', err);
-            callback(err, null);
-            return;
-        }
-        // Return the retrieved groups
-        callback(null, groups);
-    });
-}
-
-// Define a function to fetch group information based on group codes
-function getGroupInfo(groupCodes, callback) {
-    // Query the database for groups with the given group codes
-    db.collection('groups').find({ groupCode: { $in: groupCodes } }).toArray((err, groups) => {
-        if (err) {
-            console.error('Error retrieving group information:', err);
-            callback(err, null);
-            return;
-        }
-        // Return the retrieved groups
-        callback(null, groups);
-    });
-}
-
-// Modify the /groups route handler to use the getGroupInfo function
 app.get('/groups', (req, res) => {
     // Redirect to login if not logged in
     if (!req.session.loggedin) {
@@ -101,7 +72,7 @@ app.get('/groups', (req, res) => {
         return;
     }
 
-    // Retrieve the group codes a user is a part of
+    // Retrieve the username of the logged-in user
     const loggedInUser = req.session.user.login.username;
 
     // Find the user document using the username
@@ -113,21 +84,22 @@ app.get('/groups', (req, res) => {
         }
 
         // Access the user's groups array from the user document
-        const userGroups = user.groups.map(group => group.groupCode); // Assuming user.groups is an array of objects with groupCode property
+        const userGroups = user.groups;
 
-        // Use the getGroupInfo function to fetch detailed group information
-        getGroupInfo(userGroups, (err, groupsInfo) => {
+        // Find all groups that the user is a part of
+        db.collection('groups').find({ groupCode: { $in: userGroups } }).toArray((err, groups) => {
             if (err) {
-                console.error('Error retrieving group information:', err);
-                res.status(500).send('Error retrieving group information');
+                console.error('Error retrieving groups:', err);
+                res.status(500).send('Error retrieving groups');
                 return;
             }
 
-            // Render the groups page with user data and detailed group information
-            res.render('pages/groups', { user: req.session.user, userGroups: groupsInfo });
+            // Render the groups page with user data and group details
+            res.render('pages/groups', { user: req.session.user, groups });
         });
     });
 });
+
 
 
 // Route to handle login form submission
