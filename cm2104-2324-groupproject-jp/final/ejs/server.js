@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
   res.render('pages/index', { user: req.session.loggedin ? req.session.user : null, req: req });
 });
 
-app.get('/', (req, res) => {
+app.get('/error', (req, res) => {
     // Render index page with user data if logged in, otherwise render with null user
     res.render('pages/error', { user: req.session.loggedin ? req.session.user : null, req: req });
   });
