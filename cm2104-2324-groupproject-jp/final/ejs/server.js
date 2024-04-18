@@ -662,7 +662,7 @@ app.get('/getUserGroupCodes', (req, res) => {
         }
 
         // Access the user's groups array
-        const userGroups = user.groups;
+        const userGroups = req.session.user.groups;
         
         // Send the user's group codes as the response
         res.json({ userGroups });
