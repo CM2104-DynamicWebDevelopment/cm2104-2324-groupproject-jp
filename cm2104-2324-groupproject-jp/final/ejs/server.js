@@ -95,10 +95,11 @@ app.get('/groups', (req, res) => {
             }
 
             // Render the groups page with user data and group details
-            res.render('pages/groups', { user: req.session.user, groups });
+            res.render('pages/groups', { user: req.session.user, userGroups: groups });
         });
     });
 });
+
 
 
 
