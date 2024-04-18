@@ -47,6 +47,12 @@ app.get('/', (req, res) => {
   res.render('pages/index', { user: req.session.loggedin ? req.session.user : null, req: req });
 });
 
+// Route to render the error.ejs page
+app.get('/', (req, res) => {
+    // Render index page with user data if logged in, otherwise render with null user
+    res.render('pages/error');
+});
+
 
 // Route to render the myaccount.ejs page
 app.get('/myaccount', (req, res) => {
