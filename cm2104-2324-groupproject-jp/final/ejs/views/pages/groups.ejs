@@ -26,8 +26,12 @@
   </div>
   
 
-  <div id="container-<%= groupCode %>" class="account-container">
-    <h1><%= groupCode %></h1>
+  <% groups.forEach(group => { %>
+    <div id="container-<%= group.groupCode %>" class="account-container">
+        <h1><%= group.groupCode %></h1>
+        <!-- Display other group details here -->
+    </div>
+<% }); %>
         
         <div class="group-review-container">
           <h1 class="welcome-title">Group reviewed</h1>
