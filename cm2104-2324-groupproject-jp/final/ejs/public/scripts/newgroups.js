@@ -17,6 +17,7 @@ function showAccountContent(groupCode) {
         selectedContainer.style.display = 'block';
     }
 }
+console.log(userGroups);
 
 
 function showGroupContent(page) {
