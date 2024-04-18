@@ -42,7 +42,6 @@ var allowedKeys = {
   
   
     // Show an alert or perform any other action
-    alert("Cheats activated!");
     window.location.href = "error.ejs";
   }
   
