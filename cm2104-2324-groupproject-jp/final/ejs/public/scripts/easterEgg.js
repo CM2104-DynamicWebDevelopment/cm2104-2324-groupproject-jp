@@ -42,6 +42,6 @@ var allowedKeys = {
   
   
     // Show an alert or perform any other action
-    window.location.href = "error.ejs";
+    window.location.href = "pages/error.ejs";
   }
   
