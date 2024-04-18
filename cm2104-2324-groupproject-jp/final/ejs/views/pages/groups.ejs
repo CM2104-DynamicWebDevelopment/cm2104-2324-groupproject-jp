@@ -14,16 +14,17 @@
 <%- include('../partials/nav.ejs', { currentPage: 'groups'}) %>
 
 
-  <div id="main-container" class="wrapper">
-    <div class="side-nav">
+<div id="main-container" class="wrapper">
+  <div class="side-nav">
       <!-- side nav show the container -->
       <h2>Groups</h2>
       <a href="#" onclick="showAccountContent('New-Group')">New group</a>
       <!-- Loop through user's group codes and generate links -->
-      <% userGroups.forEach(groupCode => { %>
-          <a href="#" onclick="showAccountContent('<%= groupCode %>')"><%= groupCode %></a>
+      <% userGroups.forEach(group => { %>
+          <a href="#" onclick="showAccountContent('<%= group.groupCode %>')"><%= group.groupCode %></a>
       <% }); %>
   </div>
+</div>
   
 
   <% userGroups.forEach(group => { %>

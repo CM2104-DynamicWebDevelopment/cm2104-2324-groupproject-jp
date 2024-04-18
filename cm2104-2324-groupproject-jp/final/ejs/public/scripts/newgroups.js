@@ -18,27 +18,6 @@ function showAccountContent(groupCode) {
     }
 }
 
-// Function to fetch and display group details on page load
-function loadUserGroups() {
-    // Make an AJAX request to fetch group details for the logged-in user
-    fetch('/user/groups/details')
-        .then(response => response.json())
-        .then(groups => {
-            // Map each group to include groupCode
-            const groupsWithCodes = groups.map(group => ({
-                ...group,
-                groupCode: group.groupCode // Assuming groupCode is a property of each group
-            }));
-
-            // Render the template with userGroups and groupCodes
-            res.render('groups', { userGroups: groupsWithCodes });
-        })
-        .catch(error => console.error('Error fetching user groups:', error));
-}
-// Call the function to load user groups when the page loads
-window.addEventListener('load', loadUserGroups);
-
-
 function showGroupContent(page) {
   var groupSelectorChat = document.querySelectorAll('.group-selector-container-chat');
   var groupSelectorWatchlist = document.querySelectorAll('.group-selector-container-watchlist');
