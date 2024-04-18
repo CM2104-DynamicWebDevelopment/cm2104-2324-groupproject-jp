@@ -65,16 +65,32 @@ app.get('/myaccount', (req, res) => {
     res.render('pages/myaccount', { user: req.session.user});
 });
 
-// Route to render the group.ejs page
 app.get('/groups', (req, res) => {
     // Redirect to login if not logged in
     if (!req.session.loggedin) {
         res.redirect('/');
         return;
     }
-    // Render groups page with user data and watchlist
-    res.render('pages/groups', { user: req.session.user, watchlist: req.session.user.watchlist });
+
+    // Retrieve the group codes a user is a part of
+    const loggedInUser = req.session.user.login.username;
+
+    // Find the user document using the username
+    db.collection('people').findOne({ "login.username": loggedInUser }, (err, user) => {
+        if (err) {
+            console.error('Error retrieving user document:', err);
+            res.status(500).send('Error retrieving user document');
+            return;
+        }
+
+        // Access the user's groups array from the user document
+        const userGroups = user.groups;
+
+        // Render the groups page with user data and group codes
+        res.render('pages/groups', { user: req.session.user, userGroups });
+    });
 });
+
 
 // Route to handle login form submission
 app.post('/dologin', (req, res) => {
