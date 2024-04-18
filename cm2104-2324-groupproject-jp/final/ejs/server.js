@@ -59,47 +59,16 @@ app.get('/myaccount', (req, res) => {
     res.render('pages/myaccount', { user: req.session.user});
 });
 
-// Route to render the groups page
+// Route to render the group.ejs page
 app.get('/groups', (req, res) => {
     // Redirect to login if not logged in
     if (!req.session.loggedin) {
         res.redirect('/');
         return;
     }
-
-    // Retrieve the user's groups from the database
-    const userEmail = req.session.user.email;
-    db.collection('people').findOne({ email: userEmail }, { groups: 1 }, (err, user) => {
-        if (err) {
-            console.error('Error retrieving user data:', err);
-            res.status(500).send('Error retrieving user data');
-            return;
-        }
-
-        // Extract the user's groups from the user document
-        const userGroups = user.groups || [];
-
-        // Construct the side navigation HTML dynamically
-        let sideNavHTML = `
-            <div id="main-container" class="wrapper">
-                <div class="side-nav">
-                    <h2>Groups</h2>
-                    <a href="#" onclick="showAccountContent('New-Group')">New group</a>
-        `;
-
-        // Add links for each group to the side navigation
-        userGroups.forEach((groupName) => {
-            sideNavHTML += `<a href="#" onclick="showAccountContent('${groupName}')">${groupName}</a>`;
-        });
-
-        // Close the side navigation container
-        sideNavHTML += `</div>`;
-
-        // Send the rendered side navigation HTML to the client
-        res.send(sideNavHTML);
-    });
+    // Render groups page with user data and watchlist
+    res.render('pages/groups', { user: req.session.user, watchlist: req.session.user.watchlist });
 });
-
 
 // Route to handle login form submission
 app.post('/dologin', (req, res) => {
@@ -678,6 +647,28 @@ app.post('/addGroup', (req, res) => {
         );
     });
 });
+
+// Retrieve the group codes a user is a part of
+app.get('/getUserGroupCodes', (req, res) => {
+    // Get the logged-in user's username from the session
+    const loggedInUser = req.session.user.login.username;
+
+    // Find the user document using the username
+    db.collection('people').findOne({ "login.username": loggedInUser }, (err, user) => {
+        if (err) {
+            console.error('Error retrieving user document:', err);
+            res.status(500).send('Error retrieving user document');
+            return;
+        }
+
+        // Access the user's groups array
+        const userGroups = user.groups;
+        
+        // Send the user's group codes as the response
+        res.json({ userGroups });
+    });
+});
+
 
 
 //logour route cause the page to Logout.
