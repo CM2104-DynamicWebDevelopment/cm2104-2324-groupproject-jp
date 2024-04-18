@@ -661,11 +661,11 @@ app.get('/getUserGroupCodes', (req, res) => {
             return;
         }
 
-        // Access the user's groups array
-        const userGroups = req.session.user.groups;
+        // Access the user's groups array from the user document
+        const userGroups = user.groups;
         
         // Send the user's group codes as the response
-        res.json({ userGroups });
+        res.render('groups', { userGroups }); // Assuming 'groups' is your EJS template file
     });
 });
 
