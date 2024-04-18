@@ -14,26 +14,21 @@
 <%- include('../partials/nav.ejs', { currentPage: 'groups'}) %>
 
 
-<div id="main-container" class="wrapper">
-  <div class="side-nav">
-      <!-- side nav show the container -->
-      <h2>Groups</h2>
-      <a href="#" onclick="showAccountContent('New-Group')">New group</a>
-      <!-- Loop through user's group codes and generate links -->
-      <% userGroups.forEach(group => { %>
-          <a href="#" onclick="showAccountContent('<%= group.groupCode %>')"><%= group.groupCode %></a>
-      <% }); %>
-  </div>
+  <div id="main-container" class="wrapper">
+<div class="side-nav">
+    <!-- side nav show the container -->
+    <h2>Groups</h2>
+    <a href="#" onclick="showAccountContent('New-Group')">New group</a>
+    <!-- Loop through user's group codes and generate links -->
+    <% userGroups.forEach(groupCode => { %>
+        <a href="#" onclick="showAccountContent('<%= groupCode %>')"><%= groupCode %></a>
+    <% }); %>
 </div>
-  
 
-  <% userGroups.forEach(group => { %>
-    <div id="container-<%= group.groupCode %>" class="account-container">
-        <h1><%= userGroups.groupCode %></h1>
-        <!-- Display other group details here -->
-    </div>
-<% }); %>
-<div id="container-" class="account-container">   
+
+    <div id="container-My-Group" class="account-container">
+        <h1>Group name</h1>
+        
         <div class="group-review-container">
           <h1 class="welcome-title">Group reviewed</h1>
           <h3 class="welcome-text">list of movies group has rated</h3>

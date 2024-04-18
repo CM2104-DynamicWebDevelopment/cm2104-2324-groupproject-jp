@@ -18,6 +18,7 @@ function showAccountContent(groupCode) {
     }
 }
 
+
 function showGroupContent(page) {
   var groupSelectorChat = document.querySelectorAll('.group-selector-container-chat');
   var groupSelectorWatchlist = document.querySelectorAll('.group-selector-container-watchlist');
