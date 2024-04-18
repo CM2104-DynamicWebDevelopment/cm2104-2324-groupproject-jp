@@ -589,3 +589,64 @@ app.post('/upload', upload.single('photo'), async (req, res) => {
         return res.status(500).send('Failed to update profile picture');
     }
 });
+
+
+const generateGroupCode = () => {
+    // Generate a random 6-digit group code
+    return Math.floor(100000 + Math.random() * 900000);
+};
+
+// Route to handle adding a new group
+app.post('/addGroup', (req, res) => {
+    // Get the group name from the form
+    const groupName = req.body.groupName;
+
+    // Generate a random 6-digit group code
+    const groupCode = generateGroupCode();
+
+    // Get the logged-in user's username from the session
+    const loggedInUser = req.session.user.login.username;
+
+    // Construct the initial group data
+    const datatostore = {
+        "groupName": groupName,
+        "groupCode": groupCode,
+        "groupMembers": [loggedInUser], // Add the logged-in user to the group members
+        "groupWatchlist": [],
+        "groupChats": [
+          {
+            "sender": "Server",
+            "message": `New group "${groupName}" created!`,
+            "timestamp": new Date()
+          },
+        ]
+    };
+
+    // Insert the group data into the 'groups' collection
+    db.collection('groups').insertOne(datatostore, (err, result) => {
+        if (err) {
+            console.error('Error saving to database:', err);
+            res.status(500).send('Error saving to database');
+            return;
+        }
+        console.log('Group saved to database');
+        res.redirect('/groups'); // Redirect if group creation is correct
+    });
+});
+
+
+//logour route cause the page to Logout.
+//it sets our session.loggedin to false and then redirects the user to the login
+app.post('/logout', function (req, res) {
+  // Set the loggedin session variable to false
+  req.session.loggedin = false;
+  // Destroy the session
+  req.session.destroy(function(err) {
+    if(err) {
+      console.log(err);
+    } else {
+      // Redirect the user to the login page
+      res.redirect('/');
+    }
+  });
+});
