@@ -65,6 +65,21 @@ app.get('/myaccount', (req, res) => {
     res.render('pages/myaccount', { user: req.session.user});
 });
 
+// Define a function to fetch group information based on group codes
+function getGroupInfo(groupCodes, callback) {
+    // Query the database for groups with the given group codes
+    db.collection('groups').find({ groupCode: { $in: groupCodes } }).toArray((err, groups) => {
+        if (err) {
+            console.error('Error retrieving group information:', err);
+            callback(err, null);
+            return;
+        }
+        // Return the retrieved groups
+        callback(null, groups);
+    });
+}
+
+// Modify the /groups route handler to use the getGroupInfo function
 app.get('/groups', (req, res) => {
     // Redirect to login if not logged in
     if (!req.session.loggedin) {
@@ -86,8 +101,17 @@ app.get('/groups', (req, res) => {
         // Access the user's groups array from the user document
         const userGroups = user.groups;
 
-        // Render the groups page with user data and group codes
-        res.render('pages/groups', { user: req.session.user, userGroups });
+        // Use the getGroupInfo function to fetch detailed group information
+        getGroupInfo(userGroups, (err, groupsInfo) => {
+            if (err) {
+                console.error('Error retrieving group information:', err);
+                res.status(500).send('Error retrieving group information');
+                return;
+            }
+
+            // Render the groups page with user data and detailed group information
+            res.render('pages/groups', { user: req.session.user, userGroups: groupsInfo });
+        });
     });
 });
 

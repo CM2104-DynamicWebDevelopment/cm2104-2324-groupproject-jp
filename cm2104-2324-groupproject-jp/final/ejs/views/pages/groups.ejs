@@ -25,13 +25,16 @@
     <% }); %>
 </div>
 
-<% userGroups.forEach(groupCode => { %>
-  <div id="container-<%= groupCode %>" class="account-container" style="display: none;">
-      <h1><%= groupCode %></h1>
-      <h1>hello</h1>
+<% userGroups.forEach(group => { %>
+  <div id="container-<%= group.groupCode %>" class="account-container" style="display: none;">
+      <!-- Display group code -->
+      <h1>Group Code: <%= group.groupCode %></h1>
+      <!-- Display group name -->
+      <h2>Group Name: <%= group.groupName %></h2>
       <!-- Display other group details here -->
   </div>
 <% }); %>
+
 
 
     <div id="container-My-Group" class="account-container">
