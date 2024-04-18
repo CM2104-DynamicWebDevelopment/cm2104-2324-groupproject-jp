@@ -142,7 +142,7 @@ body, html {
   
 
   #container-My-Group {
-    display: block; /* Shows the my account container but not the others hehe */
+    display: none; /* Shows the my account container but not the others hehe */
   }
   
   #container-New-Channel {
@@ -150,7 +150,7 @@ body, html {
   }
   
   #container-New-Group {
-    display: none;
+    display: block;
   }
   
 
