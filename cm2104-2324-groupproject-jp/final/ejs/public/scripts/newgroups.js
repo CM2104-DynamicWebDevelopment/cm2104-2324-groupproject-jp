@@ -24,28 +24,17 @@ function loadUserGroups() {
     fetch('/user/groups/details')
         .then(response => response.json())
         .then(groups => {
-            // Iterate over each group and display its details
-            groups.forEach(group => {
-                const groupContainer = document.createElement('div');
-                groupContainer.classList.add('group-container');
+            // Map each group to include groupCode
+            const groupsWithCodes = groups.map(group => ({
+                ...group,
+                groupCode: group.groupCode // Assuming groupCode is a property of each group
+            }));
 
-                const groupNameElement = document.createElement('h2');
-                groupNameElement.textContent = `Group Name: ${group.groupName}`;
-
-                const groupCodeElement = document.createElement('p');
-                groupCodeElement.textContent = `Group Code: ${group.groupCode}`;
-
-                // You can display other group details similarly
-
-                groupContainer.appendChild(groupNameElement);
-                groupContainer.appendChild(groupCodeElement);
-
-                document.getElementById('user-groups').appendChild(groupContainer);
-            });
+            // Render the template with userGroups and groupCodes
+            res.render('groups', { userGroups: groupsWithCodes });
         })
         .catch(error => console.error('Error fetching user groups:', error));
 }
-
 // Call the function to load user groups when the page loads
 window.addEventListener('load', loadUserGroups);
 
