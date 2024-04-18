@@ -23,6 +23,7 @@
           <a href="#" onclick="showAccountContent('<%= group.groupCode %>')"><%= group.groupName %></a>
       <% }); %>
   </div>
+</div>
 
   <% userGroups.forEach(group => { %>
       <div id="container-<%= group.groupCode %>" class="account-container" style="display: none;">
@@ -33,7 +34,6 @@
 
       </div>
   <% }); %>
-</div>
 
 
 
