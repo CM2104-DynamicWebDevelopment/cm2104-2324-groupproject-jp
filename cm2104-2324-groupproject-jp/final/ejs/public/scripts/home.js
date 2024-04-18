@@ -191,6 +191,7 @@ htmlString += "<div class='movie-details'>" +
                 "<option value='2'>2</option>" +
                 "<option value='3'>3</option>"+
                 "<option value='4'>4</option>" +
+                "<option value='5'>5</option>" +
                 "</select>" +
                 "<div class='review-section'>" +
                   "<label class='comments-review'>Have your say:</label>" +
@@ -300,22 +301,45 @@ htmlString += "<div class='movie-details'>" +
 
             // build html string for search results card
             htmlString +=
-                "<div class='results-movie-card'>" +
-                "<div class='results-movie-details'>" +
+            "<div class='results-movie-card'>" +
+            "<div class='results-movie-details'>" +
                 "<h2>" + title + "</h2>" +
                 "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='" + title + " Poster'>" +
                 "<p>" + releaseDate + "</p>" +
                 "<p>" + movieRating + "</p>" +
-                "</div>" +
-                "<div class='results-extra' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "');\">" +
+            "</div>" +
+            "<div class='results-extra' id='results-extra-"+id+"' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "'); display: block;\">" +
                 "<h3>About " + title + "</h3>" +
                 "<p>" + movieDescription + "</p>" +
                 "<form id='watchlistForm' action='/addwatchlist' method='POST'>" +
-                "<input type='hidden' name='movieId' value='" + id + "'>" +
-                "<button class='button-watchlist' type='submit'>Add to Watchlist</button>" +
+                    "<input type='hidden' name='movieId' value='" + id + "'>" +
+                    "<button class='button-watchlist' type='submit'>Add to Watchlist</button>" +
                 "</form>"+
-                "</div>" +
-                "</div>";
+                "<button class='button-review' type='submit' onclick='addReview(" + id + ")'>Review</button>" +
+            "</div>" +
+            "<div class='make-review' id='make-review-" + id + "'  style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "'); display: none;\">" +
+                "<form id='reviewForm' action='/addreview' method='POST'>" +
+                    "<input type='hidden' name='movieId' value='" + id + "'>" +
+                    "<h6>number review</h6>"+
+                    "<select name='rating'>" + 
+                        "<option value='1'>1</option>" +
+                        "<option value='2'>2</option>" +
+                        "<option value='3'>3</option>"+
+                        "<option value='4'>4</option>" +
+                        "<option value='5'>5</option>" +
+                    "</select>" +
+                    "<div class='review-section'>" +
+                        "<label class='comments-review'>Have your say:</label>" +
+                        "<textarea class='review-section-text' rows='3' name='review'></textarea>" +
+                        "<button class='leave-review' type='submit'>Leave review</button>" +
+                    "</div>" +
+                "</form>" +
+                "<button class='back' onclick='backReview(" + id + ")'>Back</button>" +
+            "</div>" +
+        "</div>";
+        
+        
+        
         }
         // insert html into search resutls container
         $('.results-movie-card-container').html(htmlString);
@@ -335,3 +359,37 @@ function popup2() {
     var popup = document.getElementById("myPopup3");
     popup.classList.toggle("show");
   }
+
+  
+  function addReview(id) {
+    console.log("addReview function called for id:", id);
+
+    var resultsExtra = document.getElementById('results-extra-' + id);
+    var makeReview = document.getElementById('make-review-' + id);
+
+    console.log("resultsExtra:", resultsExtra);
+    console.log("makeReview:", makeReview);
+
+    if (resultsExtra && makeReview) {
+        resultsExtra.style.display = 'none';
+        makeReview.style.display = 'block';
+    } else {
+        console.log("Error: Unable to find elements with IDs 'results-extra-" + id + "' and 'make-review-" + id + "'");
+    }
+}
+
+function backReview(id) {
+
+    var resultsExtra = document.getElementById('results-extra-' + id);
+    var makeReview = document.getElementById('make-review-' + id);
+
+    console.log("resultsExtra:", resultsExtra);
+    console.log("makeReview:", makeReview);
+
+    if (resultsExtra && makeReview) {
+        resultsExtra.style.display = 'block';
+        makeReview.style.display = 'none';
+    } else {
+        console.log("Error: Unable to find elements with IDs 'results-extra-" + id + "' and 'make-review-" + id + "'");
+    }
+}

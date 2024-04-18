@@ -4,6 +4,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 const favicon = require('serve-favicon');
+const multer = require('multer');
 
 const app = express();
 const PORT = 8080; // Change port to the desired port number
@@ -297,11 +298,391 @@ app.post('/addreview', (req, res) => {
 });
 
 
-// retrieve reviews movie IDs
+// retrieve reviews movie IDs and texts
 app.get('/getReviewsMovieIds', (req, res) => {
-    // get reviews movie ids from the session
-    const reviewsMovieIds = req.session.user.reviews.map(review => review.movieId);
+    // get reviews movie ids and texts from the session
+    const reviewsData = req.session.user.reviews.map(review => ({
+        movieId: review.movieId,
+        reviewText: review.review,
+        reviewNumber: review.rating
+    }));
 
-    // send the movie ids as the response
-    res.json({ reviewsMovieIds });
+    // send the movie ids and review texts as the response
+    res.json({ reviewsData });
+});
+
+
+
+// Route to handle changing user's first name
+app.post('/change-first-name', (req, res) => {
+    const newFirstName = req.body.newFirstName;
+
+    // Check if new first name is provided
+    if (!newFirstName) {
+        res.status(400).send('New first name is required.');
+        return;
+    }
+
+    // Update the user's first name in the session
+    req.session.user.name.first = newFirstName;
+
+    // Update the user's first name in the database
+    const userEmail = req.session.user.email;
+    db.collection('people').updateOne(
+        { email: userEmail },
+        { $set: { "name.first": newFirstName } },
+        (err, result) => {
+            if (err) {
+                console.error("Error updating user's first name:", err);
+                res.status(500).send('Error updating user\'s first name');
+                return;
+            }
+            console.log("User's first name updated successfully");
+            res.redirect('/myaccount'); // Redirect to the account page
+        }
+    );
+});
+
+// Route to handle changing user's first name
+app.post('/change-username', (req, res) => {
+    const newUsername = req.body.newUsername;
+
+    // Check if new first name is provided
+    if (!newUsername) {
+        res.status(400).send('New first name is required.');
+        return;
+    }
+
+    // Update the user's first name in the session
+    req.session.user.login.username = newUsername;
+
+    // Update the user's first name in the database
+    const userEmail = req.session.user.email;
+    db.collection('people').updateOne(
+        { email: userEmail },
+        { $set: { "login.username": newUsername } },
+        (err, result) => {
+            if (err) {
+                console.error("Error updating user's username:", err);
+                res.status(500).send('Error updating user\'s username');
+                return;
+            }
+            console.log("User's username updated successfully");
+            res.redirect('/myaccount'); // Redirect to the account page
+        }
+    );
+});
+
+// Route to handle changing user's email
+app.post('/change-email', (req, res) => {
+    const newEmail = req.body.newEmail;
+
+    // Check if new email is provided
+    if (!newEmail) {
+        res.status(400).send('New first name is required.');
+        return;
+    }
+
+    // Update the user's first name in the session
+    req.session.user.email = newEmail;
+
+    // Update the user's first name in the database
+    const userUsername = req.session.user.login.username;
+    db.collection('people').updateOne(
+        { username: userUsername },
+        { $set: { "email": newEmail } },
+        (err, result) => {
+            if (err) {
+                console.error("Error updating user's first name:", err);
+                res.status(500).send('Error updating user\'s first name');
+                return;
+            }
+            console.log("User's first name updated successfully");
+            res.redirect('/myaccount'); // Redirect to the account page
+        }
+    );
+});
+
+// Route to handle changing user's first name
+app.post('/change-password', (req, res) => {
+    const newPassword = req.body.newPassword;
+    const newPassword2 = req.body.newPassword2;
+
+    // Check if new first name is provided
+    if (!newPassword) {
+        res.status(400).send('New password is required.');
+        return;
+    }
+
+        // Check if new first name is provided
+    if (newPassword != newPassword2) {
+        res.status(400).send('Passwords dont match.');
+        return;
+    }
+
+    // Update the user's first name in the session
+    req.session.user.login.password = newPassword;
+
+    // Update the user's first name in the database
+    const userEmail = req.session.user.email;
+    db.collection('people').updateOne(
+        { email: userEmail },
+        { $set: { "login.password": newPassword } },
+        (err, result) => {
+            if (err) {
+                console.error("Error updating user's password:", err);
+                res.status(500).send('Error updating user\'s password');
+                return;
+            }
+            console.log("User's password updated successfully");
+            res.redirect('/myaccount'); // Redirect to the account page
+        }
+    );
+});
+
+// Route to handle changing user's movie review
+app.post('/change-review', (req, res) => {
+    const newReview = req.body.newReview;
+    const movieId = req.body.movieId;
+
+    // Check if new review is provided
+    if (!newReview) {
+        res.status(400).send('New review is required.');
+        return;
+    }
+
+    // Check if movie ID is provided
+    if (!movieId) {
+        res.status(400).send('Movie ID is required.');
+        return;
+    }
+
+    // Find the index of the review with the specified movie ID
+    const reviewIndex = req.session.user.reviews.findIndex(review => review.movieId === movieId);
+
+    // Check if the review exists
+    if (reviewIndex === -1) {
+        res.status(404).send('Review not found for the specified movie ID.');
+        return;
+    }
+
+    // Update the review text for the specified movie ID
+    req.session.user.reviews[reviewIndex].review = newReview;
+
+    // Update the review text in the database
+    const userEmail = req.session.user.email;
+    db.collection('people').updateOne(
+        { email: userEmail, "reviews.movieId": movieId }, // Update the review with matching movieId
+        { $set: { "reviews.$.review": newReview } }, // Use $ to specify the matched array element
+        (err, result) => {
+            if (err) {
+                console.error("Error updating user's review:", err);
+                res.status(500).send('Error updating user\'s review');
+                return;
+            }
+            console.log("User's review updated successfully");
+            res.redirect('/myaccount'); // Redirect to the account page
+        }
+    );
+});
+
+app.post('/delete-review', async (req, res) => {
+    // Check if the user is logged in
+    if (!req.session.loggedin) {
+        res.redirect('/'); // Redirect to login page
+        return;
+    }
+
+    const movieIdToRemove = req.body.movieId;
+    const userEmail = req.session.user.email; 
+
+    // Check if movieId is provided
+    if (!movieIdToRemove) {
+        res.status(400).json({ error: "Movie ID is required." });
+        return;
+    }
+
+    try {
+        // Update the user document to remove the review for the specified movieId
+        const result = await db.collection('people').updateOne(
+            { email: userEmail },
+            { $pull: { 'reviews': { movieId: movieIdToRemove } } }
+        );
+
+        if (result.modifiedCount === 1) {
+            // Update user session
+            const user = req.session.user;
+            const index = user.reviews.findIndex(review => review.movieId === movieIdToRemove);
+            if (index !== -1) {
+                user.reviews.splice(index, 1);
+            }
+            console.log(`Review for movie with ID ${movieIdToRemove} removed.`);
+            res.redirect('/myaccount'); // Redirect to the account page
+        } else {
+            res.status(404).json({ error: `Review for movie with ID ${movieIdToRemove} not found.` });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Multer configuration
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/img'); // Set the destination folder for uploaded files
+    },
+    filename: function (req, file, cb) {
+      // Check if username is available in the session
+      if (req.session && req.session.user && req.session.user.login && req.session.user.login.username) {
+        const username = req.session.user.login.username;
+        const fileExtension = path.extname(file.originalname); // Get the file extension
+        const filename = `${username}${fileExtension}`; // Set the filename with username and original file extension
+        cb(null, filename); 
+      } else {
+        cb(new Error('Username not found in session'), null);
+      }
+    }
+  });
+
+// Initialize multer with the defined storage
+const upload = multer({
+    storage: storage,
+    // Overwrite existing files with the same name
+    fileFilter: function (req, file, cb) {
+        cb(null, true);
+    }
+});
+
+// Route to handle file upload
+app.post('/upload', upload.single('photo'), async (req, res) => {
+    // Check if file is present in the request
+    if (!req.file) {
+        return res.status(400).send('No file uploaded');
+    }
+
+    // Update the user's profile picture path in MongoDB
+    if (req.session && req.session.user && req.session.user.login && req.session.user.login.username) {
+        const username = req.session.user.login.username;
+        const email = req.session.user.email;
+        const newImageName = "img/" + username + path.extname(req.file.originalname); // Construct the new image path
+        // Update the user's profile picture path in MongoDB
+        try {
+            // Update the user's profile picture path in MongoDB
+            const result = await db.collection('people').updateOne(
+                { email: email },
+                { $set: { "picture.thumbnail": newImageName } }
+            );
+        
+            if (result.modifiedCount === 1) {
+                // Update the profile picture path in the session user object
+                req.session.user.picture.thumbnail = newImageName;
+                res.redirect('/myaccount');
+            } else {
+                console.error("Failed to update profile picture path in MongoDB");
+                res.redirect('/myaccount');
+            }
+        } catch (error) {
+            console.error("Error updating profile picture path in MongoDB:", error);
+            res.redirect('/myaccount');
+        }
+    } else {
+        return res.status(500).send('Failed to update profile picture');
+    }
+});
+
+
+const generateGroupCode = () => {
+    // Generate a random 6-digit group code
+    return Math.floor(100000 + Math.random() * 900000);
+};
+
+// Route to handle adding a new group
+app.post('/addGroup', (req, res) => {
+    // Get the group name from the form
+    const groupName = req.body.groupName;
+
+    // Generate a random 6-digit group code
+    const groupCode = generateGroupCode();
+
+    // Get the logged-in user's username from the session
+    const loggedInUser = req.session.user.login.username;
+
+    // Construct the initial group data
+    const datatostore = {
+        "groupName": groupName,
+        "groupCode": groupCode,
+        "groupMembers": [loggedInUser], // Add the logged-in user to the group members
+        "groupWatchlist": [],
+        "groupChats": [
+          {
+            "sender": "Server",
+            "message": `New group "${groupName}" created!`,
+            "timestamp": new Date()
+          },
+        ]
+    };
+
+    // Insert the group data into the 'groups' collection
+    db.collection('groups').insertOne(datatostore, (err, result) => {
+        if (err) {
+            console.error('Error saving to database:', err);
+            res.status(500).send('Error saving to database');
+            return;
+        }
+        console.log('Group saved to database');
+
+        // Update the user's document to add the group code
+        db.collection('people').updateOne(
+            { "login.username": loggedInUser },
+            { $push: { "groups": groupCode } },
+            (err, result) => {
+                if (err) {
+                    console.error('Error updating user document:', err);
+                    res.status(500).send('Error updating user document');
+                    return;
+                }
+                console.log(`Group code ${groupCode} added to user ${loggedInUser}`);
+                res.redirect('/groups'); // Redirect if group creation and user update are successful
+            }
+        );
+    });
+});
+
+// Retrieve the group codes a user is a part of
+app.get('/getUserGroupCodes', (req, res) => {
+    // Get the logged-in user's username from the session
+    const loggedInUser = req.session.user.login.username;
+
+    // Find the user document using the username
+    db.collection('people').findOne({ "login.username": loggedInUser }, (err, user) => {
+        if (err) {
+            console.error('Error retrieving user document:', err);
+            res.status(500).send('Error retrieving user document');
+            return;
+        }
+
+        // Access the user's groups array
+        const userGroups = req.session.user.groups;
+        
+        // Send the user's group codes as the response
+        res.json({ userGroups });
+    });
+});
+
+
+
+//logour route cause the page to Logout.
+//it sets our session.loggedin to false and then redirects the user to the login
+app.post('/logout', function (req, res) {
+  // Set the loggedin session variable to false
+  req.session.loggedin = false;
+  // Destroy the session
+  req.session.destroy(function(err) {
+    if(err) {
+      console.log(err);
+    } else {
+      // Redirect the user to the login page
+      res.redirect('/');
+    }
+  });
 });

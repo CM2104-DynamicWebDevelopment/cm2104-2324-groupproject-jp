@@ -169,7 +169,19 @@ body, html {
   display: none;
 }
 
+.profile-picture {
+  margin-bottom: 25px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 2px solid #fff; /* White border around the image */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Box shadow for depth effect */
+  transition: transform 0.3s ease-in-out; /* Smooth transition for hover effect */
+}
 
+.profile-picture:hover {
+  transform: scale(1.1); /* Scale up the image on hover */
+}
 
 
 

@@ -18,13 +18,13 @@
     <div class="side-nav">
       <!-- side nav show the container -->
       <h2>Groups</h2>
-      <a href="#" onclick="showAccountContent('New-Group')">New group</a>
-      <!-- Loop through user's group codes and generate links -->
-      <% userGroups.forEach(groupCode => { %>
-          <a href="#" onclick="showAccountContent('<%= groupCode %>')"><%= groupCode %></a>
-      <% }); %>
-  </div>
-  
+        <a href="#" onclick="showAccountContent('New-Group')">New group</a>
+        <a href="#" onclick="showAccountContent('My-Group')">group1</a>
+        <a href="#" onclick="showAccountContent('My-Group')">group2</a>
+        <a href="#" onclick="showAccountContent('My-Group')">group3</a>
+        <a href="#" onclick="showAccountContent('My-Group')">group4</a>
+    </div>
+
 
     <div id="container-My-Group" class="account-container">
         <h1>Group name</h1>
@@ -207,7 +207,6 @@
           <button class="account-change-button">Join!</button><br>
 
         </div>
-
 
       </div>
 

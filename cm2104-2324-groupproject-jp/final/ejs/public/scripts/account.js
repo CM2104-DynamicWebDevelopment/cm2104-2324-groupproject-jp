@@ -144,89 +144,94 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // Function to fetch reviews movie IDs
-  function fetchReviewsMovieIds() {
-    fetch('/getReviewsMovieIds')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Handle the response data
-            console.log(data.reviewsMovieIds);
-            // Update the HTML content with the reviews movie IDs
-            document.getElementById('reviews-movie-ids').innerText = data.reviewsMovieIds.join(', ');
+function fetchReviewsMovieIds() {
+  fetch('/getReviewsMovieIds')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      })
+      .then(data => {
+          // Handle the response data
+          console.log(data.reviewsData);
+          // Update the HTML content with the reviews movie IDs
+          document.getElementById('reviews-movie-ids').innerText = data.reviewsData.map(review => review.movieId).join(', ');
 
-            // After fetching movie IDs, build movie cards for each movie
-            data.reviewsMovieIds.forEach(movieId => {
-                getReviewsFromTMDB(movieId);
-            });
-        })
-        .catch(error => console.error('Error:', error));
+          // After fetching movie IDs, build movie cards for each movie
+          data.reviewsData.forEach(review => {
+              getReviewsFromTMDB(review.movieId, review.reviewText, review.reviewNumber);
+          });
+      })
+      .catch(error => console.error('Error:', error));
 }
 
 // Function to get movie details from TMDB
-function getReviewsFromTMDB(movieId) {
-    console.log(movieId);
-    var apiKey = "7e6dd248e2a77acc70a843ea3a92a687"; // Replace with your TMDB API key
-    var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
-    console.log("movie searched for " + movieId)
+function getReviewsFromTMDB(movieId, reviewText, reviewNumber) {
+  console.log(movieId);
+  var apiKey = "7e6dd248e2a77acc70a843ea3a92a687"; // Replace with your TMDB API key
+  var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
+  console.log("movie searched for " + movieId)
 
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(jsondata => {
-            console.log(jsondata);
-            // Build movie card with the retrieved data
-            buildReviewsMovieCard(jsondata);
-        })
-        .catch(error => console.error('Error:', error));
+  fetch(url)
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      })
+      .then(jsondata => {
+          console.log(jsondata);
+          // Build movie card with the retrieved data and review text
+          buildReviewsMovieCard(jsondata, reviewText, reviewNumber);
+      })
+      .catch(error => console.error('Error:', error));
 }
 
 
 // Function to build movie card HTML
-function buildReviewsMovieCard(movieInfo) {
+function buildReviewsMovieCard(movieInfo, reviewText, reviewNumber) {
   // Extracting movie information
   var title = movieInfo.original_title;
   var moviePoster = "https://image.tmdb.org/t/p/original" + movieInfo.poster_path;
-  var backdrop = "https://image.tmdb.org/t/p/original" + movieInfo.backdrop_path;
-  var movieDescription = movieInfo.overview;
+  var movieBackdrop = "https://image.tmdb.org/t/p/original" + movieInfo.backdrop_path;
   var releaseDate = movieInfo.release_date.split('-')[0];
   var id = movieInfo.id;
 
   // Constructing the HTML string for movie card
   var htmlString = "<div class='review-movie-card'>" +
-      "<div class='review-movie-details'>" +
-      "<h2>" + title + "</h2>" +
-      "<img src='" + moviePoster + "' alt='Movie Poster'>" +
-      "<p>Year: " + releaseDate + "</p>" +
-      "</div>" +
+  "<div class='review-movie-details'>" +
+  "<h2>" + title + "</h2>" +
+  "<img src='" + moviePoster + "' alt='Movie Poster'>" +
+  "<p>Year: " + releaseDate + "</p>" +
+  "</div>" +
 
-      "<div class='review-extra' id='review-extra-" + id + "'>" +
-      "<h3>Your review</h3>" +
-      "<p id='review-text-" + id + "'>Loved it then and love it now. It's aged like a fine wine. Say what you like about movies from the eighties but when they got it right, boy did they get it right. Still one of the most inventive, superbly performed, wonderfully written, expertly directed and wholly endearing comedies you'll ever watch. Even the great theme tune is memorable. A true classic in every sense of the word.</p>" +
-      "<button class='review-change-button' onclick='changeReview(" + id + ")'>Edit</button>" +
-      "</div>" +
-      "<div class='review-change' id='review-change-" + id + "style='background-image: url('" +backdrop+ "'); display: none;'>" +
-      "<h3>Edit your review</h3>" +
-      "<input type='text' class='change-review-textbox-" + id + "' id='change-review-textbox-" + id + "' placeholder='Enter your new review'>" +
-      "<button class='review-change-button' onclick='saveReview(" + id + ")'>Save</button>" +
-      "</div>" +
-      "</div>";
+  "<div class='review-extra' id='review-extra-" + id + "' style='background-image: url(" + movieBackdrop + ");'>" +
+  "<h3>You rated it " + reviewNumber + " Stars!</h3>" +
+  "<p id='review-text-" + id + "'>" + reviewText + "</p>" +
+  "<button class='review-change-button' onclick='changeReview(" + id + ")'>Edit</button><br>" +
+  "<form action='/delete-review' method='POST'>" +
+  "<input type='hidden' id='movieId' name='movieId' value='" + id + "'>" +
+  "<button class='review-delete-button' type='submit'>Delete</button>" +
+  "</form>" +
+  "</div>" +
+  "<div class='review-change' id='review-change-" + id + "' style='background-image: url(" + movieBackdrop + ");'>" +
+  "<h3>Edit your review</h3>" +
+  "<form action='/change-review' method='POST'>" +
+  "<input type='text' class='change-review-textbox' id='change-review-textbox-" + id + "' name='newReview' placeholder='Enter your new review'>" +
+  "<input type='hidden' id='movieId' name='movieId' value='" + id + "'>" +
+  "<button class='review-change-button' type='submit'>Save</button>" +
+  "</form>" +
+  "</div>" +
+  "</div>";
 
-  // Inserting the HTML into the watchlist movie card container
+
+  // Inserting the HTML into the reviews movie card container
   $('.reviews-movie-card-container').append(htmlString);
 }
+
 // Call fetchWatchlistMovieIds() when the page is loaded
 document.addEventListener("DOMContentLoaded", function () {
-    fetchReviewsMovieIds();
-    console.log("fetch review called")
+  fetchReviewsMovieIds();
+  console.log("fetch review called")
 });
-
-
-
