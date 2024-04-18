@@ -734,6 +734,7 @@ app.get('/user/groups/details', (req, res) => {
 
 
 
+
 //logour route cause the page to Logout.
 //it sets our session.loggedin to false and then redirects the user to the login
 app.post('/logout', function (req, res) {
