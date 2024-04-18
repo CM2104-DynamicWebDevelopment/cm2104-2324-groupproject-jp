@@ -6,6 +6,8 @@
 // nav bar for showing accout, review, watchlist and freinds, accepts the page user wants to view
 // Function to show content based on the selected page (group code)
 function showAccountContent(groupCode) {
+    console.log(userGroups);
+console.log("hello");
     // Hide all containers
     document.querySelectorAll('.account-container').forEach(element => {
         element.style.display = 'none';
@@ -17,7 +19,7 @@ function showAccountContent(groupCode) {
         selectedContainer.style.display = 'block';
     }
 }
-console.log(userGroups);
+
 
 
 function showGroupContent(page) {
