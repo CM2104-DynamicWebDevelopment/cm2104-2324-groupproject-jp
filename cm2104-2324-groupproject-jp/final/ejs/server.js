@@ -723,8 +723,8 @@ app.get('/user/groups/details', (req, res) => {
             // Wait for all promises to resolve
             const groupDetails = await Promise.all(groupDetailsPromises);
 
-            // Send the group details to the client side
-            res.json(groupDetails);
+            // Pass userGroups and groupCodes to the template
+            res.render('groups', { groups: groupDetails }); // Assuming 'groups' is your EJS template file
         } catch (error) {
             console.error('Error fetching group details:', error);
             res.status(500).send('Error fetching group details');
