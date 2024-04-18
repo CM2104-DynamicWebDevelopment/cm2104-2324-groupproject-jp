@@ -691,6 +691,47 @@ app.get('/getUserGroupCodes', (req, res) => {
     });
 });
 
+// Route to get all group details for the logged-in user
+app.get('/user/groups/details', (req, res) => {
+    // Check if the user is logged in
+    if (!req.session.loggedin) {
+        res.status(401).send('Unauthorized');
+        return;
+    }
+
+    // Get the logged-in user's username from the session
+    const loggedInUser = req.session.user.login.username;
+
+    // Find the user document using the username
+    db.collection('people').findOne({ "login.username": loggedInUser }, async (err, user) => {
+        if (err) {
+            console.error('Error retrieving user document:', err);
+            res.status(500).send('Error retrieving user document');
+            return;
+        }
+
+        // Access the user's groups array from the user document
+        const userGroups = user.groups;
+
+        try {
+            // Fetch details of all groups the user is a part of
+            const groupDetailsPromises = userGroups.map(async (groupCode) => {
+                const group = await db.collection('groups').findOne({ groupCode });
+                return group;
+            });
+
+            // Wait for all promises to resolve
+            const groupDetails = await Promise.all(groupDetailsPromises);
+
+            // Send the group details to the client side
+            res.json(groupDetails);
+        } catch (error) {
+            console.error('Error fetching group details:', error);
+            res.status(500).send('Error fetching group details');
+        }
+    });
+});
+
 
 
 //logour route cause the page to Logout.

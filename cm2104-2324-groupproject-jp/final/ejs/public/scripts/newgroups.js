@@ -3,66 +3,52 @@
 */
 
 
-function showGroup(groupCode) {
-    // Ajax request to fetch group details
-    fetch(`/groups/${groupCode}`)
-        .then(response => response.json())
-        .then(group => {
-            // Get the container for displaying group details
-            const groupContainer = document.getElementById(`container-${group.groupName}`);
-            groupContainer.innerHTML = ''; // Clear previous content
+// nav bar for showing accout, review, watchlist and freinds, accepts the page user wants to view
+// Function to show content based on the selected page (group code)
+function showAccountContent(groupCode) {
+    // Hide all containers
+    document.querySelectorAll('.account-container').forEach(element => {
+        element.style.display = 'none';
+    });
 
-            // Create elements for each movie in the group's reviews
-            group.reviews.forEach(review => {
-                const movieCard = document.createElement('div');
-                movieCard.classList.add('watchlist-movie-card');
-
-                const movieDetails = document.createElement('div');
-                movieDetails.classList.add('watchlist-movie-details');
-
-                const movieTitle = document.createElement('h2');
-                movieTitle.textContent = review.movieTitle;
-
-                const moviePoster = document.createElement('img');
-                moviePoster.src = review.moviePoster;
-                moviePoster.alt = 'Movie Poster';
-
-                const movieYear = document.createElement('p');
-                movieYear.textContent = `Year: ${review.movieYear}`;
-
-                movieDetails.appendChild(movieTitle);
-                movieDetails.appendChild(moviePoster);
-                movieDetails.appendChild(movieYear);
-
-                const extraDetails = document.createElement('div');
-                extraDetails.classList.add('watchlist-extra');
-
-                const ratingHeader = document.createElement('h3');
-                ratingHeader.textContent = 'List of ratings';
-
-                extraDetails.appendChild(ratingHeader);
-
-                // Loop through ratings and create elements for each
-                review.ratings.forEach(rating => {
-                    const ratingElement = document.createElement('h6');
-                    ratingElement.textContent = `${rating.username} ${rating.rating}`;
-
-                    extraDetails.appendChild(ratingElement);
-                });
-
-                // Append movie details and ratings to movie card
-                movieCard.appendChild(movieDetails);
-                movieCard.appendChild(extraDetails);
-
-                // Append movie card to group container
-                groupContainer.appendChild(movieCard);
-            });
-
-            // Show the group container
-            groupContainer.style.display = 'block';
-        })
-        .catch(error => console.error('Error fetching group details:', error));
+    // Show the selected container based on group code
+    var selectedContainer = document.getElementById(`container-${groupCode}`);
+    if (selectedContainer) {
+        selectedContainer.style.display = 'block';
+    }
 }
+
+// Function to fetch and display group details on page load
+function loadUserGroups() {
+    // Make an AJAX request to fetch group details for the logged-in user
+    fetch('/user/groups/details')
+        .then(response => response.json())
+        .then(groups => {
+            // Iterate over each group and display its details
+            groups.forEach(group => {
+                const groupContainer = document.createElement('div');
+                groupContainer.classList.add('group-container');
+
+                const groupNameElement = document.createElement('h2');
+                groupNameElement.textContent = `Group Name: ${group.groupName}`;
+
+                const groupCodeElement = document.createElement('p');
+                groupCodeElement.textContent = `Group Code: ${group.groupCode}`;
+
+                // You can display other group details similarly
+
+                groupContainer.appendChild(groupNameElement);
+                groupContainer.appendChild(groupCodeElement);
+
+                document.getElementById('user-groups').appendChild(groupContainer);
+            });
+        })
+        .catch(error => console.error('Error fetching user groups:', error));
+}
+
+// Call the function to load user groups when the page loads
+window.addEventListener('load', loadUserGroups);
+
 
 function showGroupContent(page) {
   var groupSelectorChat = document.querySelectorAll('.group-selector-container-chat');
