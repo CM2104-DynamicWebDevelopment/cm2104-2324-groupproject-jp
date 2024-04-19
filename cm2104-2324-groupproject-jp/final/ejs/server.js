@@ -842,7 +842,7 @@ app.get('/getGroupWatchlist', async (req, res) => {
         const client = await MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB server");
 
-        const db = client.db(profiles);
+        const db = client.db('profiles'); // Fix: Replace profiles with 'profiles'
 
         // Find the group by groupCode
         const groupsCollection = db.collection('groups');
@@ -864,4 +864,3 @@ app.get('/getGroupWatchlist', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-
