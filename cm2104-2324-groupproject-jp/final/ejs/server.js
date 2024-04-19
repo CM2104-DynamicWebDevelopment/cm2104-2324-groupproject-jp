@@ -791,30 +791,35 @@ app.post('/addgroupwatchlist', (req, res) => {
         return;
     }
 
-    // Check if req.session.group exists, if not, create it
-    if (!req.session.group) {
-        req.session.group = {};
-    }
-
-    // Check if groupWatchlist array exists, if not, initialize it
-    if (!req.session.group.groupWatchlist) {
-        req.session.group.groupWatchlist = [];
-    }
-
-    // Push movie details to groupWatchlist
-    req.session.group.groupWatchlist.push({ movieId: movieId, watchDate: watchDate, watchTime: watchTime });
-
-    // Update the database
-    db.collection('groups').updateOne(
-        { groupCode: groupCode },
-        { $push: { groupWatchlist: { movieId: movieId, watchDate: watchDate, watchTime: watchTime } } },
-        function(err, result) {
-            if (err) {
-                console.error("Error updating watchlist:", err);
-                return res.status(500).send('Error updating watchlist.');
-            }
-            console.log("Added movie ID " + movieId + " to group watchlist.");
-            res.redirect('/');
+    // Find the group in the database
+    db.collection('groups').findOne({ groupCode: groupCode }, (err, group) => {
+        if (err) {
+            console.error("Error finding group:", err);
+            return res.status(500).send('Error finding group.');
         }
-    );
+
+        if (!group) {
+            return res.status(404).send('Group not found.');
+        }
+
+        // Check if the user is a member of the group
+        const loggedInUser = req.session.user.login.username;
+        if (!group.groupMembers.includes(loggedInUser)) {
+            return res.status(403).send('You are not a member of this group.');
+        }
+
+        // Update group's watchlist
+        db.collection('groups').updateOne(
+            { groupCode: groupCode },
+            { $push: { groupWatchlist: { movieId: movieId, watchDate: watchDate, watchTime: watchTime } } },
+            function(err, result) {
+                if (err) {
+                    console.error("Error updating watchlist:", err);
+                    return res.status(500).send('Error updating watchlist.');
+                }
+                console.log("Added movie ID " + movieId + " to group watchlist.");
+                res.redirect('/');
+            }
+        );
+    });
 });
