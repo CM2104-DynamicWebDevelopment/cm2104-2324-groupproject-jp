@@ -161,7 +161,6 @@ function fetchReviewsMovieIds() {
           // Handle the response data
           console.log(data.reviewsData);
           // Update the HTML content with the reviews movie IDs
-          document.getElementById('reviews-movie-ids').innerText = data.reviewsData.map(review => review.movieId).join(', ');
 
           // After fetching movie IDs, build movie cards for each movie
           data.reviewsData.forEach(review => {
