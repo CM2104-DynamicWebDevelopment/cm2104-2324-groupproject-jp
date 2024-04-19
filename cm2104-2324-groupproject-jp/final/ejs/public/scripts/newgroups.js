@@ -142,7 +142,7 @@ function toggleWatchlistForm(id) {
 
 
 // Function to get movie details from TMDB
-function getWatchlistFromTMDB(movieId, watchDate, watchTime) {
+function getWatchlistFromTMDB(movieId, watchDate, watchTime, groupCode) {
     var apiKey = "7e6dd248e2a77acc70a843ea3a92a687"; // Replace with your TMDB API key
     var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
 
@@ -154,17 +154,18 @@ function getWatchlistFromTMDB(movieId, watchDate, watchTime) {
             return response.json();
         })
         .then(movieInfo => {
-            // Combine movie details with watch date and time
+            // Combine movie details with watch date, watch time, and group code
             movieInfo.watchDate = watchDate;
             movieInfo.watchTime = watchTime;
-            // Build movie card with the combined data
-            buildMovieCard(movieInfo);
+            // Build movie card with movie info and group code
+            buildMovieCard(movieInfo, groupCode);
         })
         .catch(error => console.error('Error:', error));
 }
 
-// Function to build movie card HTML
-function buildMovieCard(movieInfo) {
+
+// Function to build movie card HTML and insert it into the watchlist movie card container for a specific group
+function buildMovieCard(movieInfo, groupCode) {
     // Extracting movie information
     var title = movieInfo.original_title;
     var moviePoster = movieInfo.poster_path;
@@ -181,13 +182,13 @@ function buildMovieCard(movieInfo) {
         '<p>Year: ' + releaseDate + '</p>' +
     '</div>' +
 
-    '<div class="watchlist-extra" id="watchlist-extra-1" style="background-image: url(\'https://image.tmdb.org/t/p/original/' + moviePoster + '\'); display: flex;">' +
+    '<div class="watchlist-extra" id="watchlist-extra-' + groupCode + '" style="background-image: url(\'https://image.tmdb.org/t/p/original/' + moviePoster + '\'); display: flex;">' +
         '<h3>Watchlist scheduled</h3>' +
         '<h6>' + watchDate + ': ' + watchTime + '</h6>' +
     '</div>' +
 
     '</div>';
 
-    // Inserting the HTML into the watchlist movie card container
-    $('.watchlist-movie-card-container').append(htmlString);
+    // Inserting the HTML into the watchlist movie card container for the specific group
+    $('#watchlist-movie-card-container-' + groupCode).append(htmlString);
 }
