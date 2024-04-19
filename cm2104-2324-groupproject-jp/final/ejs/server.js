@@ -84,7 +84,7 @@ app.get('/groups', (req, res) => {
         }
 
         // Access the user's groups array from the user document
-        const userGroups = user.groups;
+        const userGroups = user.groups || []; // Default to an empty array if user has no groups
 
         // Find all groups that the user is a part of
         db.collection('groups').find({ groupCode: { $in: userGroups } }).toArray((err, groups) => {
