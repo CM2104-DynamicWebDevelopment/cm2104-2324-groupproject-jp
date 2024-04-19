@@ -48,8 +48,7 @@ app.get('/', (req, res) => {
 });
 
 // Route to render the error.ejs page
-app.get('/', (req, res) => {
-    // Render index page with user data if logged in, otherwise render with null user
+app.get('pages/error', (req, res) => {
     res.render('pages/error');
 });
 
