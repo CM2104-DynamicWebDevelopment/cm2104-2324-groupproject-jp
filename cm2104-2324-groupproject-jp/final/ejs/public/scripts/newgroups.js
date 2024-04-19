@@ -139,3 +139,55 @@ function toggleWatchlistForm(id) {
     watchlistForm.style.display = "none";
   }
 }
+
+
+// Function to get movie details from TMDB
+function getWatchlistFromTMDB(movieId, watchDate, watchTime) {
+    var apiKey = "YOUR_TMDB_API_KEY"; // Replace with your TMDB API key
+    var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(movieInfo => {
+            // Combine movie details with watch date and time
+            movieInfo.watchDate = watchDate;
+            movieInfo.watchTime = watchTime;
+            // Build movie card with the combined data
+            buildMovieCard(movieInfo);
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// Function to build movie card HTML
+function buildMovieCard(movieInfo) {
+    // Extracting movie information
+    var title = movieInfo.original_title;
+    var moviePoster = movieInfo.poster_path;
+    var releaseDate = movieInfo.release_date.split('-')[0];
+    var watchDate = movieInfo.watchDate;
+    var watchTime = movieInfo.watchTime;
+
+    // Constructing the HTML string for movie card
+    var htmlString =
+    '<div class="watchlist-movie-card">'+
+    '<div class="watchlist-movie-details" id="watchlist-movie-details">'+
+        '<h2>' + title + '</h2>' +
+        '<img src="https://image.tmdb.org/t/p/original/' + moviePoster + '" alt="Movie Poster">' +
+        '<p>Year: ' + releaseDate + '</p>' +
+    '</div>' +
+
+    '<div class="watchlist-extra" id="watchlist-extra-1" style="background-image: url(\'https://image.tmdb.org/t/p/original/' + moviePoster + '\'); display: flex;">' +
+        '<h3>Watchlist scheduled</h3>' +
+        '<h6>' + watchDate + ': ' + watchTime + '</h6>' +
+    '</div>' +
+
+    '</div>';
+
+    // Inserting the HTML into the watchlist movie card container
+    $('.watchlist-movie-card-container').append(htmlString);
+}
