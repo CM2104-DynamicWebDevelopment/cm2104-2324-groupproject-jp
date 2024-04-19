@@ -65,16 +65,43 @@ app.get('/myaccount', (req, res) => {
     res.render('pages/myaccount', { user: req.session.user});
 });
 
-// Route to render the group.ejs page
 app.get('/groups', (req, res) => {
     // Redirect to login if not logged in
     if (!req.session.loggedin) {
         res.redirect('/');
         return;
     }
-    // Render groups page with user data and watchlist
-    res.render('pages/groups', { user: req.session.user, watchlist: req.session.user.watchlist });
+
+    // Retrieve the username of the logged-in user
+    const loggedInUser = req.session.user.login.username;
+
+    // Find the user document using the username
+    db.collection('people').findOne({ "login.username": loggedInUser }, (err, user) => {
+        if (err) {
+            console.error('Error retrieving user document:', err);
+            res.status(500).send('Error retrieving user document');
+            return;
+        }
+
+        // Access the user's groups array from the user document
+        const userGroups = user.groups || []; // Default to an empty array if user has no groups
+
+        // Find all groups that the user is a part of
+        db.collection('groups').find({ groupCode: { $in: userGroups } }).toArray((err, groups) => {
+            if (err) {
+                console.error('Error retrieving groups:', err);
+                res.status(500).send('Error retrieving groups');
+                return;
+            }
+
+            // Render the groups page with user data and group details
+            res.render('pages/groups', { user: req.session.user, userGroups: groups });
+        });
+    });
 });
+
+
+
 
 // Route to handle login form submission
 app.post('/dologin', (req, res) => {
@@ -654,6 +681,58 @@ app.post('/addGroup', (req, res) => {
     });
 });
 
+// Route to handle joining a group
+app.post('/joinGroup', (req, res) => {
+    // Get the group code from the form
+    const groupCode = parseInt(req.body.groupCode); // Assuming groupCode is a number
+
+    // Get the logged-in user's username from the session
+    const loggedInUser = req.session.user.login.username;
+
+    // Find the group with the provided group code
+    db.collection('groups').findOne({ groupCode: groupCode }, (err, group) => {
+        if (err) {
+            console.error('Error finding group:', err);
+            res.status(500).send('Error finding group');
+            return;
+        }
+
+        if (!group) {
+            res.status(404).send('Group not found');
+            return;
+        }
+
+        // Add the logged-in user to the group members
+        db.collection('groups').updateOne(
+            { groupCode: groupCode },
+            { $push: { groupMembers: loggedInUser } },
+            (err, result) => {
+                if (err) {
+                    console.error('Error updating group members:', err);
+                    res.status(500).send('Error updating group members');
+                    return;
+                }
+
+                // Update the user's document to add the group code
+                db.collection('people').updateOne(
+                    { "login.username": loggedInUser },
+                    { $addToSet: { "groups": groupCode } }, // Ensure no duplicates
+                    (err, result) => {
+                        if (err) {
+                            console.error('Error updating user document:', err);
+                            res.status(500).send('Error updating user document');
+                            return;
+                        }
+                        console.log(`User ${loggedInUser} joined group ${group.groupName}`);
+                        res.redirect('/groups'); // Redirect if successful
+                    }
+                );
+            }
+        );
+    });
+});
+
+
 // Retrieve the group codes a user is a part of
 app.get('/getUserGroupCodes', (req, res) => {
     // Get the logged-in user's username from the session
@@ -667,11 +746,11 @@ app.get('/getUserGroupCodes', (req, res) => {
             return;
         }
 
-        // Access the user's groups array
-        const userGroups = req.session.user.groups;
+        // Access the user's groups array from the user document
+        const userGroups = user.groups;
         
         // Send the user's group codes as the response
-        res.json({ userGroups });
+        res.render('groups', { userGroups }); // Assuming 'groups' is your EJS template file
     });
 });
 
