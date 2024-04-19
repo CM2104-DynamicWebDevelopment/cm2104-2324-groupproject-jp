@@ -102,16 +102,15 @@ function displayResultsSearch(movies, groupCode) {
         htmlString +=
         "<div class='results-movie-card'>" +
         "<div class='results-movie-details'>" +
-        "<h2>" + title + "</h2>" +
+        "<h2 id='title-" + id + "'>" + title + "</h2>" +
         "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='" + title + " Poster'>" +
         "<p>" + releaseDate + "</p>" +
         "<p>" + movieRating + "</p>" +
         "</div>" +
-        "<div class='results-extra' id='results-extra-" + id + "' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "'); display: block;\">" +
+        "<div class='results-extra' id='results-extra-" + id + "' style='background-image: url(\"https://image.tmdb.org/t/p/original/" + movieBackdrop + "\"); display: block;'>" +
         "<h3>About " + title + "</h3>" +
         "<p>" + movieDescription + "</p>" +
-        "<button class='button-watchlist' onclick='toggleWatchlistForm(" + id + ")'>Add to Watchlist</button>" +
-        "<div class='add-watchlist' id='add-watchlist-" + id + "' style='display:none;'>" + // Initially hidden
+        "<div class='make-review' id='make-review-" + id + "' style='display: none;'>"; // Initially hidden
         "<form class='watchlist-form'>" +
         "<label for='filmTitle'>Film Title:</label>" +
         "<input type='text' id='filmTitle' name='filmTitle' placeholder='Enter film title' required>" +
@@ -119,24 +118,24 @@ function displayResultsSearch(movies, groupCode) {
         "<input type='date' id='watchDate' name='watchDate' required>" +
         "<label for='watchTime'>Time:</label>" +
         "<input type='time' id='watchTime' name='watchTime' required>" +
-        "<button type='submit'>Create Watchlist</button>" +
+        "<button type='submit' class='button-watchlist' onclick='toggleWatchlistForm(" + id + ")'>Create Watchlist</button>" +
         "</form>" +
-        "</div>" +
-        "</div>" +
-        "</div>";
-    
+        "</div>" + 
+        "</div>" + 
+        "</div>"; 
     }
     // insert html into search results container with group code
     $('#results-movie-card-container-' + groupCode).html(htmlString);
 }
 
 
-// Function to toggle the visibility of the watchlist form
 function toggleWatchlistForm(id) {
-    var watchlistForm = document.getElementById('add-watchlist-' + id);
-    if (watchlistForm.style.display === "none") {
-        watchlistForm.style.display = "block";
-    } else {
-        watchlistForm.style.display = "none";
-    }
-}
+    var extraDiv = document.getElementById(`results-extra-${id}`);
+    var reviewDiv = document.getElementById(`make-review-${id}`);
+    var title = document.getElementById(`title-${id}`);
+  
+    extraDiv.style.display = 'none';
+    reviewDiv.style.display = 'block';
+    title.style.display = 'none';
+  }
+  
