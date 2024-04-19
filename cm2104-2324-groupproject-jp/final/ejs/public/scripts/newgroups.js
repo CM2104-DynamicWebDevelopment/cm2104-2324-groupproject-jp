@@ -190,5 +190,5 @@ function buildMovieCard(movieInfo, groupCode) {
     '</div>';
 
     // Inserting the HTML into the watchlist movie card container for the specific group
-    $('#watchlist-movie-card-container-' + groupCode).append(htmlString);
+    $('#results-movie-card-container-' + groupCode).append(htmlString);
 }
