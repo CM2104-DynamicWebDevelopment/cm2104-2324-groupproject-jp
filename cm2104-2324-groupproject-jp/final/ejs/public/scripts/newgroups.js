@@ -64,7 +64,7 @@ function getSearchFromTMDBWatchlist() {
 
     console.log("Hello");
     console.log(movieTitle);
-    console.log("Group Code:", groupCode);
+    console.log("Group Code!!!!!!!!!!!!!!!!!:", groupCode);
 
     // build url to get search
     var apiKey = "7e6dd248e2a77acc70a843ea3a92a687"; // Replace with your API key
