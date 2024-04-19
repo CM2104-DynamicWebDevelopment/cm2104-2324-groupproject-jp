@@ -139,20 +139,3 @@ function toggleWatchlistForm(id) {
     watchlistForm.style.display = "none";
   }
 }
-
-function getGroupWatchlistDetails(groupCode) {
-    // Make an AJAX request to fetch group watchlist data
-    $.ajax({
-        type: 'GET',
-        url: '/getGroupWatchlist',
-        data: { groupCode: groupCode },
-        success: function(response) {
-            // Log the received JSON data to the console
-            console.log('Watchlist details for Group Code ' + groupCode + ': ', response);
-        },
-        error: function(error) {
-            console.error('Error fetching group watchlist for Group Code ' + groupCode + ': ', error);
-        }
-    });
-}
-
