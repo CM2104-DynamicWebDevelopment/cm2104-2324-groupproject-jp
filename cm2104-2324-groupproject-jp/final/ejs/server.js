@@ -838,8 +838,15 @@ app.get('/getGroupWatchlist', async (req, res) => {
     const groupCode = req.query.groupCode;
 
     try {
+        // Connect to MongoDB
+        const client = await MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB server");
+
+        const db = client.db(dbName);
+
         // Find the group by groupCode
-        const group = await group.findOne({ groupCode: groupCode });
+        const groupsCollection = db.collection('groups');
+        const group = await groupsCollection.findOne({ groupCode: parseInt(groupCode) });
 
         if (group) {
             // If group found, send back the group watchlist data
@@ -848,9 +855,13 @@ app.get('/getGroupWatchlist', async (req, res) => {
             // If group not found, send 404 error
             res.status(404).json({ error: 'Group watchlist not found' });
         }
+
+        // Close the connection
+        client.close();
     } catch (error) {
         // If an error occurs, send 500 error
         console.error('Error fetching group watchlist:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
