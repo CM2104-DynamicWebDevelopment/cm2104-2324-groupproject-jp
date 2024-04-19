@@ -39,9 +39,8 @@ var allowedKeys = {
   
   // Function to activate cheats
   function activateCheats() {
-  
-  
-    // Show an alert or perform any other action
+
     window.location.href = "pages/error.ejs";
+
   }
   
