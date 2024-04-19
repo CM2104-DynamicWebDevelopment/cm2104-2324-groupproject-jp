@@ -826,7 +826,7 @@ app.post('/addgroupwatchlist', (req, res) => {
                     return res.status(500).send('Error updating watchlist.');
                 }
                 console.log("Added movie ID " + movieId + " to group watchlist.");
-                res.redirect('/');
+                res.redirect('/groups');
             }
         );
     });
