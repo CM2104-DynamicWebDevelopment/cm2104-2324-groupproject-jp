@@ -839,7 +839,6 @@ app.get('/getGroupWatchlist', async (req, res) => {
 
     try {
         const client = await MongoClient.connect(url);
-        console.log("Connected to MongoDB server");
 
         const db = client.db('profiles'); 
 
