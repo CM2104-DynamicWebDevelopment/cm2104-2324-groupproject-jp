@@ -513,7 +513,6 @@ app.post('/change-review', (req, res) => {
                 return;
             }
             console.log("User's review updated successfully");
-            res.redirect('/myaccount'); // Redirect to the account page
         }
     );
 });
