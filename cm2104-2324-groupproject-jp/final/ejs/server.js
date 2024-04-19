@@ -846,7 +846,7 @@ app.get('/getGroupWatchlist', async (req, res) => {
 
         // Find the group by groupCode
         const groupsCollection = db.collection('groups');
-        const group = await groupsCollection.findOne({ groupCode: parseInt(groupCode) });
+        const group = await groupsCollection.findOne({ groupCode: groupCode });
 
         if (group) {
             // If group found, send back the group watchlist data
