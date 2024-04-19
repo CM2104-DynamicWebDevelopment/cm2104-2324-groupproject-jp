@@ -129,13 +129,12 @@ function displayResultsSearch(movies, groupCode) {
 }
 
 
+// Function to toggle the visibility of the watchlist form
 function toggleWatchlistForm(id) {
-    var extraDiv = document.getElementById(`results-extra-${id}`);
-    var reviewDiv = document.getElementById(`make-review-${id}`);
-    var title = document.getElementById(`title-${id}`);
-  
-    extraDiv.style.display = 'none';
-    reviewDiv.style.display = 'block';
-    title.style.display = 'none';
-  }
-  
+    var watchlistForm = document.getElementById('add-watchlist-' + id);
+    if (watchlistForm.style.display === "none") {
+        watchlistForm.style.display = "block";
+    } else {
+        watchlistForm.style.display = "none";
+    }
+}
