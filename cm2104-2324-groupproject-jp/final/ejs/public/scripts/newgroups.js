@@ -56,12 +56,11 @@ function showGroupContent(page) {
 
 
 
-function getSearchFromTMDBWatchlist() {
+function getSearchFromTMDBWatchlist(groupCode) {
     var movieTitle = document.getElementById('movie-search-bar').value;
-    var groupCode = document.getElementById('groupcode').value;
 
     console.log("Hello");
-    console.log(movieTitle);
+    console.log("Movie Title:", movieTitle);
     console.log("Group Code:", groupCode);
 
     // build url to get search
@@ -78,6 +77,7 @@ function getSearchFromTMDBWatchlist() {
         displayResultsSearch(jsondata.results, groupCode);
     });
 }
+
 
 function displayResultsSearch(movies, groupCode) {
     console.log("movies called");
