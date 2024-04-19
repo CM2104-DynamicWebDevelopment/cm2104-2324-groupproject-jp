@@ -366,6 +366,43 @@ body, html {
 }
 
 
+/* Watchlist form styling */
+.watchlist-form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.watchlist-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.watchlist-form input[type="text"],
+.watchlist-form input[type="date"],
+.watchlist-form input[type="time"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Ensure padding and border are included in the width */
+}
+
+.watchlist-form button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.watchlist-form button:hover {
+  background-color: #45a049;
+}
 
 
 .results-movie-card {

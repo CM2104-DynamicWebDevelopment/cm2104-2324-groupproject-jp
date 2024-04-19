@@ -118,10 +118,9 @@ function displayResultsSearch(movies, groupCode) {
         "<input type='date' id='watchDate' name='watchDate' required>" +
         "<label for='watchTime'>Time:</label>" +
         "<input type='time' id='watchTime' name='watchTime' required>" +
-        "<button type='submit'>Create Watchlist</button>" +
+        "<button type='submit' class='button-watchlist' onclick='toggleWatchlistForm(" + id + ")>Create Watchlist</button>" +
         "</form>" +
         "</div>" +
-        "<button class='button-watchlist' onclick='toggleWatchlistForm(" + id + ")'>Add to Watchlist</button>" +
         "</div>" +
         "</div>";
     
