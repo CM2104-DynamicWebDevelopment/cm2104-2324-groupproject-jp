@@ -107,11 +107,10 @@ function displayResultsSearch(movies, groupCode) {
         "<p>" + releaseDate + "</p>" +
         "<p>" + movieRating + "</p>" +
         "</div>" +
-        "<div class='results-extra' id='results-extra-" + id + "' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "'); display: block;\">" +
+        "<div class='results-extra' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "');\">" +
         "<h3>About " + title + "</h3>" +
         "<p>" + movieDescription + "</p>" +
         "<button class='button-watchlist' onclick='toggleWatchlistForm(" + id + ")'>Add to Watchlist</button>" +
-        "</div>" +
         "<div class='add-watchlist' id='add-watchlist-" + id + "' style='display:none;'>" + // Initially hidden
         "<form class='watchlist-form'>" +
         "<label for='filmTitle'>Film Title:</label>" +
@@ -123,20 +122,20 @@ function displayResultsSearch(movies, groupCode) {
         "<button type='submit'>Create Watchlist</button>" +
         "</form>" +
         "</div>" +
+        "</div>" +
         "</div>";
-    
     }
-    // insert html into search results container with group code
-    $('#results-movie-card-container-' + groupCode).html(htmlString);
-}
+        // insert html into search results container with group code
+        $('#results-movie-card-container-' + groupCode).html(htmlString);
+        }
 
 
 // Function to toggle the visibility of the watchlist form
 function toggleWatchlistForm(id) {
-    var watchlistForm = document.getElementById('add-watchlist-' + id);
-    if (watchlistForm.style.display === "none") {
-        watchlistForm.style.display = "block";
-    } else {
-        watchlistForm.style.display = "none";
-    }
+  var watchlistForm = document.getElementById('add-watchlist-' + id);
+  if (watchlistForm.style.display === "none" || watchlistForm.style.display === "") {
+    watchlistForm.style.display = "block";
+  } else {
+    watchlistForm.style.display = "none";
+  }
 }
