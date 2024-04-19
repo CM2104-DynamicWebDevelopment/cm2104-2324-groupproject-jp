@@ -783,8 +783,13 @@ app.post('/addgroupwatchlist', (req, res) => {
     const movieId = req.body.movieId;
     const watchDate = req.body.watchDate;
     const watchTime = req.body.watchTime;
-    const groupCode = req.body.groupCode;
+    const groupCode = parseInt(req.body.groupCode);
 
+    // Ensure that the parsed groupCode is a valid number
+    if (isNaN(groupCode)) {
+        res.status(400).send('Invalid group code.');
+        return;
+    }
     // Ensure required fields are provided
     if (!movieId || !watchDate || !watchTime || !groupCode) {
         res.status(400).send('Movie ID, watch date, watch time, and group code are required.');
