@@ -22,6 +22,10 @@ if (urlParams.has('showReviews')) {
   // Call the showAccountContent function with 'Reviews' as parameter
   showAccountContent('Reviews');
 }
+if (urlParams.has('showWatchlist')) {
+  // Call the showAccountContent function with 'Reviews' as parameter
+  showAccountContent('Watchlist');
+}
 
 
 

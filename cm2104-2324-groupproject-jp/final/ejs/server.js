@@ -274,7 +274,7 @@ app.post('/removeWatchlist', async (req, res) => {
                 req.session.user.watchlist.movieIds.splice(index, 1);
             }
             console.log(`Movie with ID ${movieIdToRemove} removed from watchlist.`);
-            res.redirect('/myaccount'); // Redirect to the account page
+            res.redirect('/myaccount?showWatchlist=true');
         } else {
             res.status(404).json({ error: `Movie with ID ${movieIdToRemove} is not in the watchlist.` });
         }
