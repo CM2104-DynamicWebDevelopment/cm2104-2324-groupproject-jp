@@ -833,31 +833,27 @@ app.post('/addgroupwatchlist', (req, res) => {
 });
 
 
+// Assuming you're using Express.js for your server
 app.get('/getWatchlistMovieIds', (req, res) => {
-    const groupCode = req.query.groupCode; // Assuming the group code is provided as a query parameter
+    // Get the group code from the request query
+    const groupCode = req.query.groupCode;
 
-    // Find the group using the provided group code
+    // Retrieve watchlist movie IDs for the specified group code
     db.collection('groups').findOne({ groupCode: groupCode }, (err, group) => {
         if (err) {
-            console.error("Error finding group:", err);
-            return res.status(500).send('Error finding group.');
+            console.error('Error retrieving group:', err);
+            return res.status(500).send('Error retrieving group');
         }
 
         if (!group) {
-            return res.status(404).send('Group not found.');
+            return res.status(404).send('Group not found');
         }
 
-        // Extract watchlist movie IDs, watch date, and watch time from the group's watchlist
-        const watchlistData = group.groupWatchlist.map(item => ({
-            movieId: item.movieId,
-            watchDate: item.watchDate,
-            watchTime: item.watchTime
-        }));
-
         // Send the watchlist data as the response
-        res.json({ watchlistData });
+        res.json({ watchlistData: group.groupWatchlist });
     });
 });
+
 
 
 // Assuming you're using Express.js for your server
