@@ -222,11 +222,9 @@ app.post('/addwatchlist', (req, res) => {
         function(err, result){
             if (err) {
                 console.error("error updating watchlist:", err);
-                console.log(result)
                 return;
             }
             console.log("Set movie id " + movieId + " to user " + userEmail);
-            console.log(result)
             res.redirect('/');
         }
     );
