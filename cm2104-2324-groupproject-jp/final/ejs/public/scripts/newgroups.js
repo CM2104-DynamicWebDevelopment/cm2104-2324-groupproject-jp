@@ -143,6 +143,7 @@ function displayWatchlistResultsSearch(movies, groupCode) {
             "</div>" +
             "</div>";
     }
+    console.log("inserting at results-movie-card-container-" + groupCode)
     // insert html into search results container with group code
     $('.results-movie-card-container-' + groupCode).html(htmlString);
 }
