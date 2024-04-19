@@ -58,24 +58,30 @@ function showGroupContent(page) {
 
 
 
-// get the search results from tmdb from search bar
-function getSearchFromTMDBWatchlist(movieTitle) {
-    console.log("Hello")
+function getSearchFromTMDBWatchlist() {
+    var movieTitle = document.getElementById('movie-search-bar').value;
+    var groupCode = document.getElementById('groupcode').value;
+
+    console.log("Hello");
     console.log(movieTitle);
+    console.log("Group Code:", groupCode);
+
     // build url to get search
-    var apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
+    var apiKey = "YOUR_API_KEY"; // Replace with your API key
     var url = "https://api.themoviedb.org/3/search/movie?query=" + movieTitle + "&api_key=" + apiKey;
 
+    // Append group code to the URL
+    url += "&groupCode=" + groupCode;
+
     // get the json data from tmdb
-    $.getJSON(url, function (jsondata) {
+    $.getJSON(url, function(jsondata) {
         console.log(jsondata);
         // send data to the results function
-        displayResultsSearch(jsondata.results);
+        displayResultsSearch(jsondata.results, groupCode);
     });
 }
 
-// display the search results
-function displayResultsSearch(movies) {
+function displayResultsSearch(movies, groupCode) {
     console.log("movies called");
     // set up the html to be used later
     var htmlString = "";
@@ -98,46 +104,45 @@ function displayResultsSearch(movies) {
 
         // build html string for search results card
         htmlString +=
-        "<div class='results-movie-card'>" +
-        "<div class='results-movie-details'>" +
+            "<div class='results-movie-card'>" +
+            "<div class='results-movie-details'>" +
             "<h2>" + title + "</h2>" +
             "<img src='https://image.tmdb.org/t/p/original/" + moviePoster + "' alt='" + title + " Poster'>" +
             "<p>" + releaseDate + "</p>" +
             "<p>" + movieRating + "</p>" +
-        "</div>" +
-        "<div class='results-extra' id='results-extra-"+id+"' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "'); display: block;\">" +
+            "</div>" +
+            "<div class='results-extra' id='results-extra-" + id + "' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "'); display: block;\">" +
             "<h3>About " + title + "</h3>" +
             "<p>" + movieDescription + "</p>" +
             "<form id='watchlistForm' action='/addwatchlist' method='POST'>" +
-                "<input type='hidden' name='movieId' value='" + id + "'>" +
-                "<button class='button-watchlist' type='submit'>Add to Watchlist</button>" +
-            "</form>"+
+            "<input type='hidden' name='movieId' value='" + id + "'>" +
+            "<input type='hidden' name='groupCode' value='" + groupCode + "'>" + // Include group code in the form
+            "<button class='button-watchlist' type='submit'>Add to Watchlist</button>" +
+            "</form>" +
             "<button class='button-review' type='submit' onclick='addReview(" + id + ")'>Review</button>" +
-        "</div>" +
-        "<div class='make-review' id='make-review-" + id + "'  style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "'); display: none;\">" +
+            "</div>" +
+            "<div class='make-review' id='make-review-" + id + "'  style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "'); display: none;\">" +
             "<form id='reviewForm' action='/addreview' method='POST'>" +
-                "<input type='hidden' name='movieId' value='" + id + "'>" +
-                "<h6>number review</h6>"+
-                "<select name='rating'>" + 
-                    "<option value='1'>1</option>" +
-                    "<option value='2'>2</option>" +
-                    "<option value='3'>3</option>"+
-                    "<option value='4'>4</option>" +
-                    "<option value='5'>5</option>" +
-                "</select>" +
-                "<div class='review-section'>" +
-                    "<label class='comments-review'>Have your say:</label>" +
-                    "<textarea class='review-section-text' rows='3' name='review'></textarea>" +
-                    "<button class='leave-review' type='submit'>Leave review</button>" +
-                "</div>" +
+            "<input type='hidden' name='movieId' value='" + id + "'>" +
+            "<input type='hidden' name='groupCode' value='" + groupCode + "'>" + // Include group code in the form
+            "<h6>number review</h6>" +
+            "<select name='rating'>" +
+            "<option value='1'>1</option>" +
+            "<option value='2'>2</option>" +
+            "<option value='3'>3</option>" +
+            "<option value='4'>4</option>" +
+            "<option value='5'>5</option>" +
+            "</select>" +
+            "<div class='review-section'>" +
+            "<label class='comments-review'>Have your say:</label>" +
+            "<textarea class='review-section-text' rows='3' name='review'></textarea>" +
+            "<button class='leave-review' type='submit'>Leave review</button>" +
+            "</div>" +
             "</form>" +
             "<button class='back' onclick='backReview(" + id + ")'>Back</button>" +
-        "</div>" +
-    "</div>";
-    
-    
-    
+            "</div>" +
+            "</div>";
     }
-    // insert html into search resutls container
-    $('.results-movie-card-container').html(htmlString);
+    // insert html into search results container with group code
+    $('.results-movie-card-container-' + groupCode).html(htmlString);
 }
