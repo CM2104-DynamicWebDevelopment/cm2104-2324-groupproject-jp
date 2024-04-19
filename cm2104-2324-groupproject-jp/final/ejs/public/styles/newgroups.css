@@ -366,72 +366,17 @@ body, html {
 }
 
 
-/* Watchlist form styling */
-.watchlist-form {
-  max-width: 400px;
-  margin: 0 auto;
-}
 
-.watchlist-form label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-.watchlist-form input[type="text"],
-.watchlist-form input[type="date"],
-.watchlist-form input[type="time"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box; /* Ensure padding and border are included in the width */
-}
-
-.watchlist-form button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.watchlist-form button:hover {
-  background-color: #45a049;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.watchlist-form-container {
-  display: none;
-}
 
 .results-movie-card {
   display: flex;
-  flex-direction: column;
   width: 100%;
+  height: 30vh; 
   margin: 50px auto;
   background-color: #fff;
   border-radius: 8px;
-  overflow: auto;
+  overflow: hidden;
+  text-align: center;
   box-shadow: 0 0 10px rgba(95, 93, 93, 0.1);
 }
 
@@ -445,20 +390,21 @@ body, html {
 
 .results-movie-details {
   display: flex;
-  flex-basis: 40%;
+  flex-basis: 40%; 
   flex-direction: column;
   align-items: center;
   background-color: #587dad;
+  overflow: auto;
 
 }
 
 .results-extra {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-position: center; 
   width: auto;
   display: flex;
-  flex-basis: 60%;
+  flex-basis: 60%; 
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -472,50 +418,59 @@ body, html {
     1px 1px 0 #000;   /* Bottom-right shadow */
 }
 
-.results-movie-details img {
+.results-movie-details img{
   max-width: 60%;
   max-height: 55%;
   border-radius: 4px;
 }
 
-.watchlist-form {
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.watchlist-form label {
-  display: block;
-  margin-bottom: 8px;
-}
-
-.watchlist-form input[type="text"],
-.watchlist-form input[type="date"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.watchlist-form button {
-  background-color: #4CAF50;
+.make-review {
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-position: center;
+  width: auto;
+  display: flex;
+  flex-basis: 60%; 
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   color: white;
-  padding: 12px 20px;
-  border: none;
+  background-color: #ad3c3c;
+  padding: 20px;
+  overflow-y: auto;
+  text-shadow: 
+    -1px -1px 0 #000, /* Top-left shadow */
+    1px -1px 0 #000,  /* Top-right shadow */
+    -1px 1px 0 #000,  /* Bottom-left shadow */
+    1px 1px 0 #000;   /* Bottom-right shadow */
+}
+
+.make-review img {
+  max-width: 100%;
+  max-height: 100%;
   border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
+  margin-bottom: 10px; /* Adjust as needed */
 }
 
-.watchlist-form button:hover {
-  background-color: #45a049;
+.review-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px; /* Adjust as needed */
 }
 
-.watchlist-form input[type="time"] {
+.review-section label {
+  font-size: 18px; /* Adjust as needed */
+  margin-bottom: 5px; /* Adjust as needed */
+}
+
+.review-section textarea {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box; 
+  max-width: 100%;
+  min-height: 100px; /* Adjust as needed */
+  margin-bottom: 10px; /* Adjust as needed */
+}
+
+.back {
+  margin-top: 20px; /* Adjust as needed */
 }
