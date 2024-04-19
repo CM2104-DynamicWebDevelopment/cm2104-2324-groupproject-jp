@@ -140,24 +140,18 @@ function toggleWatchlistForm(id) {
   }
 }
 
-$(document).ready(function() {
-    // Loop through each group in userGroups array
-    <% userGroups.forEach(group => { %>
-        // Define the group code
-        const groupCode<%= group.groupCode %> = <%= group.groupCode %>;
-
-        // Make an AJAX request to fetch group watchlist data
-        $.ajax({
-            type: 'GET',
-            url: '/getGroupWatchlist',
-            data: { groupCode: groupCode<%= group.groupCode %> },
-            success: function(response) {
-                // Log the received JSON data to the console
-                console.log('Watchlist details for Group Code <%= group.groupCode %>: ', response);
-            },
-            error: function(error) {
-                console.error('Error fetching group watchlist for Group Code <%= group.groupCode %>: ', error);
-            }
-        });
-    <% }) %>
-});
+function fetchWatchlist(groupCode) {
+    // Make an AJAX request to fetch group watchlist data
+    $.ajax({
+        type: 'GET',
+        url: '/getGroupWatchlist',
+        data: { groupCode: groupCode },
+        success: function(response) {
+            // Log the received JSON data to the console
+            console.log('Watchlist details for Group Code ' + groupCode + ': ', response);
+        },
+        error: function(error) {
+            console.error('Error fetching group watchlist for Group Code ' + groupCode + ': ', error);
+        }
+    });
+}
