@@ -480,14 +480,12 @@ app.post('/change-review', (req, res) => {
 
     // Check if new review is provided
     if (!newReview) {
-        res.status(400).send('New review is required.');
-        return;
+        return res.status(400).send('New review is required.');
     }
 
     // Check if movie ID is provided
     if (!movieId) {
-        res.status(400).send('Movie ID is required.');
-        return;
+        return res.status(400).send('Movie ID is required.');
     }
 
     // Find the index of the review with the specified movie ID
@@ -495,30 +493,29 @@ app.post('/change-review', (req, res) => {
 
     // Check if the review exists
     if (reviewIndex === -1) {
-        res.status(404).send('Review not found for the specified movie ID.');
-        return;
+        return res.status(404).send('Review not found for the specified movie ID.');
     }
 
     // Update the review text for the specified movie ID
     req.session.user.reviews[reviewIndex].review = newReview;
+    req.session.user.reviews[reviewIndex].rating = newNumReview; // Update the rating
 
     // Update the review text in the database
     const userEmail = req.session.user.email;
     db.collection('people').updateOne(
         { email: userEmail, "reviews.movieId": movieId }, // Update the review with matching movieId
-        { $set: { "reviews.$.review": newReview, "reviews.$.rating:":newNumReview } }, // Use $ to specify the matched array element
+        { $set: { "reviews.$.review": newReview, "reviews.$.rating": newNumReview } }, 
         (err, result) => {
             if (err) {
                 console.error("Error updating user's review:", err);
-                res.status(500).send('Error updating user\'s review');
-                return;
+                return res.status(500).send('Error updating user\'s review');
             }
             console.log("User's review updated successfully");
             res.redirect('/myaccount?showReviews=true');
-
         }
     );
 });
+
 
 app.post('/delete-review', async (req, res) => {
     // Check if the user is logged in
