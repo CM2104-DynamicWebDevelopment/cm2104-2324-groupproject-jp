@@ -396,5 +396,6 @@ function backReview(id) {
 
 
 function displayNotSignedInAlert() {
+    console.log("alert called")
     alert('You need to be logged in.');
 }
