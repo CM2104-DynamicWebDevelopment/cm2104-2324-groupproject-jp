@@ -88,6 +88,7 @@
             </div>
         
           <div class="watchlist-container" style="display: block;">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script>
               // Define the JavaScript function to get group watchlist details
               function getGroupWatchlistDetails(groupCode) {
@@ -109,7 +110,7 @@
               // Call the function with the group's code
               getGroupWatchlistDetails('<%= group.groupCode %>');
           </script>
-          
+
             <h1 class="welcome-title">Group watchlist zone</h1>
             <h3 class="welcome-text">This is where a list of group watchlists</h3>
             <div class="watchlist-movie-card-container">
