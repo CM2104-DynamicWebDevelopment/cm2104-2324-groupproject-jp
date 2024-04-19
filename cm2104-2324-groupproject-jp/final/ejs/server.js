@@ -189,7 +189,7 @@ app.post('/logout', function (req, res) {
 app.post('/addwatchlist', (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
-        alert('You need to be logged in.');
+        return res.status(401).json({ message: 'You need to be logged in.' });
         return;
     }
 
@@ -287,7 +287,7 @@ app.post('/removeWatchlist', async (req, res) => {
 app.post('/addreview', (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
-        alert('You need to be logged in.');
+        res.redirect('/'); // Redirect to login 
         return;
     }
 
