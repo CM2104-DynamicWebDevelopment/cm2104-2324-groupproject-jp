@@ -75,8 +75,6 @@ function viewWatchlistOptions(num) {
         .then(data => {
             // Handle the response data
             console.log(data.watchlistMovieIds);
-            // Update the HTML content with the watchlist movie IDs
-            document.getElementById('watchlist-movie-ids').innerText = data.watchlistMovieIds.join(', ');
 
             // After fetching movie IDs, build movie cards for each movie
             data.watchlistMovieIds.forEach(movieId => {
