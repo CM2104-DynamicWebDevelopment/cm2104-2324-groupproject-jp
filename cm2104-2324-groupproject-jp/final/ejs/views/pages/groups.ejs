@@ -103,8 +103,8 @@
           
                           // Iterate through each watchlist item in the response
                           response.groupWatchlist.forEach(function(item) {
-                              // Call getWatchlistFromTMDB with movieId, watchDate, and watchTime
-                              getWatchlistFromTMDB(item.movieId, item.watchDate, item.watchTime);
+                              // Call getWatchlistFromTMDB with movieId, watchDate, watchTime, and groupCode
+                              getWatchlistFromTMDB(item.movieId, item.watchDate, item.watchTime, groupCode);
                           });
                       },
                       error: function(error) {
@@ -116,6 +116,7 @@
               // Call the function with the group's code
               getGroupWatchlistDetails('<%= group.groupCode %>');
           </script>
+          
           
           
             <h1 class="welcome-title">Group watchlist zone</h1>
