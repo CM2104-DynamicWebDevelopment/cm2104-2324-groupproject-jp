@@ -393,3 +393,8 @@ function backReview(id) {
         console.log("Error: Unable to find elements with IDs 'results-extra-" + id + "' and 'make-review-" + id + "'");
     }
 }
+
+
+function displayNotSignedInAlert() {
+    alert('You need to be logged in.');
+}
