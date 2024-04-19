@@ -119,16 +119,17 @@
             
         
           <div class="watchlist-container" style="display: block;">
-              <h1 class="welcome-title">Create a watchlist</h1>
-              <h3 class="welcome-text">Create a watchlist for the group</h3>
-              <input type="text" id="movie-search-bar" class="search-bar" placeholder="Search">
-              <input type="hidden" id="groupcode" class="groupcode" value="<%= group.groupCode %>">
-              <button id="movie-search-btn" class="search-button" onclick="getSearchFromTMDBWatchlist()">Search</button>
+            <h1 class="welcome-title">Create a watchlist</h1>
+            <h3 class="welcome-text">Create a watchlist for the group</h3>
+            <input type="text" id="movie-search-bar" class="search-bar" placeholder="Search">
+            <input type="hidden" id="groupcode" class="groupcode" value="<%= group.groupCode %>">
+            <button id="movie-search-btn" class="search-button" onclick="getSearchFromTMDBWatchlist()">Search</button>
         
-                                 <div class="results-movie-card-container-<%=group.groupCode%>">
-                                  <!-- Search results will be inserted here -->
-                              </div>
-                              
+            <!-- Results container with group code -->
+            <div class="results-movie-card-container" id="results-movie-card-container-<%= group.groupCode %>">
+                <!-- Search results will be inserted here -->
+            </div>
+        
               
               <form class="watchlist-form">
 

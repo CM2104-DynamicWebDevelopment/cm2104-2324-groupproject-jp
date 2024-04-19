@@ -56,15 +56,13 @@ function showGroupContent(page) {
 
 
 
-
-
 function getSearchFromTMDBWatchlist() {
     var movieTitle = document.getElementById('movie-search-bar').value;
     var groupCode = document.getElementById('groupcode').value;
 
     console.log("Hello");
     console.log(movieTitle);
-    console.log("Group Code!!!!!!!!!!!!!!!!!:", groupCode);
+    console.log("Group Code:", groupCode);
 
     // build url to get search
     var apiKey = "7e6dd248e2a77acc70a843ea3a92a687"; // Replace with your API key
@@ -77,11 +75,11 @@ function getSearchFromTMDBWatchlist() {
     $.getJSON(url, function(jsondata) {
         console.log(jsondata);
         // send data to the results function
-        displayWatchlistResultsSearch(jsondata.results, groupCode);
+        displayResultsSearch(jsondata.results, groupCode);
     });
 }
 
-function displayWatchlistResultsSearch(movies, groupCode) {
+function displayResultsSearch(movies, groupCode) {
     console.log("movies called");
     // set up the html to be used later
     var htmlString = "";
@@ -143,7 +141,6 @@ function displayWatchlistResultsSearch(movies, groupCode) {
             "</div>" +
             "</div>";
     }
-    console.log("inserting at results-movie-card-container-" + groupCode)
     // insert html into search results container with group code
-    $('.results-movie-card-container-' + groupCode).html(htmlString);
+    $('#results-movie-card-container-' + groupCode).html(htmlString);
 }
