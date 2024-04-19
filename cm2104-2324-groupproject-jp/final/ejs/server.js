@@ -48,7 +48,8 @@ app.get('/', (req, res) => {
 });
 
 // Route to render the error.ejs page
-app.get('pages/error', (req, res) => {
+app.get('/', (req, res) => {
+    // Render index page with user data if logged in, otherwise render with null user
     res.render('pages/error');
 });
 
@@ -64,51 +65,41 @@ app.get('/myaccount', (req, res) => {
     res.render('pages/myaccount', { user: req.session.user});
 });
 
-app.post('/addgroupwatchlist', (req, res) => {
-    // Check if the user is logged in
+app.get('/groups', (req, res) => {
+    // Redirect to login if not logged in
     if (!req.session.loggedin) {
-        res.redirect('/'); // Redirect to login 
+        res.redirect('/');
         return;
     }
 
-    const movieId = req.body.movieId;
-    const watchDate = req.body.watchDate;
-    const watchTime = req.body.watchTime;
-    const groupCode = req.body.groupCode;
+    // Retrieve the username of the logged-in user
+    const loggedInUser = req.session.user.login.username;
 
-    // Ensure required fields are provided
-    if (!movieId || !watchDate || !watchTime || !groupCode) {
-        res.status(400).send('Movie ID, watch date, watch time, and group code are required.');
-        return;
-    }
-
-    // Check if req.session.group exists, if not, create it
-    if (!req.session.group) {
-        req.session.group = {};
-    }
-
-    // Check if groupWatchlist array exists, if not, initialize it
-    if (!req.session.group.groupWatchlist) {
-        req.session.group.groupWatchlist = [];
-    }
-
-    // Push movie details to groupWatchlist
-    req.session.group.groupWatchlist.push({ movieId: movieId, watchDate: watchDate, watchTime: watchTime });
-
-    // Update the database
-    db.collection('groups').updateOne(
-        { groupCode: groupCode },
-        { $push: { groupWatchlist: { movieId: movieId, watchDate: watchDate, watchTime: watchTime } } },
-        function(err, result) {
-            if (err) {
-                console.error("Error updating watchlist:", err);
-                return res.status(500).send('Error updating watchlist.');
-            }
-            console.log("Added movie ID " + movieId + " to group watchlist.");
-            res.redirect('/');
+    // Find the user document using the username
+    db.collection('people').findOne({ "login.username": loggedInUser }, (err, user) => {
+        if (err) {
+            console.error('Error retrieving user document:', err);
+            res.status(500).send('Error retrieving user document');
+            return;
         }
-    );
+
+        // Access the user's groups array from the user document
+        const userGroups = user.groups || []; // Default to an empty array if user has no groups
+
+        // Find all groups that the user is a part of
+        db.collection('groups').find({ groupCode: { $in: userGroups } }).toArray((err, groups) => {
+            if (err) {
+                console.error('Error retrieving groups:', err);
+                res.status(500).send('Error retrieving groups');
+                return;
+            }
+
+            // Render the groups page with user data and group details
+            res.render('pages/groups', { user: req.session.user, userGroups: groups });
+        });
+    });
 });
+
 
 
 
@@ -800,13 +791,20 @@ app.post('/addgroupwatchlist', (req, res) => {
         return;
     }
 
-    // Check if the movie is already in the group's watchlist
-    if (req.session.group && req.session.group.groupWatchlist.includes(movieId)) {
-        res.status(400).send('Movie is already in the group watchlist.');
-        return;
+    // Check if req.session.group exists, if not, create it
+    if (!req.session.group) {
+        req.session.group = {};
     }
 
-    // Update group's watchlist
+    // Check if groupWatchlist array exists, if not, initialize it
+    if (!req.session.group.groupWatchlist) {
+        req.session.group.groupWatchlist = [];
+    }
+
+    // Push movie details to groupWatchlist
+    req.session.group.groupWatchlist.push({ movieId: movieId, watchDate: watchDate, watchTime: watchTime });
+
+    // Update the database
     db.collection('groups').updateOne(
         { groupCode: groupCode },
         { $push: { groupWatchlist: { movieId: movieId, watchDate: watchDate, watchTime: watchTime } } },
@@ -816,8 +814,6 @@ app.post('/addgroupwatchlist', (req, res) => {
                 return res.status(500).send('Error updating watchlist.');
             }
             console.log("Added movie ID " + movieId + " to group watchlist.");
-            // Update user session
-            req.session.group.groupWatchlist.push({ movieId: movieId, watchDate: watchDate, watchTime: watchTime });
             res.redirect('/');
         }
     );
