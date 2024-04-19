@@ -475,6 +475,7 @@ app.post('/change-password', (req, res) => {
 // Route to handle changing user's movie review
 app.post('/change-review', (req, res) => {
     const newReview = req.body.newReview;
+    const newNumReview = req.body.rating;
     const movieId = req.body.movieId;
 
     // Check if new review is provided
@@ -505,7 +506,7 @@ app.post('/change-review', (req, res) => {
     const userEmail = req.session.user.email;
     db.collection('people').updateOne(
         { email: userEmail, "reviews.movieId": movieId }, // Update the review with matching movieId
-        { $set: { "reviews.$.review": newReview } }, // Use $ to specify the matched array element
+        { $set: { "reviews.$.review": newReview, "reviews.$.rating:":newNumReview } }, // Use $ to specify the matched array element
         (err, result) => {
             if (err) {
                 console.error("Error updating user's review:", err);

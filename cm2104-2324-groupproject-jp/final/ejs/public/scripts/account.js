@@ -220,6 +220,13 @@ function buildReviewsMovieCard(movieInfo, reviewText, reviewNumber) {
   "<div class='review-change' id='review-change-" + id + "' style='background-image: url(" + movieBackdrop + ");'>" +
   "<h3>Edit your review</h3>" +
   "<form action='/change-review' method='POST'>" +
+  "<select name='rating'>" + 
+  "<option value='1'>1</option>" +
+  "<option value='2'>2</option>" +
+  "<option value='3'>3</option>"+
+  "<option value='4'>4</option>" +
+  "<option value='5'>5</option>" +
+  "</select>" +
   "<input type='text' class='change-review-textbox' id='change-review-textbox-" + id + "' name='newReview' placeholder='Enter your new review'>" +
   "<input type='hidden' id='movieId' name='movieId' value='" + id + "'>" +
   "<button class='review-change-button' type='submit'>Save</button>" +
