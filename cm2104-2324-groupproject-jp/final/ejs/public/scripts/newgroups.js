@@ -143,7 +143,7 @@ function toggleWatchlistForm(id) {
 
 // Function to get movie details from TMDB
 function getWatchlistFromTMDB(movieId, watchDate, watchTime) {
-    var apiKey = "YOUR_TMDB_API_KEY"; // Replace with your TMDB API key
+    var apiKey = "7e6dd248e2a77acc70a843ea3a92a687"; // Replace with your TMDB API key
     var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
 
     fetch(url)
