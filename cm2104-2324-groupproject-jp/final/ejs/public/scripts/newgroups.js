@@ -140,98 +140,21 @@ function toggleWatchlistForm(id) {
   }
 }
 
+$(document).ready(function() {
+    // Define the group code
+    const groupCode = 155962; // Replace with the actual group code
 
-
-
-
-// Function to get movie details from TMDB
-function getWatchlistFromTMDB(groupCode) {
-    // Retrieve watchlist movie IDs for the specified group code
-    fetch('/getWatchlistMovieIds?groupCode=' + groupCode)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Iterate through each movie in the watchlist data
-            data.watchlistData.forEach(movie => {
-                // Fetch movie details from TMDB API using movie ID
-                fetchMovieDetails(movie.movieId);
-            });
-        })
-        .catch(error => console.error('Error:', error));
-}
-
-// Function to fetch movie details from TMDB API
-function fetchMovieDetails(movieId) {
-    var apiKey = "7e6dd248e2a77acc70a843ea3a92a687"; // Replace with your TMDB API key
-    var url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(movieInfo => {
-            // Build movie card with the retrieved data
-            buildMovieCard(movieInfo);
-        })
-        .catch(error => console.error('Error:', error));
-}
-
-// Function to build movie card HTML
-function buildMovieCard(movieInfo) {
-    // Extracting movie information
-    var title = movieInfo.original_title;
-    var moviePoster = movieInfo.poster_path;
-    var movieDescription = movieInfo.overview;
-    var releaseDate = movieInfo.release_date.split('-')[0];
-    var id = movieInfo.id;
-
-    // Constructing the HTML string for movie card
-    var htmlString =
-    '<div class="watchlist-movie-card">'+
-    '<div class="watchlist-movie-details" id="watchlist-movie-details">'+
-        '<h2>' + title + '</h2>' +
-        '<img src="https://image.tmdb.org/t/p/original/' + moviePoster + '" alt="Movie Poster">' +
-        '<p>Year: ' + releaseDate + '</p>' +
-    '</div>' +
-
-    '<div class="watchlist-extra" id="watchlist-extra-1" style="background-image: url(\'https://image.tmdb.org/t/p/original/' + moviePoster + '\'); display: flex;">' +
-        '<h3>Description</h3>' +
-        '<p>' + movieDescription + '</p>' +
-        "<h1> hello </h1>"+
-        "<form id='watchlistForm' action='/removeWatchlist' method='POST'>" +
-        "<input type='hidden' name='movieId' value='" + id + "'>" +
-        "<button class='button-watchlist' type='submit'>remove from Watchlist</button>" +
-        "</form>"+
-    '</div>' +
-
-    '</div>';
-
-    // Inserting the HTML into the watchlist movie card container
-    $('.watchlist-movie-card-container').append(htmlString);
-}
-
-// Call getWatchlistFromTMDB() for each group when the page is loaded
-document.addEventListener("DOMContentLoaded", function () {
-    // Retrieve user groups from the server
-    fetch('/userGroups')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(userGroups => {
-            // Iterate through each group and get watchlist from TMDB
-            userGroups.forEach(group => {
-                getWatchlistFromTMDB(group.groupCode);
-            });
-        })
-        .catch(error => console.error('Error:', error));
+    // Make an AJAX request to fetch group watchlist data
+    $.ajax({
+        type: 'GET',
+        url: '/getGroupWatchlist',
+        data: { groupCode: groupCode },
+        success: function(response) {
+            // Log the received JSON data to the console
+            console.log(response);
+        },
+        error: function(error) {
+            console.error('Error fetching group watchlist:', error);
+        }
+    });
 });

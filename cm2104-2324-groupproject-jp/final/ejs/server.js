@@ -834,11 +834,11 @@ app.post('/addgroupwatchlist', (req, res) => {
 
 
 // Assuming you're using Express.js for your server
-app.get('/getWatchlistMovieIds', (req, res) => {
+app.get('/getGroupWatchlist', (req, res) => {
     // Get the group code from the request query
     const groupCode = req.query.groupCode;
 
-    // Retrieve watchlist movie IDs for the specified group code
+    // Retrieve the group watchlist for the specified group code
     db.collection('groups').findOne({ groupCode: groupCode }, (err, group) => {
         if (err) {
             console.error('Error retrieving group:', err);
@@ -849,42 +849,7 @@ app.get('/getWatchlistMovieIds', (req, res) => {
             return res.status(404).send('Group not found');
         }
 
-        // Send the watchlist data as the response
-        res.json({ watchlistData: group.groupWatchlist });
-    });
-});
-
-
-
-// Assuming you're using Express.js for your server
-app.get('/userGroups', (req, res) => {
-    // Check if the user is logged in
-    if (!req.session.loggedin) {
-        return res.status(403).send('User not logged in');
-    }
-
-    // Retrieve the username of the logged-in user
-    const loggedInUser = req.session.user.login.username;
-
-    // Find the user document using the username
-    db.collection('people').findOne({ "login.username": loggedInUser }, (err, user) => {
-        if (err) {
-            console.error('Error retrieving user document:', err);
-            return res.status(500).send('Error retrieving user document');
-        }
-
-        // Access the user's groups array from the user document
-        const userGroups = user.groups || []; // Default to an empty array if user has no groups
-
-        // Find all groups that the user is a part of
-        db.collection('groups').find({ groupCode: { $in: userGroups } }).toArray((err, groups) => {
-            if (err) {
-                console.error('Error retrieving groups:', err);
-                return res.status(500).send('Error retrieving groups');
-            }
-
-            // Send the user's groups as the response
-            res.json(groups);
-        });
+        // Send the group watchlist as the response
+        res.json({ groupWatchlist: group.groupWatchlist });
     });
 });
