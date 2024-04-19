@@ -59,7 +59,8 @@ function showGroupContent(page) {
 
 
 // get the search results from tmdb from search bar
-function getSearchFromTMDB(movieTitle) {
+function getSearchFromTMDBWatchlist(movieTitle) {
+    console.log("Hello")
     console.log(movieTitle);
     // build url to get search
     var apiKey = "7e6dd248e2a77acc70a843ea3a92a687";
