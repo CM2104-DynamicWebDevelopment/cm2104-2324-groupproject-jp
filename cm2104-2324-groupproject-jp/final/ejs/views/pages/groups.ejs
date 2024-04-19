@@ -123,11 +123,12 @@
               <h3 class="welcome-text">Create a watchlist for the group</h3>
               <input type="text"  id="movie-search-bar" class="search-bar" placeholder="Search">
               <button id="movie-search-btn" class="search-button" onclick="getSearchFromTMDBWatchlist($('#movie-search-bar').val())">search</button>
+                                 <!-- Search results are inserted here -->
+              <div class="results-movie-card-container">
+              </div>
+              
               <form class="watchlist-form">
 
-                   <!-- Search results are inserted here -->
-    <div class="results-movie-card-container">
-    </div>
                 <label for="filmTitle">Film Title:</label>
                 <input type="text" id="filmTitle" name="filmTitle" placeholder="Enter film title" required>
             
