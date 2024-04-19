@@ -212,6 +212,7 @@ body, html {
   align-items: center;
   text-align: center;
   background-color: #587dad;
+  overflow: auto;
 
 }
 
@@ -229,6 +230,7 @@ body, html {
   color: white;
   background-color: #ad3c3c;
   padding: 20px;
+  overflow: auto;
 }
 
 .review-change {
@@ -244,6 +246,7 @@ body, html {
   color: white;
   background-color: #ad3c3c;
   padding: 20px;
+  overflow: auto;
 }
 
 .review-movie-details img{
@@ -279,7 +282,7 @@ body, html {
   flex-direction: column;
   align-items: center;
   background-color: #587dad;
-
+  overflow: auto;
 }
 
 .watchlist-extra {
@@ -295,6 +298,7 @@ body, html {
   color: white;
   background-color: #ad3c3c;
   padding: 20px;
+  overflow: auto;
 }
 
 .watchlist-view {
@@ -310,6 +314,7 @@ body, html {
   color: white;
   background-color: #ad3c3c;
   padding: 20px;
+  overflow: auto;
 }
 
 .watchlist-movie-details img{
