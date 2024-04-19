@@ -189,7 +189,7 @@ app.post('/logout', function (req, res) {
 app.post('/addwatchlist', (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
-        res.redirect('/'); // Redirect to login 
+        alert('You need to be logged in.');
         return;
     }
 
