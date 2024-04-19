@@ -332,6 +332,11 @@ app.post('/addreview', (req, res) => {
 
 
 app.get('/getReviewsMovieIds', (req, res) => {
+    // Check if the user has any reviews
+    if (!req.session.user.reviews || req.session.user.reviews.length === 0) {
+        return res.status(404).json({ message: 'User has no reviews.' });
+    }
+
     // Extract movie IDs and review texts from the session
     const reviewsData = req.session.user.reviews.map(review => ({
         movieId: review.movieId,
