@@ -334,7 +334,7 @@ app.post('/addreview', (req, res) => {
 // retrieve reviews movie IDs and texts
 app.get('/getReviewsMovieIds', (req, res) => {
     // get reviews movie ids and texts from the session
-    const reviewsData = req.session.user.reviews.map(review => ({
+    const reviewsData = req.session.user.reviews(review => ({
         movieId: review.movieId,
         reviewText: review.review,
         reviewNumber: review.rating
@@ -785,7 +785,7 @@ app.post('/addgroupwatchlist', (req, res) => {
     const watchTime = req.body.watchTime;
     const groupCode = parseInt(req.body.groupCode);
 
-    // Ensure that the parsed groupCode is a valid number
+    // checks group exists
     if (isNaN(groupCode)) {
         res.status(400).send('Invalid group code.');
         return;
