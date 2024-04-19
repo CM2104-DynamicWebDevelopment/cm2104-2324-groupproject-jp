@@ -112,8 +112,9 @@ function displayResultsSearch(movies, groupCode) {
         "<p>" + movieDescription + "</p>" +
         "<button class='button-watchlist' onclick='toggleWatchlistForm(" + id + ")'>Add to Watchlist</button>" +
         "<div class='add-watchlist' id='add-watchlist-" + id + "' style='display:none;'>" + // Initially hidden
-        "<form class='watchlist-form'>" +
+        "<form class='watchlist-form' id='watchlist-form' action='/addgroupwatchlist' method='POST'>" +
         "<input type='hidden' name='movieId' value='" + id + "'>" +
+        "<input type='hidden' name='groupCode' value='" + groupCode + "'>" +
         "<label for='watchDate'>Date:</label>" +
         "<input type='date' id='watchDate' name='watchDate' required>" +
         "<label for='watchTime'>Time:</label>" +
