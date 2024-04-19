@@ -110,7 +110,7 @@ function displayResultsSearch(movies, groupCode) {
         "<div class='results-extra' id='results-extra-" + id + "' style='background-image: url(\"https://image.tmdb.org/t/p/original/" + movieBackdrop + "\"); display: block;'>" +
         "<h3>About " + title + "</h3>" +
         "<p>" + movieDescription + "</p>" +
-        "<div class='make-review' id='make-review-" + id + "' style='display: none;'>"; // Initially hidden
+        "<div class='add-watchlist' id='add-watchlist-" + id + "' style='display: none;'>"; // Initially hidden
         "<form class='watchlist-form'>" +
         "<label for='filmTitle'>Film Title:</label>" +
         "<input type='text' id='filmTitle' name='filmTitle' placeholder='Enter film title' required>" +
