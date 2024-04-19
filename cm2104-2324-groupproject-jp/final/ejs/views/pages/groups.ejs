@@ -117,11 +117,10 @@
               <button class="change-btn" onclick="showGroupContent('watchlists')">Change to watchlists</button>
           </div>
             
-        
           <div class="watchlist-container" style="display: block;">
             <h1 class="welcome-title">Create a watchlist</h1>
             <h3 class="welcome-text">Create a watchlist for the group</h3>
-            <input type="text" id="movie-search-bar" class="search-bar" placeholder="Search">
+            <input type="text" id="movie-search-bar-<%= group.groupCode %>" class="search-bar" placeholder="Search">
             <input type="hidden" class="groupcode" value="<%= group.groupCode %>">
             <button class="search-button" onclick="getSearchFromTMDBWatchlist('<%= group.groupCode %>')">Search</button>
         
@@ -129,7 +128,7 @@
             <div class="results-movie-card-container" id="results-movie-card-container-<%= group.groupCode %>">
                 <!-- Search results will be inserted here -->
             </div>
-
+ 
         
               
               <form class="watchlist-form">

@@ -55,11 +55,8 @@ function showGroupContent(page) {
 }
 
 
-
 function getSearchFromTMDBWatchlist(groupCode) {
-    console.log("Function called"); // Add this line
-
-    var movieTitle = document.getElementById('movie-search-bar').value;
+    var movieTitle = document.getElementById('movie-search-bar-' + groupCode).value;
 
     console.log("Hello");
     console.log("Movie Title:", movieTitle);
