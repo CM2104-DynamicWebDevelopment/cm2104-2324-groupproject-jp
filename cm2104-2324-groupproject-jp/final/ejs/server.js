@@ -791,6 +791,8 @@ app.post('/addgroupwatchlist', (req, res) => {
         return;
     }
 
+    console.log("Looking for group with code:", groupCode); // Log the group code
+
     // Find the group in the database
     db.collection('groups').findOne({ groupCode: groupCode }, (err, group) => {
         if (err) {
@@ -799,6 +801,7 @@ app.post('/addgroupwatchlist', (req, res) => {
         }
 
         if (!group) {
+            console.log("Group not found for code:", groupCode);
             return res.status(404).send('Group not found.');
         }
 
