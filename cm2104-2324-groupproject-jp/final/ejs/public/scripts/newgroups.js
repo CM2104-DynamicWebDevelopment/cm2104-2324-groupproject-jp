@@ -140,7 +140,7 @@ function toggleWatchlistForm(id) {
   }
 }
 
-function fetchWatchlist(groupCode) {
+function getGroupWatchlistDetails(groupCode) {
     // Make an AJAX request to fetch group watchlist data
     $.ajax({
         type: 'GET',
@@ -155,3 +155,4 @@ function fetchWatchlist(groupCode) {
         }
     });
 }
+
