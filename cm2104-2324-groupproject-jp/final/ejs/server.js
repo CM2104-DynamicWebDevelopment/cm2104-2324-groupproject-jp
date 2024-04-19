@@ -681,6 +681,58 @@ app.post('/addGroup', (req, res) => {
     });
 });
 
+// Route to handle joining a group
+app.post('/joinGroup', (req, res) => {
+    // Get the group code from the form
+    const groupCode = parseInt(req.body.groupCode); // Assuming groupCode is a number
+
+    // Get the logged-in user's username from the session
+    const loggedInUser = req.session.user.login.username;
+
+    // Find the group with the provided group code
+    db.collection('groups').findOne({ groupCode: groupCode }, (err, group) => {
+        if (err) {
+            console.error('Error finding group:', err);
+            res.status(500).send('Error finding group');
+            return;
+        }
+
+        if (!group) {
+            res.status(404).send('Group not found');
+            return;
+        }
+
+        // Add the logged-in user to the group members
+        db.collection('groups').updateOne(
+            { groupCode: groupCode },
+            { $push: { groupMembers: loggedInUser } },
+            (err, result) => {
+                if (err) {
+                    console.error('Error updating group members:', err);
+                    res.status(500).send('Error updating group members');
+                    return;
+                }
+
+                // Update the user's document to add the group code
+                db.collection('people').updateOne(
+                    { "login.username": loggedInUser },
+                    { $addToSet: { "groups": groupCode } }, // Ensure no duplicates
+                    (err, result) => {
+                        if (err) {
+                            console.error('Error updating user document:', err);
+                            res.status(500).send('Error updating user document');
+                            return;
+                        }
+                        console.log(`User ${loggedInUser} joined group ${group.groupName}`);
+                        res.redirect('/groups'); // Redirect if successful
+                    }
+                );
+            }
+        );
+    });
+});
+
+
 // Retrieve the group codes a user is a part of
 app.get('/getUserGroupCodes', (req, res) => {
     // Get the logged-in user's username from the session
