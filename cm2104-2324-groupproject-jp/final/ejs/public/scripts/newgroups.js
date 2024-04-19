@@ -110,7 +110,8 @@ function displayResultsSearch(movies, groupCode) {
         "<div class='results-extra' id='results-extra-" + id + "' style=\"background-image: url('https://image.tmdb.org/t/p/original/" + movieBackdrop + "'); display: block;\">" +
         "<h3>About " + title + "</h3>" +
         "<p>" + movieDescription + "</p>" +
-        "<div class='make-review' id='make-review-" + id + "' style='display:none;'>" + // Initially hidden
+        "<button class='button-watchlist' onclick='toggleWatchlistForm(" + id + ")'>Add to Watchlist</button>" +
+        "<div class='add-watchlist' id='add-watchlist-" + id + "' style='display:none;'>" + // Initially hidden
         "<form class='watchlist-form'>" +
         "<label for='filmTitle'>Film Title:</label>" +
         "<input type='text' id='filmTitle' name='filmTitle' placeholder='Enter film title' required>" +
@@ -118,7 +119,7 @@ function displayResultsSearch(movies, groupCode) {
         "<input type='date' id='watchDate' name='watchDate' required>" +
         "<label for='watchTime'>Time:</label>" +
         "<input type='time' id='watchTime' name='watchTime' required>" +
-        "<button type='submit' class='button-watchlist' onclick='toggleWatchlistForm(" + id + ")>Create Watchlist</button>" +
+        "<button type='submit'>Create Watchlist</button>" +
         "</form>" +
         "</div>" +
         "</div>" +
@@ -132,7 +133,7 @@ function displayResultsSearch(movies, groupCode) {
 
 // Function to toggle the visibility of the watchlist form
 function toggleWatchlistForm(id) {
-    var watchlistForm = document.getElementById('make-review-' + id);
+    var watchlistForm = document.getElementById('add-watchlist-' + id);
     if (watchlistForm.style.display === "none") {
         watchlistForm.style.display = "block";
     } else {
