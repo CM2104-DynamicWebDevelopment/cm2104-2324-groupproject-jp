@@ -101,11 +101,9 @@
                           // Log the received JSON data to the console
                           console.log('Watchlist details for Group Code ' + groupCode + ': ', response);
                           
-                          // Iterate through each watchlist item in the response
-                          response.forEach(function(item) {
-                              // Call getWatchlistFromTMDB with movieId, watchDate, and watchTime
+                    
                               getWatchlistFromTMDB(item.movieId, item.watchDate, item.watchTime);
-                          });
+                        
                       },
                       error: function(error) {
                           console.error('Error fetching group watchlist for Group Code ' + groupCode + ': ', error);
