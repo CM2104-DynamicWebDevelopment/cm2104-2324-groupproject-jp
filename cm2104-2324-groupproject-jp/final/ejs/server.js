@@ -842,7 +842,7 @@ app.get('/getGroupWatchlist', async (req, res) => {
         const client = await MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB server");
 
-        const db = client.db(dbName);
+        const db = client.db(profiles);
 
         // Find the group by groupCode
         const groupsCollection = db.collection('groups');
