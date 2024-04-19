@@ -771,3 +771,45 @@ app.post('/logout', function (req, res) {
     }
   });
 });
+
+
+app.post('/addgroupwatchlist', (req, res) => {
+    // Check if the user is logged in
+    if (!req.session.loggedin) {
+        res.redirect('/'); // Redirect to login 
+        return;
+    }
+
+    const movieId = req.body.movieId;
+    const watchDate = req.body.watchDate;
+    const watchTime = req.body.watchTime;
+    const groupCode = req.body.groupCode;
+
+    // Ensure required fields are provided
+    if (!movieId || !watchDate || !watchTime || !groupCode) {
+        res.status(400).send('Movie ID, watch date, watch time, and group code are required.');
+        return;
+    }
+
+    // Check if the movie is already in the group's watchlist
+    if (req.session.group && req.session.group.groupWatchlist.includes(movieId)) {
+        res.status(400).send('Movie is already in the group watchlist.');
+        return;
+    }
+
+    // Update group's watchlist
+    db.collection('groups').updateOne(
+        { groupCode: groupCode },
+        { $push: { groupWatchlist: { movieId: movieId, watchDate: watchDate, watchTime: watchTime } } },
+        function(err, result) {
+            if (err) {
+                console.error("Error updating watchlist:", err);
+                return res.status(500).send('Error updating watchlist.');
+            }
+            console.log("Added movie ID " + movieId + " to group watchlist.");
+            // Update user session
+            req.session.group.groupWatchlist.push({ movieId: movieId, watchDate: watchDate, watchTime: watchTime });
+            res.redirect('/');
+        }
+    );
+});

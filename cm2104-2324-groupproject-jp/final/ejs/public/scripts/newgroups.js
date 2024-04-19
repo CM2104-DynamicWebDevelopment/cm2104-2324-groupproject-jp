@@ -114,6 +114,7 @@ function displayResultsSearch(movies, groupCode) {
         "<div class='add-watchlist' id='add-watchlist-" + id + "' style='display:none;'>" + // Initially hidden
         "<form class='watchlist-form'>" +
         "<input type='hidden' name='movieId' value='" + id + "'>" +
+        "<input type='hidden' name='groupCode' value='" + groupCode + "'>" +
         "<label for='watchDate'>Date:</label>" +
         "<input type='date' id='watchDate' name='watchDate' required>" +
         "<label for='watchTime'>Time:</label>" +
