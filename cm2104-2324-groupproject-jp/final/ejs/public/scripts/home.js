@@ -233,6 +233,7 @@ htmlString += "<div class='movie-details'>" +
                     console.log(response); // You can handle the response here
                 },
                 error: function(xhr, status, error) {
+                    alert("login boy")
                     console.error(error); // Handle errors here
                 }
             });
