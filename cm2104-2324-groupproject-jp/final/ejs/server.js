@@ -513,6 +513,8 @@ app.post('/change-review', (req, res) => {
                 return;
             }
             console.log("User's review updated successfully");
+            res.redirect('/myaccount?showReviews=true');
+
         }
     );
 });

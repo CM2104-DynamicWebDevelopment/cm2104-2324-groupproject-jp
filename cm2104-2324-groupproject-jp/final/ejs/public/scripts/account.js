@@ -1,23 +1,29 @@
 /*
   Created by Michael Piercey 2206222 -- finalised 11/12/23
 */
-
-
-// nav bar for showing accout, review, watchlist and freinds, accepts the page user wants to view
 function showAccountContent(page) {
-    // this hides all containers
-    document.querySelectorAll('.account-container').forEach(element => {
-      // by setting dispaly to none the container does not appear
-        element.style.display = 'none';
-    });
+  // This hides all containers
+  document.querySelectorAll('.account-container').forEach(element => {
+      // By setting display to none, the container does not appear
+      element.style.display = 'none';
+  });
 
-    // this then uses input to show selected container
-    var selectedContainer = document.getElementById(`container-${page}`);
-    if (selectedContainer) {
-      // sets display to block instead of none
-        selectedContainer.style.display = 'block';
-    }
+  // This then uses input to show the selected container
+  const selectedContainer = document.getElementById(`container-${page}`);
+  if (selectedContainer) {
+      // Sets display to block instead of none
+      selectedContainer.style.display = 'block';
+  }
 }
+
+// Check if the query parameter 'showReviews' is present
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.has('showReviews')) {
+  // Call the showAccountContent function with 'Reviews' as parameter
+  showAccountContent('Reviews');
+}
+
+
 
 // change review function accepts the number of movie to change
 function changeReview(num) {
