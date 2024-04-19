@@ -77,11 +77,11 @@ function getSearchFromTMDBWatchlist() {
     $.getJSON(url, function(jsondata) {
         console.log(jsondata);
         // send data to the results function
-        displayResultsSearch(jsondata.results, groupCode);
+        displayWatchlistResultsSearch(jsondata.results, groupCode);
     });
 }
 
-function displayResultsSearch(movies, groupCode) {
+function displayWatchlistResultsSearch(movies, groupCode) {
     console.log("movies called");
     // set up the html to be used later
     var htmlString = "";
