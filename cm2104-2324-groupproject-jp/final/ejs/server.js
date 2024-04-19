@@ -833,23 +833,24 @@ app.post('/addgroupwatchlist', (req, res) => {
 });
 
 
-// Assuming you're using Express.js for your server
-app.get('/getGroupWatchlist', (req, res) => {
-    // Get the group code from the request query
+// Route to handle GET request for fetching group watchlist data
+app.get('/getGroupWatchlist', async (req, res) => {
     const groupCode = req.query.groupCode;
 
-    // Retrieve the group watchlist for the specified group code
-    db.collection('groups').findOne({ groupCode: groupCode }, (err, group) => {
-        if (err) {
-            console.error('Error retrieving group:', err);
-            return res.status(500).send('Error retrieving group');
-        }
+    try {
+        // Find the group by groupCode
+        const group = await Group.findOne({ groupCode: groupCode });
 
-        if (!group) {
-            return res.status(404).send('Group not found');
+        if (group) {
+            // If group found, send back the group watchlist data
+            res.json({ groupWatchlist: group.groupWatchlist });
+        } else {
+            // If group not found, send 404 error
+            res.status(404).json({ error: 'Group watchlist not found' });
         }
-
-        // Send the group watchlist as the response
-        res.json({ groupWatchlist: group.groupWatchlist });
-    });
+    } catch (error) {
+        // If an error occurs, send 500 error
+        console.error('Error fetching group watchlist:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
