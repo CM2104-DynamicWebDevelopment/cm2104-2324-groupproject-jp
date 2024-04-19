@@ -57,6 +57,8 @@ function showGroupContent(page) {
 
 
 function getSearchFromTMDBWatchlist(groupCode) {
+    console.log("Function called"); // Add this line
+
     var movieTitle = document.getElementById('movie-search-bar').value;
 
     console.log("Hello");
@@ -77,7 +79,6 @@ function getSearchFromTMDBWatchlist(groupCode) {
         displayResultsSearch(jsondata.results, groupCode);
     });
 }
-
 
 function displayResultsSearch(movies, groupCode) {
     console.log("movies called");
