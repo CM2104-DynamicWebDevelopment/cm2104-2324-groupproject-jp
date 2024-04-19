@@ -375,7 +375,7 @@ body, html {
   margin: 50px auto;
   background-color: #fff;
   border-radius: 8px;
-  overflow: hidden;
+  overflow: auto;
   text-align: center;
   box-shadow: 0 0 10px rgba(95, 93, 93, 0.1);
 }
