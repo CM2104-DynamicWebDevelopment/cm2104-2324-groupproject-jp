@@ -839,7 +839,7 @@ app.get('/getGroupWatchlist', async (req, res) => {
 
     try {
         // Find the group by groupCode
-        const group = await Group.findOne({ groupCode: groupCode });
+        const group = await group.findOne({ groupCode: groupCode });
 
         if (group) {
             // If group found, send back the group watchlist data
