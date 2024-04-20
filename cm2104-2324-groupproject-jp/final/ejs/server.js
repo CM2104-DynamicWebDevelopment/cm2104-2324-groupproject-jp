@@ -908,3 +908,14 @@ app.post('/send-message', (req, res) => {
         }
     );
 });
+
+
+// Endpoint to handle GET requests for fetching messages
+app.get('/get-messages', (req, res) => {
+    // Retrieve group code from query parameter
+    const groupCode = req.query.groupCode;
+
+    // Here you would typically fetch messages for the given group code from your database
+    // For this example, we're just sending back sample messages
+    res.json({ messages: messages });
+});

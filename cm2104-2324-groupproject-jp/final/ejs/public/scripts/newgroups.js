@@ -230,3 +230,53 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+
+// JavaScript code to retrieve and display messages
+document.addEventListener('DOMContentLoaded', function () {
+    // Function to fetch and display messages
+    function fetchAndDisplayMessages() {
+        // Retrieve group code from the hidden input field
+        const groupCode = document.querySelector('.groupcode').value;
+
+        // Make a GET request to the server to fetch messages
+        fetch(`/get-messages?groupCode=${groupCode}`)
+        .then(response => response.json())
+        .then(data => {
+            // Clear the previous messages
+            const previousChats = document.querySelector('.previous-chats');
+            previousChats.innerHTML = '';
+
+            // Iterate through the messages and display them
+            data.messages.forEach(message => {
+                const containerClass = message.sender === loggedInUser ? 'container darker' : 'container';
+                const userImage = message.sender === loggedInUser ? 'img/user1.jpg' : 'img/user2.jpg';
+                const timeClass = message.sender === loggedInUser ? 'time-right' : 'time-left';
+
+                // Create message HTML
+                const messageHTML = `
+                    <div class="${containerClass}">
+                        <div class="user-info">
+                            <img src="${userImage}" alt="userpfp" ${message.sender === loggedInUser ? 'class="right"' : ''}>
+                            <p class="username">${message.sender}</p>
+                        </div>
+                        <p>${message.content}</p>
+                        <span class="${timeClass}">${message.timestamp}</span>
+                    </div>
+                `;
+
+                // Append message HTML to previous chats container
+                previousChats.insertAdjacentHTML('beforeend', messageHTML);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching messages:', error);
+        });
+    }
+
+    // Fetch and display messages when the page loads
+    fetchAndDisplayMessages();
+
+    // Refresh messages every 5 seconds
+    setInterval(fetchAndDisplayMessages, 5000);
+});
