@@ -909,3 +909,26 @@ app.post('/send-message', (req, res) => {
     );
 });
 
+// Route to handle fetching messages
+app.get('/getMessages', (req, res) => {
+    // Get the group code from the query parameters
+    const groupCode = req.query.groupCode;
+
+    // Check if the group code is provided
+    if (!groupCode) {
+        res.status(400).send('Group code is required.');
+        return;
+    }
+
+    // Simulate fetching messages for the given group code from the database
+    const groupMessages = messages.find(group => group.groupCode === groupCode);
+
+    // Check if messages are found for the group code
+    if (!groupMessages) {
+        res.status(404).send('Messages not found for the provided group code.');
+        return;
+    }
+
+    // Send the messages as a JSON response
+    res.json({ messages: groupMessages.messages });
+});
