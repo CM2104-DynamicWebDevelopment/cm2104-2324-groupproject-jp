@@ -1,12 +1,10 @@
+// Import required modules
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 const favicon = require('serve-favicon');
 const multer = require('multer');
-const http = require('http');
-const socketIO = require('socket.io');
-const { MongoClient } = require('mongodb');
 
 const app = express();
 const PORT = 8080; // Change port to the desired port number
@@ -20,23 +18,21 @@ app.use(session({ secret: 'example' }));
 app.set('view engine', 'ejs');
 
 // Connect to MongoDB
+const MongoClient = require('mongodb-legacy').MongoClient;
 const url = 'mongodb://127.0.0.1:27017';
-const client = new MongoClient(url, { useUnifiedTopology: true });
+const client = new MongoClient(url);
 const dbname = 'profiles';
+
 let db;
 
 // Connect to MongoDB and start server
 async function connectDB() {
-    try {
-        await client.connect();
-        console.log('Connected successfully to server');
-        db = client.db(dbname);
-        httpServer.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`);
-        });
-    } catch (error) {
-        console.error('Error connecting to MongoDB:', error);
-    }
+    await client.connect();
+    console.log('Connected successfully to server');
+    db = client.db(dbname);
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
 }
 
 connectDB();
@@ -45,71 +41,41 @@ connectDB();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'img', 'cinemind_small_logo.png')));
 
+// Route to render the index.ejs page
 app.get('/', (req, res) => {
+  // Render index page with user data if logged in, otherwise render with null user
   res.render('pages/index', { user: req.session.loggedin ? req.session.user : null, req: req });
 });
 
-app.get('/error', (req, res) => {
+// Route to render the error.ejs page
+app.get('/', (req, res) => {
+    // Render index page with user data if logged in, otherwise render with null user
     res.render('pages/error');
 });
 
-const httpServer = http.createServer(app);
-const io = socketIO(httpServer);
 
-var users = {};
-
-io.on('connection', function (socket) {
-    console.log('a user connected');
-
-    socket.on('disconnect', function () {
-        console.log('user disconnected');
-    });
-
-    socket.on('chat message', function (username, msg) {
-        io.emit('chat message', username, msg);
-    });
-
-    socket.on('room message', function (room, username, msg) {
-        socket.join(room);
-        io.to(room).emit('chat message', username, msg);
-    });
-
-    socket.on('set username', function (username) {
-        users[username] = socket.id;
-        socket.emit('set username', 'username has been set to ' + username);
-    });
-
-    socket.on('private message', function (recipient, username, msg) {
-        var sendTo = users[recipient];
-        io.to(sendTo).emit('private message', username, msg);
-    });
-
-});
-
+// Route to render the myaccount.ejs page
 app.get('/myaccount', (req, res) => {
+    // Redirect to login if not logged in
     if (!req.session.loggedin) {
         res.redirect('/');
         return;
     }
-    res.render('pages/myaccount', { user: req.session.user });
-});
-
-app.get('/messages', (req, res) => {
-    if (!req.session.loggedin) {
-        res.redirect('/');
-        return;
-    }
-    res.render('pages/messages', { user: req.session.user });
+    // Render myaccount page with user data and watchlist
+    res.render('pages/myaccount', { user: req.session.user});
 });
 
 app.get('/groups', (req, res) => {
+    // Redirect to login if not logged in
     if (!req.session.loggedin) {
         res.redirect('/');
         return;
     }
 
+    // Retrieve the username of the logged-in user
     const loggedInUser = req.session.user.login.username;
 
+    // Find the user document using the username
     db.collection('people').findOne({ "login.username": loggedInUser }, (err, user) => {
         if (err) {
             console.error('Error retrieving user document:', err);
@@ -117,8 +83,10 @@ app.get('/groups', (req, res) => {
             return;
         }
 
-        const userGroups = user.groups || [];
+        // Access the user's groups array from the user document
+        const userGroups = user.groups || []; // Default to an empty array if user has no groups
 
+        // Find all groups that the user is a part of
         db.collection('groups').find({ groupCode: { $in: userGroups } }).toArray((err, groups) => {
             if (err) {
                 console.error('Error retrieving groups:', err);
@@ -126,11 +94,16 @@ app.get('/groups', (req, res) => {
                 return;
             }
 
+            // Render the groups page with user data and group details
             res.render('pages/groups', { user: req.session.user, userGroups: groups });
         });
     });
 });
 
+
+
+
+// Route to handle login form submission
 app.post('/dologin', (req, res) => {
     const uname = req.body.username;
     const pword = req.body.password;
@@ -146,13 +119,14 @@ app.post('/dologin', (req, res) => {
         if (result.login.password == pword) {
             req.session.loggedin = true;
             req.session.currentuser = uname;
-            req.session.userId = result._id;
-            req.session.user = result;
+            req.session.userId = result._id; // Set userId in session
+            req.session.user = result; // Store user data in session
             
+            // Retrieve watchlist data for the user and store it in the session
             db.collection('people').findOne({ _id: result._id }, { watchlist: 1 }, (err, watchlistResult) => {
                 if (err) throw err;
                 req.session.user.watchlist = watchlistResult.watchlist;
-                res.redirect('/myaccount');
+                res.redirect('/myaccount'); // Redirect to myaccount if login successful
             });
         } else {
             res.redirect('/');
