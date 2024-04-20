@@ -929,6 +929,9 @@ app.get('/getMessages', (req, res) => {
         return;
     }
 
+    // Log the fetched messages
+    console.log('Messages for Group Code ' + groupCode + ':', groupMessages.messages);
+
     // Send the messages as a JSON response
     res.json({ messages: groupMessages.messages });
 });
