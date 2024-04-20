@@ -5,6 +5,10 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const favicon = require('serve-favicon');
 const multer = require('multer');
+const http = require('http');
+const server = http.createServer(app); // Pass your Express app instance
+const io = require('socket.io')(server);
+
 
 const app = express();
 const PORT = 8080; // Change port to the desired port number
@@ -856,4 +860,42 @@ app.get('/getGroupWatchlist', async (req, res) => {
         console.error('Error fetching group watchlist:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
+});
+
+
+
+
+
+
+
+io.on('connection', (socket) => {
+    console.log('A user connected');
+
+    // Join a group chat room
+    socket.on('joinGroupChat', (groupCode) => {
+        socket.join(groupCode);
+    });
+
+    // Handle message sending
+    socket.on('sendMessage', async (data) => {
+        const { groupCode, message, sender } = data;
+
+        // Save message to MongoDB
+        try {
+            await db.collection('groups').updateOne(
+                { groupCode: groupCode },
+                { $push: { groupChats: { sender: sender, message: message, timestamp: new Date() } } }
+            );
+        } catch (error) {
+            console.error('Error saving message:', error);
+        }
+
+        // Broadcast the message to all users in the group chat room
+        io.to(groupCode).emit('message', { sender: sender, message: message, timestamp: new Date() });
+    });
+
+    // Handle disconnection
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
 });
