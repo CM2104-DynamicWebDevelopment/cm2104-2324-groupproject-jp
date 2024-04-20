@@ -915,7 +915,16 @@ app.get('/get-messages', (req, res) => {
     // Retrieve group code from query parameter
     const groupCode = req.query.groupCode;
 
-    // Here you would typically fetch messages for the given group code from your database
-    // For this example, we're just sending back sample messages
-    res.json({ messages: messages });
+    // Check if group code is provided
+    if (!groupCode) {
+        return res.status(400).json({ error: 'Group code is required.' });
+    }
+
+    // Check if messages exist for the provided group code
+    if (!messages[groupCode]) {
+        return res.status(404).json({ error: 'No messages found for the provided group code.' });
+    }
+
+    // Send back the messages for the provided group code
+    res.json({ messages: messages[groupCode] });
 });
