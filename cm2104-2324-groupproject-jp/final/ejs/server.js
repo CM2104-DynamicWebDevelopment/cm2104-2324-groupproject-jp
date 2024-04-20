@@ -65,6 +65,17 @@ app.get('/myaccount', (req, res) => {
     res.render('pages/myaccount', { user: req.session.user});
 });
 
+// Route to render the myaccount.ejs page
+app.get('/messages', (req, res) => {
+    // Redirect to login if not logged in
+    if (!req.session.loggedin) {
+        res.redirect('/');
+        return;
+    }
+    // Render myaccount page with user data and watchlist
+    res.render('pages/messages', { user: req.session.user});
+});
+
 app.get('/groups', (req, res) => {
     // Redirect to login if not logged in
     if (!req.session.loggedin) {
@@ -187,12 +198,6 @@ app.post('/logout', function (req, res) {
 
 
 app.post('/addwatchlist', (req, res) => {
-    // Check if the user is logged in
-    if (!req.session.loggedin) {
-        displayNotSignedInAlert();
-        return;
-    }
-
     const movieId = req.body.movieId;
 
     if (!movieId) {
