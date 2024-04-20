@@ -262,6 +262,7 @@ function fetchMessages() {
         success: function(response) {
             // Log the received messages to the console
             console.log('Messages for Group Code ' + groupCode + ': ', response);
+            console.log("LOGGEDD IN USER" + loggedInUsername)
 
             // Get the container for this group's messages
             var chatContainer = $('#previous-chats');
