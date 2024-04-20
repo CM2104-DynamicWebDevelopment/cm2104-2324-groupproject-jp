@@ -189,6 +189,12 @@ app.post('/logout', function (req, res) {
 app.post('/addwatchlist', (req, res) => {
     const movieId = req.body.movieId;
 
+        // Check if the user is logged in
+        if (!req.session.loggedin) {
+            res.redirect('/'); // Redirect to login page
+            return;
+        }
+
     if (!movieId) {
         res.status(400).send('Movie ID is required.');
         return;
