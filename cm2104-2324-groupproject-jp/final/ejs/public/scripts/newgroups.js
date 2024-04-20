@@ -232,51 +232,51 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// JavaScript code to retrieve and display messages
-document.addEventListener('DOMContentLoaded', function () {
-    // Function to fetch and display messages
-    function fetchAndDisplayMessages() {
-        // Retrieve group code from the hidden input field
-        const groupCode = document.querySelector('.groupcode').value;
+// Function to fetch messages for a group
+function fetchMessages() {
+    // Get the group code from the data attribute
+    var groupCode = $('#previous-chats').data('group-code');
 
-        // Make a GET request to the server to fetch messages
-        fetch(`/get-messages?groupCode=${groupCode}`)
-        .then(response => response.json())
-        .then(data => {
-            // Clear the previous messages
-            const previousChats = document.querySelector('.previous-chats');
-            previousChats.innerHTML = '';
+    // Make an AJAX request to fetch messages
+    $.ajax({
+        type: 'GET',
+        url: '/getMessages',
+        data: { groupCode: groupCode },
+        success: function(response) {
+            // Log the received messages to the console
+            console.log('Messages for Group Code ' + groupCode + ': ', response);
 
-            // Iterate through the messages and display them
-            data.messages.forEach(message => {
-                const containerClass = message.sender === loggedInUser ? 'container darker' : 'container';
-                const userImage = message.sender === loggedInUser ? 'img/user1.jpg' : 'img/user2.jpg';
-                const timeClass = message.sender === loggedInUser ? 'time-right' : 'time-left';
+            // Get the container for this group's messages
+            var chatContainer = $('#previous-chats');
 
-                // Create message HTML
-                const messageHTML = `
-                    <div class="${containerClass}">
+            // Clear existing messages
+            chatContainer.empty();
+
+            // Append each message to the container
+            response.messages.forEach(function(message) {
+                var messageClass = (message.sender === loggedInUsername) ? 'light' : 'darker';
+                var alignmentClass = (message.sender === loggedInUsername) ? 'right' : 'left';
+                var formattedTime = new Date(message.timestamp).toLocaleTimeString();
+
+                var messageHtml = `
+                    <div class="container ${messageClass}">
                         <div class="user-info">
-                            <img src="${userImage}" alt="userpfp" ${message.sender === loggedInUser ? 'class="right"' : ''}>
-                            <p class="username">${message.sender}</p>
+                            <img src="img/${message.sender}.jpg" alt="userpfp" class="${alignmentClass}">
+                            <p class="username">${message.sender}</p> 
                         </div>
-                        <p>${message.content}</p>
-                        <span class="${timeClass}">${message.timestamp}</span>
+                        <p>${message.message}</p>
+                        <span class="time-${alignmentClass}">${formattedTime}</span>
                     </div>
                 `;
 
-                // Append message HTML to previous chats container
-                previousChats.insertAdjacentHTML('beforeend', messageHTML);
+                chatContainer.append(messageHtml);
             });
-        })
-        .catch(error => {
-            console.error('Error fetching messages:', error);
-        });
-    }
+        },
+        error: function(error) {
+            console.error('Error fetching messages for Group Code ' + groupCode + ': ', error);
+        }
+    });
+}
 
-    // Fetch and display messages when the page loads
-    fetchAndDisplayMessages();
-
-    // Refresh messages every 5 seconds
-    setInterval(fetchAndDisplayMessages, 5000);
-});
+// Call the function to fetch messages
+fetchMessages();

@@ -128,35 +128,20 @@
   
               <!-- Chat section -->
               <div class="chat-container" style="display: none;">
-                  <h1>Chat with the group</h1>
-                  <div class="previous-chats">
-                      <div class="container darker">
-                          <div class="user-info">
-                              <img src="img/user1.jpg" alt="userpfp" class="right">
-                              <p class="username">Emmet</p> 
-                          </div>
-                          <p>Hello everyone!</p>
-                          <span class="time-right">11:00</span>
-                      </div>
-                      <div class="container">
-                          <div class="user-info">
-                              <img src="img/user2.jpg" alt="userpfp">
-                              <p class="username">Marty</p> 
-                          </div>
-                          <p>Hi Doc!</p>
-                          <span class="time-left">11:01</span>
-                      </div>
-                  </div>
-                  <!-- Text input bar -->
-                  <div class="text-input">
+                <h1>Chat with the group</h1>
+                <div class="previous-chats" id="previous-chats" data-group-code="<%= group.groupCode %>">
+                    <!-- Messages will be inserted here -->
+                </div>
+                <!-- Text input bar -->
+                <div class="text-input">
                     <form action="/send-message" method="post">
                         <input type="text" name="message" placeholder="Enter your message">
                         <!-- Hidden input field for group code -->
                         <input type="hidden" name="groupCode" value="<%= group.groupCode %>">
                         <button type="submit">Send Message</button>
                     </form>
-          </div>
-          </div>
+                </div>
+            </div>
 
       </div>
   <% }); %>
