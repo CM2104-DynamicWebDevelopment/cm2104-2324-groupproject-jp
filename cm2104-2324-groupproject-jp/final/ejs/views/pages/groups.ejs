@@ -166,6 +166,14 @@
   <div id="container-New-Group" class="account-container">
       <h1>Create a new group</h1>
 
+      <form action="/send-message" method="post">
+        <input type="text" name="message" placeholder="Enter your message">
+        <!-- Hidden input field for group code -->
+        <input type="hidden" name="groupCode" value="<%= group.groupCode %>">
+        <button type="submit">Send Message</button>
+    </form>
+    
+
       <div class="account-activites-container">
         <div class="activities-container" style="margin-left: 0;">
             <h3>Create a new group name</h3>

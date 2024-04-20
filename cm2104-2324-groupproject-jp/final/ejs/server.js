@@ -863,3 +863,48 @@ app.get('/getGroupWatchlist', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+// Route to handle sending messages
+app.post('/send-message', (req, res) => {
+    // Check if the user is logged in
+    if (!req.session.loggedin) {
+        res.redirect('/'); // Redirect to login page if not logged in
+        return;
+    }
+
+    // Retrieve message and group code from the form submission
+    const message = req.body.message;
+    const groupCode = req.body.groupCode;
+
+    // Retrieve the username of the user who sent the message from their logged-in username
+    const loggedInUsername = req.session.user.login.username;
+
+    // Check if the message and group code are provided
+    if (!message || !groupCode) {
+        res.status(400).send('Message and group code are required.');
+        return;
+    }
+
+    // Construct the message object
+    const newMessage = {
+        sender: loggedInUsername,
+        message: message,
+        timestamp: new Date()
+    };
+
+    // Update the messages collection in MongoDB with the new message
+    db.collection('messages').updateOne(
+        { groupCode: groupCode },
+        { $push: { messages: newMessage } },
+        { upsert: true }, // Create a new document if groupCode doesn't exist
+        (err, result) => {
+            if (err) {
+                console.error('Error saving message to database:', err);
+                res.status(500).send('Error saving message to database');
+                return;
+            }
+            console.log('Message saved to database');
+            res.redirect('/'); // Redirect to homepage after message is sent
+        }
+    );
+});

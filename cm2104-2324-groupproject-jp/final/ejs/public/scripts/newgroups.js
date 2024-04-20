@@ -193,3 +193,40 @@ function buildMovieCard(movieInfo, groupCode) {
     $('#watchlist-movie-card-container-' + groupCode).append(htmlString);
     console.log("html entered")
 }
+
+
+// JavaScript code to send message
+document.addEventListener('DOMContentLoaded', function () {
+    const messageForm = document.getElementById('message-form');
+
+    // Event listener for submitting the message form
+    messageForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        // Retrieve message and group code from the form
+        const message = document.getElementById('message').value;
+        const groupCode = document.querySelector('.groupcode').value;
+
+        // Make a POST request to the server to send the message
+        fetch('/send-message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: message,
+                groupCode: groupCode
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            // Reload the page to update the message list
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error sending message:', error);
+        });
+    });
+});
