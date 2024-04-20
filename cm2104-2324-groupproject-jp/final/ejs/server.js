@@ -13,9 +13,6 @@ const socketIO = require('socket.io');
 const app = express();
 const server = http.createServer(app); // Move this line here
 
-// Socket.io setup
-const io = socketIO(server);
-
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
