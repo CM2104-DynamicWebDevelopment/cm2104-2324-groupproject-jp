@@ -249,10 +249,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Function to fetch messages for a group
-function fetchMessages() {
-    // Get the group code from the data attribute
-    var groupCode = $('#previous-chats').data('group-code');
-
+function fetchMessages(groupCode) {
     // Make an AJAX request to fetch messages
     $.ajax({
         type: 'GET',
@@ -261,10 +258,9 @@ function fetchMessages() {
         success: function(response) {
             // Log the received messages to the console
             console.log('Messages for Group Code ' + groupCode + ': ', response);
-            console.log("LOGGEDD IN USER" + loggedInUsername)
 
             // Get the container for this group's messages
-            var chatContainer = $('#previous-chats');
+            var chatContainer = $('#previous-chats-' + groupCode);
 
             // Clear existing messages
             chatContainer.empty();
@@ -295,8 +291,3 @@ function fetchMessages() {
     });
 }
 
-// Call the function to fetch messages
-fetchMessages();
-setInterval(function() {
-    fetchMessages();
-}, 5000);
