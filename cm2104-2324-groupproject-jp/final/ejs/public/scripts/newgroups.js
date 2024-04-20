@@ -295,6 +295,7 @@ function fetchMessages() {
 }
 
 // Call the function to fetch messages
+fetchMessages();
 setInterval(function() {
     fetchMessages();
 }, 5000);
