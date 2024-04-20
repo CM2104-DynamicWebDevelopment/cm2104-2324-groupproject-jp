@@ -165,11 +165,6 @@
 
   <div id="container-New-Group" class="account-container">
       <h1>Create a new group</h1>
-<!-- Add this form to your group chat page -->
-<form id="sendMessageForm">
-    <input type="text" id="messageInput" placeholder="Type your message here..." required>
-    <button type="submit">Send</button>
-</form>
 
       <div class="account-activites-container">
         <div class="activities-container" style="margin-left: 0;">
@@ -207,50 +202,6 @@
 <!-- Include jQuery -->
 
 
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    const socket = io();
-
-    // Join group chat room
-    socket.emit('joinGroupChat', groupCode);
-
-    // Send message
-    function sendMessage() {
-        const message = document.getElementById('messageInput').value;
-        socket.emit('sendMessage', { groupCode: groupCode, message: message, sender: loggedInUser });
-        document.getElementById('messageInput').value = '';
-    }
-
-    // Receive message
-    socket.on('message', (data) => {
-        const { sender, message, timestamp } = data;
-        // Display the message in the chat UI
-        // Implement your UI update logic here
-    });
-</script>
-<script>
-    // Add this code to your client-side JavaScript
-
-    // Get the form element
-    const sendMessageForm = document.getElementById('sendMessageForm');
-
-    // Add an event listener for form submission
-    sendMessageForm.addEventListener('submit', (event) => {
-        event.preventDefault(); // Prevent the default form submission behavior
-
-        // Get the message from the input field
-        const message = document.getElementById('messageInput').value.trim();
-
-        // Check if the message is not empty
-        if (message) {
-            // Emit a 'sendMessage' event to the server with the message data
-            socket.emit('sendMessage', { groupCode: groupCode, message: message, sender: loggedInUser });
-
-            // Clear the input field after sending the message
-            document.getElementById('messageInput').value = '';
-        }
-    });
-</script>
 
 
 </html>

@@ -5,13 +5,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const favicon = require('serve-favicon');
 const multer = require('multer');
-const http = require('http');
-const io = require('socket.io');
-const socketIO = require('socket.io');
-
 
 const app = express();
-const server = http.createServer(app); // Move this line here
+const PORT = 8080; // Change port to the desired port number
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -860,42 +856,4 @@ app.get('/getGroupWatchlist', async (req, res) => {
         console.error('Error fetching group watchlist:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
-});
-
-
-
-
-
-
-
-io.on('connection', (socket) => {
-    console.log('A user connected');
-
-    // Join a group chat room
-    socket.on('joinGroupChat', (groupCode) => {
-        socket.join(groupCode);
-    });
-
-    // Handle message sending
-    socket.on('sendMessage', async (data) => {
-        const { groupCode, message, sender } = data;
-
-        // Save message to MongoDB
-        try {
-            await db.collection('groups').updateOne(
-                { groupCode: groupCode },
-                { $push: { groupChats: { sender: sender, message: message, timestamp: new Date() } } }
-            );
-        } catch (error) {
-            console.error('Error saving message:', error);
-        }
-
-        // Broadcast the message to all users in the group chat room
-        io.to(groupCode).emit('message', { sender: sender, message: message, timestamp: new Date() });
-    });
-
-    // Handle disconnection
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
 });
