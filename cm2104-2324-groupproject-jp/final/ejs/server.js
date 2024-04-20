@@ -920,18 +920,24 @@ app.get('/getMessages', (req, res) => {
         return;
     }
 
-    // Simulate fetching messages for the given group code from the database
-    const groupMessages = messages.find(group => group.groupCode === groupCode);
+    // Query the MongoDB collection for messages with the provided group code
+    db.collection('messages').findOne({ groupCode: groupCode }, (err, result) => {
+        if (err) {
+            console.error('Error fetching messages from database:', err);
+            res.status(500).send('Error fetching messages from database');
+            return;
+        }
 
-    // Check if messages are found for the group code
-    if (!groupMessages) {
-        res.status(404).send('Messages not found for the provided group code.');
-        return;
-    }
+        // Check if messages are found for the group code
+        if (!result) {
+            res.status(404).send('Messages not found for the provided group code.');
+            return;
+        }
 
-    // Log the fetched messages
-    console.log('Messages for Group Code ' + groupCode + ':', groupMessages.messages);
+        // Log the fetched messages
+        console.log('Messages for Group Code ' + groupCode + ':', result.messages);
 
-    // Send the messages as a JSON response
-    res.json({ messages: groupMessages.messages });
+        // Send the messages as a JSON response
+        res.json({ messages: result.messages });
+    });
 });
