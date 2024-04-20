@@ -256,9 +256,6 @@ function fetchMessages(groupCode) {
         url: '/getMessages',
         data: { groupCode: groupCode },
         success: function(response) {
-            // Log the received messages to the console
-            console.log('Messages for Group Code ' + groupCode + ': ', response);
-
             // Get the container for this group's messages
             var chatContainer = $('#previous-chats-' + groupCode);
 
