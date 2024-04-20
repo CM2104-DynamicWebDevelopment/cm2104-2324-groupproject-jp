@@ -6,7 +6,6 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const multer = require('multer');
 const http = require('http');
-const server = http.createServer(app); // Pass your Express app instance
 const io = require('socket.io')(server);
 
 
