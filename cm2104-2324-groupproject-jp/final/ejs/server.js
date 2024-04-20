@@ -904,7 +904,7 @@ app.post('/send-message', (req, res) => {
                 return;
             }
             console.log('Message saved to database');
-            res.redirect('/'); // Redirect to homepage after message is sent
+            res.redirect('myaccount?showGroup='+groupCode+''); 
         }
     );
 });

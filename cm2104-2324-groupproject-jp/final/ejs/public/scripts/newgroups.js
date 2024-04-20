@@ -3,20 +3,36 @@
 */
 
 
-// nav bar for showing accout, review, watchlist and freinds, accepts the page user wants to view
+
+// Function to parse query parameters from URL
+function parseQueryString() {
+    var queryString = window.location.search;
+    var params = new URLSearchParams(queryString);
+    return params;
+}
+
+// Function to show account content based on group code
 function showAccountContent(groupCode) {
     // Hide all containers
     document.querySelectorAll('.account-container').forEach(element => {
         element.style.display = 'none';
     });
 
-    // Show the selected container based on group code
+    // Show the container corresponding to the group code
     var selectedContainer = document.getElementById(`container-${groupCode}`);
     if (selectedContainer) {
         selectedContainer.style.display = 'block';
     }
 }
 
+// Check if the query parameter 'showGroup' is present
+var queryParams = parseQueryString();
+if (queryParams.has('showGroup')) {
+    // Get the group code from the query parameter
+    var groupCode = queryParams.get('showGroup');
+    // Call showAccountContent with the group code
+    showAccountContent(groupCode);
+}
 
 
 function showGroupContent(page) {
