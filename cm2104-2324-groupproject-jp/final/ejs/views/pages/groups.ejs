@@ -193,9 +193,10 @@
 
 
 <script>
-    // Call the function to fetch messages for each group
     <% userGroups.forEach(group => { %>
-        fetchMessages('<%= group.groupCode %>');
+        setInterval(function() {
+            fetchMessages('<%= group.groupCode %>');
+        }, 5000);
     <% }); %>
 </script>
 
