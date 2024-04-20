@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
+var loggedInUsername = $('script[src$="newgroups.js"]').data('loggedInUsername');
 // Function to fetch messages for a group
 function fetchMessages() {
     // Get the group code from the data attribute
