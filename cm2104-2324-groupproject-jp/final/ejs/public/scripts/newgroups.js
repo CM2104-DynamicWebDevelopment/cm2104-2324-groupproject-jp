@@ -20,47 +20,9 @@ function showAccountContent(groupCode) {
 
     // Show the container corresponding to the group code
     var selectedContainer = document.getElementById(`container-${groupCode}`);
+    showGroupContent('chat');
     if (selectedContainer) {
         selectedContainer.style.display = 'block';
-    }
-}
-
-// Function to show group content (chat or watchlists)
-function showGroupContent(page) {
-    var groupSelectorChat = document.querySelectorAll('.group-selector-container-chat');
-    var groupSelectorWatchlist = document.querySelectorAll('.group-selector-container-watchlist');
-    var watchlistContainers = document.querySelectorAll('.watchlist-container');
-    var chatContainers = document.querySelectorAll('.chat-container');
-
-    if (page === 'watchlists') {
-        groupSelectorChat.forEach(function(container) {
-            container.style.display = 'block';
-        });
-        groupSelectorWatchlist.forEach(function(container) {
-            container.style.display = 'none';
-        });
-        watchlistContainers.forEach(function(container) {
-            container.style.display = 'block';
-        });
-        chatContainers.forEach(function(container) {
-            container.style.display = 'none';
-        });
-    } else if (page === 'chat') {
-        groupSelectorChat.forEach(function(container) {
-            container.style.display = 'none';
-        });
-        groupSelectorWatchlist.forEach(function(container) {
-            container.style.display = 'block';
-        });
-        watchlistContainers.forEach(function(container) {
-            container.style.display = 'none';
-        });
-        chatContainers.forEach(function(container) {
-            container.style.display = 'block';
-        });
-        // Scroll to the bottom of the chat container
-        var chatContainer = document.querySelector('.chat-container');
-        chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 }
 
@@ -73,12 +35,40 @@ if (queryParams.has('showGroup')) {
     showAccountContent(groupCode);
 }
 
-// Check if the query parameter 'page' is present
-if (queryParams.has('page')) {
-    // Get the page name from the query parameter
-    var page = queryParams.get('page');
-    // Call showGroupContent with the page name
-    showGroupContent(page);
+
+function showGroupContent(page) {
+  var groupSelectorChat = document.querySelectorAll('.group-selector-container-chat');
+  var groupSelectorWatchlist = document.querySelectorAll('.group-selector-container-watchlist');
+  var watchlistContainers = document.querySelectorAll('.watchlist-container');
+  var chatContainers = document.querySelectorAll('.chat-container');
+
+  if (page === 'watchlists') {
+      groupSelectorChat.forEach(function(container) {
+          container.style.display = 'block';
+      });
+      groupSelectorWatchlist.forEach(function(container) {
+          container.style.display = 'none';
+      });
+      watchlistContainers.forEach(function(container) {
+          container.style.display = 'block';
+      });
+      chatContainers.forEach(function(container) {
+          container.style.display = 'none';
+      });
+  } else if (page === 'chat') {
+      groupSelectorChat.forEach(function(container) {
+          container.style.display = 'none';
+      });
+      groupSelectorWatchlist.forEach(function(container) {
+          container.style.display = 'block';
+      });
+      watchlistContainers.forEach(function(container) {
+          container.style.display = 'none';
+      });
+      chatContainers.forEach(function(container) {
+          container.style.display = 'block';
+      });
+  }
 }
 
 
