@@ -44,3 +44,6 @@ var allowedKeys = {
 
   }
   
+  function gameScroll(){
+    document.getElementById('jump').scrollIntoView();
+  }
