@@ -58,9 +58,6 @@ const io = require('socket.io')(http);
 
 var users = {};
 
-//code to define the public "static" folder
-app.use(express.static('public'))
-
 io.on('connection', function (socket) {
     console.log('a user connected');
 
