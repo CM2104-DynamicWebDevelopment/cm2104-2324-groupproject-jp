@@ -7,12 +7,14 @@ const favicon = require('serve-favicon');
 const multer = require('multer');
 const http = require('http');
 const io = require('socket.io');
+const socketIO = require('socket.io');
+
 
 const app = express();
 const server = http.createServer(app); // Move this line here
 
 // Socket.io setup
-const socketServer = io(server);
+const io = socketIO(server);
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
