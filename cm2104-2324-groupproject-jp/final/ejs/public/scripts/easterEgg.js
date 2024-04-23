@@ -43,7 +43,7 @@ var allowedKeys = {
     window.location.href = "pages/error.ejs";
 
   }
-  
+  //scroll down upon game starting
   function gameScroll(){
     document.getElementById('jump').scrollIntoView();
   }
