@@ -28,6 +28,7 @@ var myObstacles = [];
 var myScore;
 
 function startGame() {
+    // creating the player character, setting base speed upon game starting
     myGamePiece = new component(30, 30, "img/gameChar.png", 10, 120, "image");
     myGamePiece.gravity = 0.05;
     myGameArea.start();
