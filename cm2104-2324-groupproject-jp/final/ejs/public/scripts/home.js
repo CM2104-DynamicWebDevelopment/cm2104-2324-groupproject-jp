@@ -3,6 +3,24 @@
 */
 
 
+// Function to parse query parameters from URL
+function parseQueryString() {
+    var queryString = window.location.search;
+    var params = new URLSearchParams(queryString);
+    return params;
+}
+
+// Function to show account content based on group code
+function showNotLoggedIn() {
+    document.getElementById("notLoggedInAlert").style.display = "block";
+}
+
+// Check if the query parameter 'showGroup' is present
+var queryParams = parseQueryString();
+if (queryParams.has('notloggedin')) {
+    showNotLoggedIn();
+}
+
 // wait until page is ready to change
 $(document).ready(function () {
     // dark mode option, when switich is turned to dark mode the styles will change 

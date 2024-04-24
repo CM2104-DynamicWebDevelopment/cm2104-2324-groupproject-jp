@@ -287,7 +287,7 @@ app.post('/removeWatchlist', async (req, res) => {
 app.post('/addreview', (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
-        res.redirect('/'); // Redirect to login 
+        res.redirect('/?notloggedin=true'); // Redirect to login 
         return;
     }
 
