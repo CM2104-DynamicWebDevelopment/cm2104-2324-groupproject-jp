@@ -40,7 +40,7 @@ var allowedKeys = {
   // Function to activate cheats
   function activateCheats() {
 
-    window.location.href = "pages/error.ejs";
+    window.location.href = "/error";
 
 
   }
