@@ -112,7 +112,7 @@ app.post('/dologin', (req, res) => {
         if (err) throw err;
 
         if (!result) {
-            res.redirect('/');
+            res.redirect('/?notloggedin=true');
             return;
         }
 
@@ -129,7 +129,7 @@ app.post('/dologin', (req, res) => {
                 res.redirect('/myaccount'); // Redirect to myaccount if login successful
             });
         } else {
-            res.redirect('/');
+            res.redirect('/?notloggedin=true');
         }
     });
 });
@@ -753,24 +753,6 @@ app.get('/getUserGroupCodes', (req, res) => {
         // Send the user's group codes as the response
         res.render('groups', { userGroups }); // Assuming 'groups' is your EJS template file
     });
-});
-
-
-
-//logour route cause the page to Logout.
-//it sets our session.loggedin to false and then redirects the user to the login
-app.post('/logout', function (req, res) {
-  // Set the loggedin session variable to false
-  req.session.loggedin = false;
-  // Destroy the session
-  req.session.destroy(function(err) {
-    if(err) {
-      console.log(err);
-    } else {
-      // Redirect the user to the login page
-      res.redirect('/');
-    }
-  });
 });
 
 
