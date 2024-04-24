@@ -14,7 +14,7 @@
 <!-- Include the navbar -->
 <%- include('../partials/nav.ejs', { currentPage: 'index'}) %>
 
-<div id="notLoggedInAlert" class="alert">
+<div id="notLoggedInAlert" class="alert" style="display: none;">
   <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
   You are not logged in. Please log in to access this content.
   <button onclick="window.location.href='/#signup__container';" class="account-button">Login</button>
