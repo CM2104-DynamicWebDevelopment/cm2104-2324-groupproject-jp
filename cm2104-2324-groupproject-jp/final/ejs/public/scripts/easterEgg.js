@@ -40,11 +40,8 @@ var allowedKeys = {
   // Function to activate cheats
   function activateCheats() {
 
-    //window.location.href = "pages/error.ejs";
-    app.get('/error', function(req, res) {
-      // Render index page with user data if logged in, otherwise render with null user
-      res.render('final/ejs/views/pages/error');
-  });
+    window.location.href = "pages/error.ejs";
+
 
   }
   //scroll down upon game starting
