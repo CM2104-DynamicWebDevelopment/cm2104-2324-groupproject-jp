@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
 app.get('/myaccount', (req, res) => {
     // Redirect to login if not logged in
     if (!req.session.loggedin) {
-        res.redirect('/');
+        res.redirect('/?notloggedin=true');
         return;
     }
     // Render myaccount page with user data and watchlist
@@ -68,7 +68,7 @@ app.get('/myaccount', (req, res) => {
 app.get('/groups', (req, res) => {
     // Redirect to login if not logged in
     if (!req.session.loggedin) {
-        res.redirect('/');
+        res.redirect('/?notloggedin=true');
         return;
     }
 
@@ -191,7 +191,7 @@ app.post('/addwatchlist', (req, res) => {
 
         // Check if the user is logged in
         if (!req.session.loggedin) {
-            res.redirect('/'); // Redirect to login page
+            res.redirect('/?notloggedin=true'); // Redirect to login page
             return;
         }
 
@@ -247,7 +247,7 @@ app.get('/getWatchlistMovieIds', (req, res) => {
 app.post('/removeWatchlist', async (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
-        res.redirect('/'); // Redirect to login page
+        res.redirect('/?notloggedin=true'); // Redirect to login page
         return;
     }
 
@@ -523,7 +523,7 @@ app.post('/change-review', (req, res) => {
 app.post('/delete-review', async (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
-        res.redirect('/'); // Redirect to login page
+        res.redirect('/?notloggedin=true'); // Redirect to login page
         return;
     }
 
@@ -777,7 +777,7 @@ app.post('/logout', function (req, res) {
 app.post('/addgroupwatchlist', (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
-        res.redirect('/'); // Redirect to login 
+        res.redirect('/?notloggedin=true'); // Redirect to login 
         return;
     }
 
@@ -868,7 +868,7 @@ app.get('/getGroupWatchlist', async (req, res) => {
 app.post('/send-message', (req, res) => {
     // Check if the user is logged in
     if (!req.session.loggedin) {
-        res.redirect('/'); // Redirect to login page if not logged in
+        res.redirect('/?notloggedin=true'); // Redirect to login page if not logged in
         return;
     }
 
